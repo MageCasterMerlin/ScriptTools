@@ -370,12 +370,12 @@
 					<tr id="checkAdminAllLabelRow" hidden>
 						<td colspan="2">
 							<label class="commandLabel">Check Admin Status of All Ports on Card</label>
-							<button class="copyButton" onClick="getScripts(CheckAdminAllOutput)">Copy</button>
+							<button class="copyButton" onClick="getScripts(checkAdminAllOutput)">Copy</button>
 						</td>
 					</tr>
 					<tr id="checkAdminAllRow" hidden>
 						<td colspan="2">
-							<textarea id="CheckAdminAllOutput" rows="1"></textarea><br><br>
+							<textarea id="checkAdminAllOutput" rows="1"></textarea><br><br>
 						</td>
 					</tr>
 					<tr id="checkCardLabelRow" hidden>
@@ -553,26 +553,17 @@
 				var showError15 = document.getElementById("showError15Output");
 				var showError24 = document.getElementById("showError24Output");
 
-				portConfigCheck.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port;
+				portConfigCheck.value = "show running-config interface vdsl " + shelf + "\/" + slot + "\/" + port;
 				dslStats.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port;
-				dslStatsRealtime.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port + "realtime";
-				showEvc.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port;
-				showEvcConfig.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port;
-				checkVlan.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port;
-				showError15.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port;
-				showError24.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port;
+				dslStatsRealtime.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port + " realtime";
+				showEvc.value = "show evc-map \"customer-" + shelf + "-" + slot + "-" + port + "\" " + shelf + "\/" + slot;
+				showEvcConfig.value = "show running-config evc-map" + shelf + "-" + slot + "-" + port + "\" " + shelf + "\/" + slot;
+				checkVlan.value = "show table evc-map | inc " + ivlan;
+				showError15.value = "show int vdsl " + shelf + "\/" + slot + "\/" + port + " performance-statistics 15";
+				showError24.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port + " performance-statistics 24";
 			}			
 			
-			function getScriptsModify(){
-				/*var input1 = document.getElementById("shelfInput")
-				var input2 = document.getElementById("slotInput")
-				var input3 = document.getElementById("portInput")
-				var input4 = document.getElementById("ivlanInput")
-				var input5 = document.getElementById("productSelect")
-				var input6 = document.getElementById("dslSpeedSelect")
-				var input7 = document.getElementById("iptvProductSelect")
-				var input8 = document.getElementById("dslIptvSelect")*/
-								
+			function getScriptsModify(){					
 				//Shows modify command rowns
 				portBounceLabelRow.style.display = "table-row";
 				portBounceRow.style.display = "table-row";
@@ -615,6 +606,16 @@
 				checkCardRow.style.display = "none"; 
 				resetCardLabelRow.style.display = "none"; 
 				resetCardRow.style.display = "none"; 
+
+				var shelf = document.getElementById("shelfInput").value;
+				var slot = document.getElementById("slotInput").value;
+				var port = document.getElementById("portInput").value;
+
+				var portBounce = document.getElementById("portBounceOutput");
+				var speedChange = document.getElementById("speedChangeOutput");
+				var clearMac = document.getElementById("clearMacOutput");
+			
+				clearMac.value = "clear mac address-table interface vcl" + shelf + "\/" + slot + "\/" + port + "vpi 0 vci 35 authenticated";
 			}
 
 			function getScriptsInstall(){
@@ -727,15 +728,6 @@
 			}
 			
 			function getScriptsCard(){
-				/*var input1 = document.getElementById("shelfInput")
-				var input2 = document.getElementById("slotInput")
-				var input3 = document.getElementById("portInput")
-				var input4 = document.getElementById("ivlanInput")
-				var input5 = document.getElementById("productSelect")
-				var input6 = document.getElementById("dslSpeedSelect")
-				var input7 = document.getElementById("iptvProductSelect")
-				var input8 = document.getElementById("dslIptvSelect")*/
-				
 				//Shows Card command rowns
 				checkAdminAllLabelRow.style.display = "table-row";
 				checkAdminAllRow.style.display = "table-row";
@@ -778,6 +770,18 @@
 				discoCommandRow.style.display = "none";
 				discoEvcLabelRow.style.display = "none";
 				discoEvcRow.style.display = "none"; 
+
+				var shelf = document.getElementById("shelfInput").value;
+				var slot = document.getElementById("slotInput").value;
+				var port = document.getElementById("portInput").value;
+
+				var checkAdminAll = document.getElementById("checkAdminAllOutput");
+				var checkCard = document.getElementById("checkCardOutput");
+				var resetCard = document.getElementById("resetCardOutput");
+
+				checkAdminAll.value = "show table interface vdsl " + shelf + "\/" + slot;
+				checkCard.value = "show system inventory";
+				resetCard.value = "reload " + shelf + "\/" + slot;
 			}
 		</script>
 	</body>
