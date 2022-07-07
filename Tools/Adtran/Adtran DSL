@@ -29,7 +29,7 @@
 				font-size: 20px;
 			}
 			input{
-				width: 60px;
+				width: 180px;
 				height: 22px;
 			}
 
@@ -45,7 +45,10 @@
 				width: 120px;
 				height: 32px;
 			}
-
+			.shortInput{
+				width: 60px;
+				height: 22px;
+			}
 			.commandLabel {
 				font-size: 20px;
 				width: 385px;
@@ -76,7 +79,7 @@
 						<label>Shelf</label>
 					</td>
 					<td>
-						<input id="shelfInput" type="number">
+						<input id="shelfInput" class="shortInput" type="number">
 					</td>
 				</tr>
 				<tr>
@@ -84,7 +87,7 @@
 						<label>Slot</label>
 					</td>
 					<td>
-						<input id="slotInput" type="number">
+						<input id="slotInput" class="shortInput" type="number">
 					</td>
 				</tr>
 				<tr>
@@ -92,15 +95,7 @@
 						<label>Port</label>
 					</td>
 					<td>
-						<input id="portInput" type="number">
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label>IVLAN</label>
-					</td>
-					<td>
-						<input id="ivlanInput" type="number">
+						<input id="portInput" class="shortInput" type="number">
 					</td>
 				</tr>
 				<tr>
@@ -113,6 +108,7 @@
 							<option value="dslProduct">DSL</option>
 							<option value="iptvProduct">IPTV</option>
 							<option value="dslIptvProduct">DSL and IPTV</option>
+							<option value="sipProduct">SIP</option>
 						</select>
 					</td>
 				</tr>
@@ -146,9 +142,33 @@
 						</select>
 					</td>
 				</tr>
+				<tr id="ivlanRow" hidden>
+					<td>
+						<label>IVLAN</label>
+					</td>
+					<td>
+						<input id="ivlanInput" class="shortInput" type="number">
+					</td>
+				</tr>
+				<tr id="sipTnRow" hidden>
+					<td>
+						<label>TN</label>
+					</td>
+					<td>
+						<input id="sipTnInput" type="number" length="10">
+					</td>
+				</tr>
+				<tr id="sipPasswordRow" hidden>
+					<td>
+						<label>Password</label>
+					</td>
+					<td>
+						<input id="sipPasswordInput" type="number">
+					</td>
+				</tr>
 				<tr>
 					<td>
-						<br><button type="reset">Clear</button><br><br>
+						<br><button type="reset">Clear</button><br>
 					</td>
 				</tr>
 				<tr>
@@ -384,11 +404,57 @@
 			</table>
 		</form>
 		<script> 
+
+			//Getting command rows for show/hide
+			var portConfigCheckLabelRow = document.getElementById("portConfigCheckLabelRow");
+			var portConfigCheckRow = document.getElementById("portConfigCheckRow");
+			var dslStatsLabelRow = document.getElementById("dslStatsLabelRow");
+			var dslStatsRow = document.getElementById("dslStatsRow");
+			var dslStatsRealtimeLabelRow = document.getElementById("dslStatsRealtimeLabelRow");
+			var dslStatsRealtimeRow = document.getElementById("dslStatsRealtimeRow");
+			var showEvcLabelRow = document.getElementById("showEvcLabelRow");
+			var showEvcRow = document.getElementById("showEvcRow");
+			var showEvcConfigLabelRow = document.getElementById("showEvcConfigLabelRow");
+			var showEvcConfigRow = document.getElementById("showEvcConfigRow");
+			var checkVlanLabelRow = document.getElementById("checkVlanLabelRow");
+			var checkVlanRow= document.getElementById("checkVlanRow");
+			var showError15LabelRow = document.getElementById("showError15LabelRow");
+			var showError15Row = document.getElementById("showError15Row");
+			var showError24LabelRow = document.getElementById("showError24LabelRow");
+			var showError24Row = document.getElementById("showError24Row");
+
+			var portBounceLabelRow = document.getElementById("portBounceLabelRow");
+			var portBounceRow = document.getElementById("portBounceRow");
+			var speedChangeLabelRow = document.getElementById("speedChangeLabelRow");
+			var speedChangeRow = document.getElementById("speedChangeRow");
+			var clearMacLabelRow = document.getElementById("clearMacLabelRow");
+			var clearMacRow = document.getElementById("clearMacRow");
+
+			var installCommandLabelRow = document.getElementById("installCommandLabelRow");
+			var installCommandRow = document.getElementById("installCommandRow");
+			var installEvcLabelRow = document.getElementById("installEvcLabelRow");
+			var installEvcRow = document.getElementById("installEvcRow");
+
+			var discoCommandLabelRow = document.getElementById("discoCommandLabelRow");
+			var discoCommandRow = document.getElementById("discoCommandRow");
+			var discoEvcLabelRow = document.getElementById("discoEvcLabelRow");
+			var discoEvcRow = document.getElementById("discoEvcRow");
+			
+			var checkAdminAllLabelRow = document.getElementById("checkAdminAllLabelRow");
+			var checkAdminAllRow = document.getElementById("checkAdminAllRow");
+			var checkCardLabelRow = document.getElementById("checkCardLabelRow");
+			var checkCardRow = document.getElementById("checkCardRow");
+			var resetCardLabelRow = document.getElementById("resetCardLabelRow");
+			var resetCardRow = document.getElementById("resetCardRow");
+
 			function showSpeed(){
-				var productSelect = document.getElementById("productSelect").value
+				var productSelect = document.getElementById("productSelect").value;
 				var dslSpeedsRow = document.getElementById("dslSpeedRow");
 				var iptvSpeedsRow = document.getElementById("iptvProductRow");
 				var dslIptvSpeedsRow = document.getElementById("dslIptvRow");
+				var ivlanRow = document.getElementById("ivlanRow");
+				var sipTnRow = document.getElementById("sipTnRow");
+				var sipPasswordRow = document.getElementById("sipPasswordRow");
 				
 				
 				switch (productSelect) {
@@ -396,76 +462,40 @@
 						dslSpeedsRow.style.display = "table-row";
 						iptvSpeedsRow.style.display = "none";
 						dslIptvSpeedsRow.style.display = "none";
+						ivlanRow.style.display = "table-row";
+						sipTnRow.style.display = "none";
+						sipPasswordRow.style.display = "none";
 						break;
 					case "iptvProduct":
 						dslSpeedsRow.style.display = "none";
 						iptvSpeedsRow.style.display = "table-row";
 						dslIptvSpeedsRow.style.display = "none";
+						ivlanRow.style.display = "table-row";
+						sipTnRow.style.display = "none";
+						sipPasswordRow.style.display = "none";
 						break;
 					case "dslIptvProduct":
 						dslSpeedsRow.style.display = "none";
 						iptvSpeedsRow.style.display = "none";
 						dslIptvSpeedsRow.style.display = "table-row";
+						ivlanRow.style.display = "table-row";
+						sipTnRow.style.display = "none";
+						sipPasswordRow.style.display = "none";
+						break;
+					case "sipProduct":
+						dslSpeedsRow.style.display = "none";
+						iptvSpeedsRow.style.display = "none";
+						dslIptvSpeedsRow.style.display = "none";
+						ivlanRow.style.display = "none";
+						sipTnRow.style.display = "table-row";
+						sipPasswordRow.style.display = "table-row";
 						break;
 					default:		
 					alert("bad")
 				}
 			}
-			
-            function getScriptsVerify(){
-				/*var input1 = document.getElementById("shelfInput")
-				var input2 = document.getElementById("slotInput")
-				var input3 = document.getElementById("portInput")
-				var input4 = document.getElementById("ivlanInput")
-				var input5 = document.getElementById("productSelect")
-				var input6 = document.getElementById("dslSpeedSelect")
-				var input7 = document.getElementById("iptvProductSelect")
-				var input8 = document.getElementById("dslIptvSelect")*/
-				
-				//Getting command rows for show/hide
-				var portConfigCheckLabelRow = document.getElementById("portConfigCheckLabelRow");
-				var portConfigCheckRow = document.getElementById("portConfigCheckRow");
-				var dslStatsLabelRow = document.getElementById("dslStatsLabelRow");
-				var dslStatsRow = document.getElementById("dslStatsRow");
-				var dslStatsRealtimeLabelRow = document.getElementById("dslStatsRealtimeLabelRow");
-				var dslStatsRealtimeRow = document.getElementById("dslStatsRealtimeRow");
-				var showEvcLabelRow = document.getElementById("showEvcLabelRow");
-				var showEvcRow = document.getElementById("showEvcRow");
-				var showEvcConfigLabelRow = document.getElementById("showEvcConfigLabelRow");
-				var showEvcConfigRow = document.getElementById("showEvcConfigRow");
-				var checkVlanLabelRow = document.getElementById("checkVlanLabelRow");
-				var checkVlanRow= document.getElementById("checkVlanRow");
-				var showError15LabelRow = document.getElementById("showError15LabelRow");
-				var showError15Row = document.getElementById("showError15Row");
-				var showError24LabelRow = document.getElementById("showError24LabelRow");
-				var showError24Row = document.getElementById("showError24Row");
-
-				var portBounceLabelRow = document.getElementById("portBounceLabelRow");
-				var portBounceRow = document.getElementById("portBounceRow");
-				var speedChangeLabelRow = document.getElementById("speedChangeLabelRow");
-				var speedChangeRow = document.getElementById("speedChangeRow");
-				var clearMacLabelRow = document.getElementById("clearMacLabelRow");
-				var clearMacRow = document.getElementById("clearMacRow");
-
-				var installCommandLabelRow = document.getElementById("installCommandLabelRow");
-				var installCommandRow = document.getElementById("installCommandRow");
-				var installEvcLabelRow = document.getElementById("installEvcLabelRow");
-				var installEvcRow = document.getElementById("installEvcRow");
-
-				var discoCommandLabelRow = document.getElementById("discoCommandLabelRow");
-				var discoCommandRow = document.getElementById("discoCommandRow");
-				var discoEvcLabelRow = document.getElementById("discoEvcLabelRow");
-				var discoEvcRow = document.getElementById("discoEvcRow");
-				
-				var checkAdminAllLabelRow = document.getElementById("checkAdminAllLabelRow");
-				var checkAdminAllRow = document.getElementById("checkAdminAllRow");
-				var checkCardLabelRow = document.getElementById("checkCardLabelRow");
-				var checkCardRow = document.getElementById("checkCardRow");
-				var resetCardLabelRow = document.getElementById("resetCardLabelRow");
-				var resetCardRow = document.getElementById("resetCardRow");
-
-
-				//Shows disco command rowns
+			function getScriptsVerify(){
+				//Shows verify command rowns
 				portConfigCheckLabelRow.style.display = "table-row";
 				portConfigCheckRow.style.display = "table-row";
 				dslStatsLabelRow.style.display = "table-row";
@@ -507,6 +537,30 @@
 				checkCardRow.style.display = "none"; 
 				resetCardLabelRow.style.display = "none"; 
 				resetCardRow.style.display = "none"; 
+				
+				//Geting Inputs
+				var shelf = document.getElementById("shelfInput").value;
+				var slot = document.getElementById("slotInput").value;
+				var port = document.getElementById("portInput").value;
+				var ivlan = document.getElementById("ivlanInput").value;
+
+				var portConfigCheck = document.getElementById("portConfigCheckOutput");
+				var dslStats = document.getElementById("dslStatsOutput");
+				var dslStatsRealtime = document.getElementById("dslStatsRealtimeOutput");
+				var showEvc = document.getElementById("showEvcOutput");
+				var showEvcConfig = document.getElementById("showEvcConfigOutput");
+				var checkVlan = document.getElementById("checkVlanOutput");
+				var showError15 = document.getElementById("showError15Output");
+				var showError24 = document.getElementById("showError24Output");
+
+				portConfigCheck.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port;
+				dslStats.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port;
+				dslStatsRealtime.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port + "realtime";
+				showEvc.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port;
+				showEvcConfig.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port;
+				checkVlan.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port;
+				showError15.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port;
+				showError24.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port;
 			}			
 			
 			function getScriptsModify(){
@@ -518,50 +572,7 @@
 				var input6 = document.getElementById("dslSpeedSelect")
 				var input7 = document.getElementById("iptvProductSelect")
 				var input8 = document.getElementById("dslIptvSelect")*/
-				
-				//Getting command rows for show/hide
-				var portConfigCheckLabelRow = document.getElementById("portConfigCheckLabelRow");
-				var portConfigCheckRow = document.getElementById("portConfigCheckRow");
-				var dslStatsLabelRow = document.getElementById("dslStatsLabelRow");
-				var dslStatsRow = document.getElementById("dslStatsRow");
-				var dslStatsRealtimeLabelRow = document.getElementById("dslStatsRealtimeLabelRow");
-				var dslStatsRealtimeRow = document.getElementById("dslStatsRealtimeRow");
-				var showEvcLabelRow = document.getElementById("showEvcLabelRow");
-				var showEvcRow = document.getElementById("showEvcRow");
-				var showEvcConfigLabelRow = document.getElementById("showEvcConfigLabelRow");
-				var showEvcConfigRow = document.getElementById("showEvcConfigRow");
-				var checkVlanLabelRow = document.getElementById("checkVlanLabelRow");
-				var checkVlanRow= document.getElementById("checkVlanRow");
-				var showError15LabelRow = document.getElementById("showError15LabelRow");
-				var showError15Row = document.getElementById("showError15Row");
-				var showError24LabelRow = document.getElementById("showError24LabelRow");
-				var showError24Row = document.getElementById("showError24Row");
-
-				var portBounceLabelRow = document.getElementById("portBounceLabelRow");
-				var portBounceRow = document.getElementById("portBounceRow");
-				var speedChangeLabelRow = document.getElementById("speedChangeLabelRow");
-				var speedChangeRow = document.getElementById("speedChangeRow");
-				var clearMacLabelRow = document.getElementById("clearMacLabelRow");
-				var clearMacRow = document.getElementById("clearMacRow");
-
-				var installCommandLabelRow = document.getElementById("installCommandLabelRow");
-				var installCommandRow = document.getElementById("installCommandRow");
-				var installEvcLabelRow = document.getElementById("installEvcLabelRow");
-				var installEvcRow = document.getElementById("installEvcRow");
-
-				var discoCommandLabelRow = document.getElementById("discoCommandLabelRow");
-				var discoCommandRow = document.getElementById("discoCommandRow");
-				var discoEvcLabelRow = document.getElementById("discoEvcLabelRow");
-				var discoEvcRow = document.getElementById("discoEvcRow");
-
-				var checkAdminAllLabelRow = document.getElementById("checkAdminAllLabelRow");
-				var checkAdminAllRow = document.getElementById("checkAdminAllRow");
-				var checkCardLabelRow = document.getElementById("checkCardLabelRow");
-				var checkCardRow = document.getElementById("checkCardRow");
-				var resetCardLabelRow = document.getElementById("resetCardLabelRow");
-				var resetCardRow = document.getElementById("resetCardRow");
-
-				
+								
 				//Shows modify command rowns
 				portBounceLabelRow.style.display = "table-row";
 				portBounceRow.style.display = "table-row";
@@ -617,49 +628,6 @@
 				var input7 = document.getElementById("iptvProductSelect")
 				var input8 = document.getElementById("dslIptvSelect")*/
 
-				//Getting command rows for show/hide
-				var portConfigCheckLabelRow = document.getElementById("portConfigCheckLabelRow");
-				var portConfigCheckRow = document.getElementById("portConfigCheckRow");
-				var dslStatsLabelRow = document.getElementById("dslStatsLabelRow");
-				var dslStatsRow = document.getElementById("dslStatsRow");
-				var dslStatsRealtimeLabelRow = document.getElementById("dslStatsRealtimeLabelRow");
-				var dslStatsRealtimeRow = document.getElementById("dslStatsRealtimeRow");
-				var showEvcLabelRow = document.getElementById("showEvcLabelRow");
-				var showEvcRow = document.getElementById("showEvcRow");
-				var showEvcConfigLabelRow = document.getElementById("showEvcConfigLabelRow");
-				var showEvcConfigRow = document.getElementById("showEvcConfigRow");
-				var checkVlanLabelRow = document.getElementById("checkVlanLabelRow");
-				var checkVlanRow= document.getElementById("checkVlanRow");
-				var showError15LabelRow = document.getElementById("showError15LabelRow");
-				var showError15Row = document.getElementById("showError15Row");
-				var showError24LabelRow = document.getElementById("showError24LabelRow");
-				var showError24Row = document.getElementById("showError24Row");
-
-				var portBounceLabelRow = document.getElementById("portBounceLabelRow");
-				var portBounceRow = document.getElementById("portBounceRow");
-				var speedChangeLabelRow = document.getElementById("speedChangeLabelRow");
-				var speedChangeRow = document.getElementById("speedChangeRow");
-				var clearMacLabelRow = document.getElementById("clearMacLabelRow");
-				var clearMacRow = document.getElementById("clearMacRow");
-
-				var installCommandLabelRow = document.getElementById("installCommandLabelRow");
-				var installCommandRow = document.getElementById("installCommandRow");
-				var installEvcLabelRow = document.getElementById("installEvcLabelRow");
-				var installEvcRow = document.getElementById("installEvcRow");
-
-				var discoCommandLabelRow = document.getElementById("discoCommandLabelRow");
-				var discoCommandRow = document.getElementById("discoCommandRow");
-				var discoEvcLabelRow = document.getElementById("discoEvcLabelRow");
-				var discoEvcRow = document.getElementById("discoEvcRow");
-				
-				var checkAdminAllLabelRow = document.getElementById("checkAdminAllLabelRow");
-				var checkAdminAllRow = document.getElementById("checkAdminAllRow");
-				var checkCardLabelRow = document.getElementById("checkCardLabelRow");
-				var checkCardRow = document.getElementById("checkCardRow");
-				var resetCardLabelRow = document.getElementById("resetCardLabelRow");
-				var resetCardRow = document.getElementById("resetCardRow");
-
-
 				//Shows install command rowns
 				installCommandLabelRow.style.display = "table-row";
 				installCommandRow.style.display = "table-row";
@@ -713,50 +681,7 @@
 				var input6 = document.getElementById("dslSpeedSelect")
 				var input7 = document.getElementById("iptvProductSelect")
 				var input8 = document.getElementById("dslIptvSelect")*/
-				
-				//Getting command rows for show/hide
-				var portConfigCheckLabelRow = document.getElementById("portConfigCheckLabelRow");
-				var portConfigCheckRow = document.getElementById("portConfigCheckRow");
-				var dslStatsLabelRow = document.getElementById("dslStatsLabelRow");
-				var dslStatsRow = document.getElementById("dslStatsRow");
-				var dslStatsRealtimeLabelRow = document.getElementById("dslStatsRealtimeLabelRow");
-				var dslStatsRealtimeRow = document.getElementById("dslStatsRealtimeRow");
-				var showEvcLabelRow = document.getElementById("showEvcLabelRow");
-				var showEvcRow = document.getElementById("showEvcRow");
-				var showEvcConfigLabelRow = document.getElementById("showEvcConfigLabelRow");
-				var showEvcConfigRow = document.getElementById("showEvcConfigRow");
-				var checkVlanLabelRow = document.getElementById("checkVlanLabelRow");
-				var checkVlanRow= document.getElementById("checkVlanRow");
-				var showError15LabelRow = document.getElementById("showError15LabelRow");
-				var showError15Row = document.getElementById("showError15Row");
-				var showError24LabelRow = document.getElementById("showError24LabelRow");
-				var showError24Row = document.getElementById("showError24Row");
-
-				var portBounceLabelRow = document.getElementById("portBounceLabelRow");
-				var portBounceRow = document.getElementById("portBounceRow");
-				var speedChangeLabelRow = document.getElementById("speedChangeLabelRow");
-				var speedChangeRow = document.getElementById("speedChangeRow");
-				var clearMacLabelRow = document.getElementById("clearMacLabelRow");
-				var clearMacRow = document.getElementById("clearMacRow");
-
-				var installCommandLabelRow = document.getElementById("installCommandLabelRow");
-				var installCommandRow = document.getElementById("installCommandRow");
-				var installEvcLabelRow = document.getElementById("installEvcLabelRow");
-				var installEvcRow = document.getElementById("installEvcRow");
-
-				var discoCommandLabelRow = document.getElementById("discoCommandLabelRow");
-				var discoCommandRow = document.getElementById("discoCommandRow");
-				var discoEvcLabelRow = document.getElementById("discoEvcLabelRow");
-				var discoEvcRow = document.getElementById("discoEvcRow");
-
-				var checkAdminAllLabelRow = document.getElementById("checkAdminAllLabelRow");
-				var checkAdminAllRow = document.getElementById("checkAdminAllRow");
-				var checkCardLabelRow = document.getElementById("checkCardLabelRow");
-				var checkCardRow = document.getElementById("checkCardRow");
-				var resetCardLabelRow = document.getElementById("resetCardLabelRow");
-				var resetCardRow = document.getElementById("resetCardRow");
-
-				
+								
 				//Shows disco command rowns
 				discoCommandLabelRow.style.display = "table-row";
 				discoCommandRow.style.display = "table-row";
@@ -811,50 +736,7 @@
 				var input7 = document.getElementById("iptvProductSelect")
 				var input8 = document.getElementById("dslIptvSelect")*/
 				
-				//Getting command rows for show/hide
-				var portConfigCheckLabelRow = document.getElementById("portConfigCheckLabelRow");
-				var portConfigCheckRow = document.getElementById("portConfigCheckRow");
-				var dslStatsLabelRow = document.getElementById("dslStatsLabelRow");
-				var dslStatsRow = document.getElementById("dslStatsRow");
-				var dslStatsRealtimeLabelRow = document.getElementById("dslStatsRealtimeLabelRow");
-				var dslStatsRealtimeRow = document.getElementById("dslStatsRealtimeRow");
-				var showEvcLabelRow = document.getElementById("showEvcLabelRow");
-				var showEvcRow = document.getElementById("showEvcRow");
-				var showEvcConfigLabelRow = document.getElementById("showEvcConfigLabelRow");
-				var showEvcConfigRow = document.getElementById("showEvcConfigRow");
-				var checkVlanLabelRow = document.getElementById("checkVlanLabelRow");
-				var checkVlanRow= document.getElementById("checkVlanRow");
-				var showError15LabelRow = document.getElementById("showError15LabelRow");
-				var showError15Row = document.getElementById("showError15Row");
-				var showError24LabelRow = document.getElementById("showError24LabelRow");
-				var showError24Row = document.getElementById("showError24Row");
-
-				var portBounceLabelRow = document.getElementById("portBounceLabelRow");
-				var portBounceRow = document.getElementById("portBounceRow");
-				var speedChangeLabelRow = document.getElementById("speedChangeLabelRow");
-				var speedChangeRow = document.getElementById("speedChangeRow");
-				var clearMacLabelRow = document.getElementById("clearMacLabelRow");
-				var clearMacRow = document.getElementById("clearMacRow");
-
-				var installCommandLabelRow = document.getElementById("installCommandLabelRow");
-				var installCommandRow = document.getElementById("installCommandRow");
-				var installEvcLabelRow = document.getElementById("installEvcLabelRow");
-				var installEvcRow = document.getElementById("installEvcRow");
-
-				var discoCommandLabelRow = document.getElementById("discoCommandLabelRow");
-				var discoCommandRow = document.getElementById("discoCommandRow");
-				var discoEvcLabelRow = document.getElementById("discoEvcLabelRow");
-				var discoEvcRow = document.getElementById("discoEvcRow");
-
-				var checkAdminAllLabelRow = document.getElementById("checkAdminAllLabelRow");
-				var checkAdminAllRow = document.getElementById("checkAdminAllRow");
-				var checkCardLabelRow = document.getElementById("checkCardLabelRow");
-				var checkCardRow = document.getElementById("checkCardRow");
-				var resetCardLabelRow = document.getElementById("resetCardLabelRow");
-				var resetCardRow = document.getElementById("resetCardRow");
-
-				
-				//Shows disco command rowns
+				//Shows Card command rowns
 				checkAdminAllLabelRow.style.display = "table-row";
 				checkAdminAllRow.style.display = "table-row";
 				checkCardLabelRow.style.display = "table-row";
@@ -863,6 +745,13 @@
 				resetCardRow.style.display = "table-row";
 
 				//Hides all other commands
+				portBounceLabelRow.style.display = "none";
+				portBounceRow.style.display = "none";
+				speedChangeLabelRow.style.display = "none";
+				speedChangeRow.style.display = "none";
+				clearMacLabelRow.style.display = "none";
+				clearMacRow.style.display = "none";
+
 				portConfigCheckLabelRow.style.display = "none";
 				portConfigCheckRow.style.display = "none";
 				dslStatsLabelRow.style.display = "none";
@@ -893,3 +782,5 @@
 		</script>
 	</body>
 </html>
+
+
