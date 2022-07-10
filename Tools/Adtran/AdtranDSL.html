@@ -118,7 +118,11 @@
 					</td>
 					<td>
 						<select id="dslSpeedSelect" type="text">
+							<option>None</option>
 							<option>1</option>
+							<option>5</option>
+							<option>15</option>
+							<option>25</option>
 						</select>
 					</td>
 				</tr>
@@ -128,7 +132,7 @@
 					</td>
 					<td>
 						<select id="iptvProductSelect">
-							<option>1</option>
+							<option></option>
 						</select>
 					</td>
 				</tr>
@@ -614,21 +618,18 @@
 				var portBounce = document.getElementById("portBounceOutput");
 				var speedChange = document.getElementById("speedChangeOutput");
 				var clearMac = document.getElementById("clearMacOutput");
-			
+				
+				portBounce += "conf t"
+				portBounce += "\ninterface vdsl" + shelf + "\/" + slot + "\/" + port;
+				portBounce += "\nshutdown"
+				portBounce += "\nno shutdown"
+				portBounce += "\nexit"
+				portBounce += "\nexit"
+				
 				clearMac.value = "clear mac address-table interface vcl" + shelf + "\/" + slot + "\/" + port + "vpi 0 vci 35 authenticated";
 			}
 
 			function getScriptsInstall(){
-				//Getting Inputs
-				/*var input1 = document.getElementById("shelfInput")
-				var input2 = document.getElementById("slotInput")
-				var input3 = document.getElementById("portInput")
-				var input4 = document.getElementById("ivlanInput")
-				var input5 = document.getElementById("productSelect")
-				var input6 = document.getElementById("dslSpeedSelect")
-				var input7 = document.getElementById("iptvProductSelect")
-				var input8 = document.getElementById("dslIptvSelect")*/
-
 				//Shows install command rowns
 				installCommandLabelRow.style.display = "table-row";
 				installCommandRow.style.display = "table-row";
@@ -673,16 +674,7 @@
 				resetCardRow.style.display = "none"; 
 			}
 			
-			function getScriptsDisco(){
-				/*var input1 = document.getElementById("shelfInput")
-				var input2 = document.getElementById("slotInput")
-				var input3 = document.getElementById("portInput")
-				var input4 = document.getElementById("ivlanInput")
-				var input5 = document.getElementById("productSelect")
-				var input6 = document.getElementById("dslSpeedSelect")
-				var input7 = document.getElementById("iptvProductSelect")
-				var input8 = document.getElementById("dslIptvSelect")*/
-								
+			function getScriptsDisco(){							
 				//Shows disco command rowns
 				discoCommandLabelRow.style.display = "table-row";
 				discoCommandRow.style.display = "table-row";
