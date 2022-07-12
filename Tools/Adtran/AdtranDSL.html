@@ -98,6 +98,14 @@
 						<input id="portInput" class="shortInput" type="number">
 					</td>
 				</tr>
+				<tr id="ivlanRow">
+					<td>
+						<label>IVLAN</label>
+					</td>
+					<td>
+						<input id="ivlanInput" class="shortInput" type="number">
+					</td>
+				</tr>
 				<tr>
 					<td>
 						<label>Product</label>
@@ -118,11 +126,12 @@
 					</td>
 					<td>
 						<select id="dslSpeedSelect" type="text">
+							<option hidden>Select a Speed</option>
 							<option>None</option>
-							<option>1</option>
-							<option>5</option>
-							<option>15</option>
-							<option>25</option>
+							<option>1 Mbps</option>
+							<option>5 Mbps</option>
+							<option>15 Mbps</option>
+							<option>25 Mbps</option>
 						</select>
 					</td>
 				</tr>
@@ -132,7 +141,12 @@
 					</td>
 					<td>
 						<select id="iptvProductSelect">
-							<option></option>
+							<option hidden>Select a Product</option>
+							<option>1HD 3SD</option>
+							<option>2HD 2SD</option>
+							<option>3HD 2SD</option>
+							<option>4HD 0SD</option>
+							<option>4HD 2SD</option>
 						</select>
 					</td>
 				</tr>
@@ -142,16 +156,25 @@
 					</td>
 					<td>
 						<select id="dslIptvSelect" type="text">
-							<option>1</option>
+							<option hidden>Select a Speed and Product</option>
+							<optgroup label="5 Mbps">
+								<option>1HD 3SD</option>
+								<option>2HD 2SD</option>
+								<option>3HD 2SD</option>
+							</optgroup>
+							<optgroup label="15 Mbps">
+								<option>2HD 2SD</option>
+								<option>3HD 2SD</option>
+								<option>4HD 0SD</option>
+								<option>4HD 2SD</option>
+							</optgroup>
+							<optgroup label="25 Mbps">
+								<option>2HD 2SD</option>
+								<option>3HD 2SD</option>
+								<option>4HD 0SD</option>
+								<option>4HD 2SD</option>
+							</optgroup>
 						</select>
-					</td>
-				</tr>
-				<tr id="ivlanRow" hidden>
-					<td>
-						<label>IVLAN</label>
-					</td>
-					<td>
-						<input id="ivlanInput" class="shortInput" type="number">
 					</td>
 				</tr>
 				<tr id="sipTnRow" hidden>
@@ -167,7 +190,7 @@
 						<label>Password</label>
 					</td>
 					<td>
-						<input id="sipPasswordInput" type="number">
+						<input id="sipPasswordInput">
 					</td>
 				</tr>
 				<tr>
