@@ -1,0 +1,209 @@
+<html>
+    <head>
+        <style>
+           /*Style to make Tool Dark Mode*/
+			html{ 
+				background-color: #000000;
+				color: FFFFFF;
+				overflow: hidden;
+			}
+			h1{
+				text-decoration: underline;
+			}
+			button{
+				width: 120px; /*Make Buttons a static size 1*/
+				height: 32px; /*Make Buttons a static size 2*/
+			}
+			embed{
+				width:100%;
+				height:95%;
+			}
+			table{
+				width:90%;
+				font-size: 20px;
+			}
+			select{
+				width: 100%; 
+				font-size: 18px;
+			}
+			.ipInput{
+				width: 18%;
+				overflow-wrap: break-word
+			}
+			.outputTextarea {
+				width:100%;
+				resize: none;/*Hides Output 3*/
+				font-size: 12px; /*Makes Output text bigger*/;
+				
+			}
+        </style>
+    </head>
+    <body>
+		<h1>Cisco Static Install</h1>
+		<form id="1x2">
+			<table>
+				<col width="70%">
+				<col width="30%">
+				<tbody>
+					<tr>
+						<td>ATM Interface:</td>
+						<td><input type="text" id="atmInterface"></input></td>
+					</tr>
+					<tr>
+						<td>VPI:</td>
+						<td><input type="text" id="vpi" maxlength="4"></input></td>
+					</tr>
+					<tr>
+						<td>VCI:</td>
+						<td><input type="text" id="vci" maxlength="4"></input></td>
+					</tr>
+					<tr>
+						<td>WAN Network:</td>
+						<td>
+							<input type="text" id="wanIp1" class="ipInput" maxlength="3"></input> .
+							<input type="text" id="wanIp2" class="ipInput" maxlength="3"></input> .
+							<input type="text" id="wanIp3" class="ipInput" maxlength="3"></input> .
+							<input type="text" id="wanIp4" class="ipInput" maxlength="3"></input>
+						</td>
+					</tr>
+					<tr>
+						<td>(LAN) Etherenet Network:</td>
+						<td>
+							<input type="text" id="lanIp1" class="ipInput" maxlength="3"></input> .
+							<input type="text" id="lanIp2" class="ipInput" maxlength="3"></input> .
+							<input type="text" id="lanIp3" class="ipInput" maxlength="3"></input> .
+							<input type="text" id="lanIp4" class="ipInput" maxlength="3"></input>
+						</td>
+					</tr>
+					<tr>
+						<td>LAN CIDR/</label>
+						<td><input type="text" id="lanCidr" maxlength="2"></td>
+					</tr>
+					<tr>
+						<td>Metasolv Acct:</td>
+						<td><input type="text" id="acctNumber" maxlength="8"></input></td>
+					</tr>
+					<tr>
+						<td>Customer Name:</td>
+						<td><input type="text" id="customerName"></input></td>
+					</tr>
+					<tr>
+						<td>ACL IN:</td>
+						<td>
+							<select id="speedSelect" >
+								<option value="832" hidden>Select a Speed</option>
+								<option value="832">768K</option>
+								<option value="1216">1M</option>
+								<option value="2368">2M</option>
+								<option value="4672">4M</option>
+								<option value="6144">5M</option>
+								<option value="18624">15M</option>
+							</select>
+						</td>
+					</tr>
+					<tr><td colspan="2"><br></td></tr>
+					<td colspan="2">
+							<button type="button" onclick="commandGenerator()">Get Commands</button>
+							<button type="reset" onclick="clearAll()">Clear</button>
+						</td>
+				</tbody>
+			</table>
+			<table>
+				<col width="70%">
+				<col width="30%">
+				<tbody>
+					<tr id="installOutputRow">
+						<td colspan="2">
+							Install:<br>
+							<textarea id="installOutput" class="outputTextarea" rows="17"></textarea>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+    </body>
+    <footer>
+        <Script>
+			function commandGenerator(){
+				var atmInterface = document.getElementById("atmInterface").value;	//Gets Lag and assigns to variable					
+				var vpi = document.getElementById("vpi").value; //Gets Outer VLAN and assigns to variable			
+				var vci = document.getElementById("vci").value;	//Gets Inner VLAN and assigns to variable
+				var atmVci = vci;
+				var wanIp1 = document.getElementById("wanIp1").value;	//Gets WAN Subnet and assigns to variable
+				var wanIp2 = document.getElementById("wanIp2").value;	//Gets WAN Subnet and assigns to variable		
+				var wanIp3 = document.getElementById("wanIp3").value;	//Gets WAN Subnet and assigns to variable		
+				var wanIp4 = document.getElementById("wanIp4").value;	//Gets WAN Subnet and assigns to variable
+				var wanNetworkIp = wanIp1 + "." + wanIp2 + "." + wanIp3 + "." + wanIp4;
+				var tdsWanIp = wanIp1 + "." + wanIp2 + "." + wanIp3 + "." ;
+				var customerWanIp = tdsWanIp;
+				var lanIp1 = document.getElementById("lanIp1").value; //Gets LAN Subnet and assigns to variable	
+				var lanIp2 = document.getElementById("lanIp2").value; //Gets LAN Subnet and assigns to variable		
+				var lanIp3 = document.getElementById("lanIp3").value; //Gets LAN Subnet and assigns to variable		
+				var lanIp4 = document.getElementById("lanIp4").value; //Gets LAN Subnet and assigns to variable	
+				var lanIpFull = lanIp1 + "." + lanIp2 + "." + lanIp3 + "." + lanIp4;
+				var lanCidr = document.getElementById("lanCidr").value;	//Gets LAN CDIR and assigns to variable
+				var lanSubnet;
+				var account = document.getElementById("acctNumber").value; //Gets Metasolv Acct and assigns to variable
+				var customerName = document.getElementById("customerName").value; //Gets Customer Name and assigns to variable
+				var speed = document.getElementById("speedSelect").value; //Gets Speed and assigns to variable
+				var text="";
+				var i;
+				
+				while(atmVci.length < 4){  // Padding the VCI with zeroes to make it 4 digits
+					atmVci = "0" + atmVci;
+					}
+				
+				wanIp4++;
+				tdsWanIp += wanIp4;
+				wanIp4++
+				customerWanIp += wanIp4;
+				
+				switch (lanCidr){
+					case "30":
+						lanSubnet = " 255.255.255.252";
+						break;
+					case "29":
+						lanSubnet = " 255.255.255.248";
+						break;
+					case "28":
+						lanSubnet = " 255.255.255.240";
+						break;
+					case "27":
+						lanSubnet = " 255.255.255.224";
+						break;
+					case "26":
+						lanSubnet = " 255.255.255.192";
+						break;
+					case "25":
+						lanSubnet = " 255.255.255.128";
+						break;
+					case "24":
+						lanSubnet = " 255.255.255.0";
+						break;
+					default:
+						lanSubnet = " 255.255.255.252";
+						break;
+				}
+
+				text += "interface ATM" + atmInterface + "." + vpi + atmVci + " point-to-point\n";
+				text += "description " + customerName + " MA - " + account + "\n"
+				text += "ip address " + tdsWanIp + " 255.255.255.252\n";
+				text += "ip access-group No_worm in\n";
+				text += "no ip redirects\n";
+				text += "no ip proxy-arp\n";
+				text += "policy-options\n";
+				text += "atm route-bridged ip \n";
+				text += "pvc " + vpi + "/" + vci + "\n";
+				text += "ubr " + speed + "\n";
+				text += "!\n";
+				text += "ip route " + lanIpFull + " " + lanSubnet + " " + customerWanIp + "\n";
+				text += "!\n";
+				text +="network " + wanNetworkIp + " mask 255.255.255.252 route-map SET-COMMUNITY\n"
+				text += "end\n";
+				text += "!\n";
+				
+				document.getElementById("installOutput").value = text;			
+			}
+		</script>
+    </footer>
+</html>

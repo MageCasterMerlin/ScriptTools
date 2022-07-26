@@ -1,0 +1,251 @@
+<html>
+    <head>
+        <style>
+           /*Style to make Tool Dark Mode*/
+			html{ 
+				background-color: #000000;
+				color: FFFFFF;
+				overflow: hidden;
+			}
+			body{
+				margin: 0; 
+				padding: 0; 
+			}
+			button{
+				width: 120px; /*Make Buttons a static size 1*/
+				height: 32px; /*Make Buttons a static size 2*/
+			}
+			embed{
+				width:100%;
+				height:95%;
+			}
+			table{
+				width:100%;
+				font-size: 20px;
+				}
+			select{
+				width: 177px; 
+			}
+			.superLabel {
+				font-weight: bold;
+				text-decoration: underline;
+			}
+			#checkSapLink{
+				font-size:28px;
+			}
+        </style>
+    </head>
+    <body>
+		<h1>Francis' Check SAP Tool</h1>
+		<form id="checkSap">
+			<table>
+				<tbody>
+					<tr><td class="superLabel" colspan="2">Customer Information</td></tr>
+					<tr>
+						<td>Metasolv Acct:</td>
+						<td><input type="text" id="acctnumber" required></input></td>
+					</tr>
+					<tr>
+						<td>Last Name/Business:</td>
+						<td><input type="text" id="bizname" required></input></td>
+					</tr>
+					<tr>
+						<td>First Name:</td>
+						<td><input type="text" id="firstname"></input></td>
+					</tr>
+					<tr><td colspan="2"><br></td></tr>
+					<tr><td class="superLabel" colspan="3">Head Router / DSLAM Information</td></tr>
+					<tr>
+						<td>Head Router IP:</td>
+						<td><input type="text" id="hed11" required></input></td>
+					</tr>
+					<tr>
+						<td>DSLAM Name:</td>
+						<td><input type="text" id="dslam" required></td>
+					</tr>
+					<tr>
+						<td>Lag:</label>
+						<td><input type="text" id="Lag" required></td>
+					</tr>
+					<tr>
+						<td>Outer VLAN:</td>
+						<td><input type="text" id="ovlan" required></input></td>
+					</tr>
+					<tr>
+						<td>Inner VLAN:</td>
+						<td><input type="text" id="ivlan" required></input></td>
+					</tr>
+					<tr>
+						<td>ACL IN:</td>
+						<td>
+							<select id="acl" >
+								<option value="Seasonal_Hold">Seasonal Hold</option>
+								<option value="No_SMTP">No SMTP</option>
+								<option value="No_worm">No Worm</option>
+								<option value="TDSNet_SMTP">TDS SMTP</option>
+								<option value="TDSNet_SMTP_worm" selected>TDS SMTP Worm</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>SAP Speed Profile:</td>
+						<td>
+							<select id="profile" >
+								<option value="0" selected>-------------</option>
+									<optgroup label="DSL ONLY PROFILES">
+									<option value="128K">DSL - 128K</option>
+									<option value="256K128up">DSL - 256k x 128k</option>
+									<option value="384K">DSL - 384K</option>
+									<option value="512k">DSL - 512k</option>
+									<option value="768K384up">DSL - 768K x 384K</option>
+									<option value="1024K">DSL - 1Mb</option>
+									<option value="1536K">DSL - 1.5Mb</option>
+									<option value="2048K">DSL - 2Mb</option>
+									<option value="3072K">DSL - 3Mb</option>
+									<option value="4096K">DSL - 4Mb</option>
+									<option value="5120K512up">DSL - 5Mb</option>
+									<option value="6144K">DSL - 6Mb</option>
+									<option value="8192K">DSL - 8Mb</option>
+									<option value="10240K">DSL - 10Mb</option>
+									<option value="15360K1024up">DSL - 15Mb x 1Mb</option>
+									<option value="25600K1536up">DSL - 25Mb x 1.5Mb (bonded)</option>
+									<option value="25600K5120up">DSL - 25Mb x 5Mb</option>
+									<option value="50M-10M">DSL - 50Mb x 10Mb</option>
+									<option value="100M-15M">DSL - 100Mb x 15Mb</option>
+								</optgroup>
+								<option>&nbsp;</option>
+								<optgroup label="PON ONLY PROFILES">
+									<option value="15360K">PON - 15Mb</option>
+									<option value="25600K">PON - 25Mb</option>
+									<option value="51200K">PON - 50Mb</option>
+									<option value="50M-50M">PON - 50Mb Sym</option>
+									<option value="75M-30M">PON - 75Mb</option>
+									<option value="102400K40960up">PON - 100Mb</option>
+									<option value="100M-100M">PON - 100Mb Sym</option>
+									<option value="150M-40M">PON - 150Mb</option>
+									<option value="150M-150M">PON - 150Mb Sym</option>
+									<option value="300M-120M">PON - 300Mb</option>
+									<option value="300M-300M">PON - 300Mb Sym</option>
+									<option value="600M-400M">PON - 600Mb</option>
+									<option value="600M-600M">PON - 600Mb Sym</option>
+									<option value="1G-400M">PON - 1Gb</option>
+									<option value="1G-1G">PON - 1Gb Sym</option>
+								</optgroup>
+								<option>&nbsp;</option>
+								<optgroup label="IPTV PROFILES">
+									<option value="IPTV-No_data">No Data</option>
+									<option value="IPTV-5M-2M">IPTV W/ 5Mb</option>
+									<option value="IPTV-15M-2M">IPTV W/ 15Mb</option>
+									<option value="IPTV-25M-5M">IPTV W/ 25Mb</option>
+									<option value="IPTV-50M-20M">IPTV W/ 50Mb</option>
+									<option value="IPTV-50M-10M">IPTV W/ Bonded 50Mb</option>
+									<option value="IPTV-50M-50M">IPTV W/ 50Mb Sym</option>
+									<option value="IPTV-100M-15M">IPTV W/ 100Mb DSL</option>
+									<option value="IPTV-100M-40M">IPTV W/ 100Mb PON</option>
+									<option value="IPTV-100M-100M">IPTV W/ 100Mb Sym</option>
+									<option value="IPTV-150M-40M">IPTV W/ 150Mb</option>
+									<option value="IPTV-150M-150M">IPTV W/ 150Mb Sym</option>
+									<option value="IPTV-300M-120M">IPTV W/ 300Mb</option>
+									<option value="IPTV-300M-300M">IPTV W/ 300Mb Sym</option>
+									<option value="IPTV-500M-200M">IPTV W/ 500Mb</option>
+									<option value="IPTV-600M-400M">IPTV W/ 600Mb</option>
+									<option value="IPTV-600M-600M">IPTV W/ 600Mb Sym</option>
+									<option value="IPTV-1G-400M">IPTV W/ 1Gb</option>
+									<option value="IPTV-1G-1G">IPTV W/ 1Gb Sym</option>
+								</optgroup>
+								<option>&nbsp;</option>
+								<optgroup label="TDSTV+ PROFILES">
+									<option value="TDSTV+-25M-1.5M_filter">TDSTV+ W/ 25Mb x 1.5Mb</option>
+									<option value="TDSTV+-25M-5M_filter">TDSTV+ W/ 25Mb x 5Mb</option>
+									<option value="TDSTV+-25M-10M_filter">TDSTV+ W/ 25Mb x 10Mb</option>
+									<option value="TDSTV+-50M-10M_filter">TDSTV+ W/ 50Mb x 10Mb</option>
+									<option value="TDSTV+-50M-20M_filter">TDSTV+ W/ 50Mb x 20Mb</option>
+									<option value="TDSTV+-50M-50M_filter">TDSTV+ W/ 50Mb Sym</option>
+									<option value="TDSTV+-100M-15M_filter">TDSTV+ W/ 100Mb x 15M (DSL)</option>
+									<option value="TDSTV+-100M-100M_filter">TDSTV+ W/ 100Mb Sym</option>
+									<option value="TDSTV+-300M-300M_filter">TDSTV+ W/ 300Mb Sym</option>
+									<option value="TDSTV+-600M-400M_filter">TDSTV+ W/ 600Mb x 400Mb</option>
+									<option value="TDSTV+-600M-600M_filter">TDSTV+ W/ 600Mb Sym</option>
+									<option value="TDSTV+-1G-400M_filter">TDSTV+ W/ 1Gb x 400Mb</option>
+									<option value="TDSTV+-1G-1G_filter">TDSTV+ W/ 1Gb sym</option>
+								</optgroup>
+							</select>
+						</td>
+					</tr>
+					<tr><td colspan="2"><br></td></tr>
+					<tr>
+						<td><button type="button" onclick="checkSap()">Build Check Sap</button><button type="reset">Clear</button></td>
+						<td><p id="checkSapLink" hidden>Check Sap</p></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+    </body>
+    <footer>
+        <Script>
+			function checkSap(){
+				var account = document.getElementById("acctnumber").value; //Gets Metasolv Acct and aasigns to variable
+				var bizname = document.getElementById("bizname").value;	 //Gets Business Name/ Customer Last Name and aasigns to variable
+				var firstname = document.getElementById("firstname").value; //Gets Customer First Name and aasigns to variable
+				var custname;
+				
+				//combines the name to get the full customer name for the check sap link.
+				if(firstname == ""){
+					custname = bizname;
+				}
+				else{
+					custname = bizname + ",%20" + firstname;				
+				}
+				
+				var head11 = document.getElementById("hed11").value; //Gets Head Router Ip Address and aasigns to variable
+				var dslam = document.getElementById("dslam").value; //Gets DSLAM Clli Name and aasigns to variable
+				dslam = dslam + "-1001"; //adds -1001 to match the hed11 requirement
+				var lag = document.getElementById("Lag").value;	//Gets Lag and assigns to variable	
+				var ovlan = document.getElementById("ovlan").value; //Gets Outer VLAN and assigns to variable
+				var ivlan = document.getElementById("ivlan").value;	//Gets Inner VLAN and assigns to variable
+				var custint = lag + ":" + ovlan + "." + ivlan; //makes the full customer interface
+
+				var acl = document.getElementById("acl").value;	//Gets filter and assigns to variable	
+				var custspeed = document.getElementById("profile").value; //Gets Speed Profile and aasigns to variable	
+				
+				//This makes it so the ACL profile works if the customer is IPTV only with no data
+				if(custspeed == 	"IPTV-No_data"){
+					acl = custspeed;
+					custspeed = "IPTV";
+				}	
+
+				//MISC VARIABLES FOR THE FINAL CHECK SAP LINK!!!
+				var urlstart, ip, sap, reqspeed, grpInt, aclIn, addrhelp, fullURL, fullURL2;
+
+				//SO ALL THE FIELDS CAN NOW BE SEARCHED AND DATA CAN BE RETRIEVED
+				//BELOW STARTS BUILDING THE HYPERLINK NEEDED TO CHECK, BUILD, and DELETE a hed11 profiles
+				urlstart = "https://naprodservices.telecom.tds.local:444/SupportPortal2/web/RouterConfigCommand.jsf?";
+				ip = "ipAddress="+head11+"&";
+				sap = "sap="+custint+"&";
+				reqspeed = "upSpeed=0&dwnSpeed=0&reqSpeed=0&";
+				grpInt = "groupInterface="+dslam+"&";
+				aclIn = "aclIn="+acl+"&";
+				addrhelp = "primeAddrHelper=216.170.230.37&provId=1234567&provType=Dynamic&";	//this one is longer built as they are static
+				account = "custId=" + account+ "&";
+				custname = "custName="+custname+"&";
+				custspeed="pteProfile="+custspeed;
+				
+				fullURL = urlstart+ip+sap+reqspeed+grpInt;
+				fullURL2=aclIn+addrhelp+account+custname+custspeed;
+				
+				var url1 = "<a href=\"";
+				var url2 = "\" target=\"_blank\">Check Sap</a>";
+				
+				// <a href="URL HERE" target="_blank">CHECK SAP</a>
+				//CURRENTLY THIS LINE BELOW IS USED FOR DEBUGGING!!
+				//document.getElementById("saplink").value = fullURL+fullURL2;
+				document.getElementById("checkSapLink").style.display = "block"
+				document.getElementById("checkSapLink").innerHTML = url1 + fullURL + fullURL2 + url2;
+			}
+
+			function resetForm(){
+				document.getElementById("checkSap").innerHTML = "";
+			}
+		</script>
+    </footer>
+</html>

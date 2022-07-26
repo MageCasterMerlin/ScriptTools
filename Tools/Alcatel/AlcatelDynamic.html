@@ -1,0 +1,394 @@
+<html>
+    <head>
+        <style>
+           /*Style to make Tool Dark Mode*/
+			html{ 
+				background-color: #000000;
+				color: FFFFFF;
+				overflow: hidden;
+			}
+			h1{
+				text-decoration: underline;
+			}
+			button{
+				width: 120px; /*Make Buttons a static size 1*/
+				height: 32px; /*Make Buttons a static size 2*/
+			}
+			embed{
+				width:100%;
+				height:95%;
+			}
+			table{
+				width:90%;
+				font-size: 20px;
+			}
+			select{
+				width: 100%; 
+				font-size: 18px;
+			}
+			.outputTextarea {
+				width:100%;
+				resize: none;/*Hides Output 3*/
+				font-size: 12px; /*Makes Output text bigger*/;
+			}
+
+        </style>
+    </head>
+    <body>
+		<h1>Alcatel Dynamic Commands</h1>
+		<form id="1x1x1">
+			<table>
+			<col width="70%">
+			<col width="30%">
+				<tbody>
+					<tr>
+						<td colspan="2">
+							<input type="radio" id="install" value= "install" name="commandType" onclick="showHide()">
+							Install
+							<input type="radio" id="disconnect" value="disconnect" name="commandType" onclick="showHide()">
+							Disconnect
+							<input type="radio" id="commands" value="commands" name="commandType" onclick="showHide()">
+							Commands
+						</td>
+					</tr>
+					<tr><td colspan="2"><br></td></tr>
+					<tr>
+						<td>DSLAM Name:</td>
+						<td><input type="text" id="dslamName" ></input></td>
+					</tr>
+					<tr>
+						<td>Interface/Lag</label>
+						<td><input type="text" id="lag" ></td>
+					</tr>
+					<tr>
+						<td>Outer VLAN:</td>
+						<td><input type="text" id="ovlan" ></input></td>
+					</tr>
+					<tr>
+						<td>Inner VLAN:</td>
+						<td><input type="text" id="ivlan"></input></td>
+					</tr>
+					<tr id="metasolvRow">
+						<td>Metasolv Acct#:</td>
+						<td><input type="text" id="acctNumber" maxlength="8"></input></td>
+					</tr>
+					<tr id="speedRow" hidden>
+						<td>Speed Profile:</td>
+						<td>
+							<input type="radio" id="dslSpeedRadio" value="dslSpeedSelect" name="speedType" onclick="showHide()">
+							DSL No IPTV<br>
+							<input type="radio" id="ponSpeedRadio" value="ponSpeedSelect" name="speedType" onclick="showHide()">
+							PON No IPTV<br>
+							<input type="radio" id="iptvSpeedRadio" value="iptvSpeedSelect" name="speedType" onclick="showHide()">
+							IPTV<br>
+							<input type="radio" id="tdstvSpeedRadio" value="tdstvSpeedSelect" name="speedType" onclick="showHide()">
+							TDSTV+<br>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<select id="dslSpeedSelect" class ="speedSelect" hidden>
+								<option value="128K-TDSNet_SMTP_worm" hidden>Select a DSL Speed:</option>
+								<option value="128K-TDSNet_SMTP_worm">128K</option>
+								<option value="256K128up-TDSNet_SMTP_worm">256K</option>
+								<option value="384K-TDSNet_SMTP_worm">384K</option>
+								<option value="512k-DSL-TDSNet_SMTP_worm">512K</option>
+								<option value="768K384up-TDSNet_SMTP_worm">768K</option>
+								<option value="1024K-TDSNet_SMTP_worm">1M</option>
+								<option value="1536K-TDSNet_SMTP_worm">1.5M</option>
+								<option value="2048K-TDSNet_SMTP_worm">2M</option>
+								<option value="3072K-TDSNet_SMTP_worm">3M</option>
+								<option value="4096K-TDSNet_SMTP_worm">4M</option>
+								<option value="5120K512up-TDSNet_SMTP_worm">5M</option>
+								<option value="6144K-TDSNet_SMTP_worm">6M</option>
+								<option value="8192K-TDSNet_SMTP_worm">8M</option>
+								<option value="10240K-TDSNet_SMTP_worm">10M</option>
+								<option value="15360K1024up-TDSNet_SMTP_worm">15M</option>
+								<option value="25600K5120up-TDSNet_SMTP_worm">25M</option>
+								<option value="50M-10M-TDSNet_SMTP_worm">50M</option>
+								<option value="100M-15M-TDSNet_SMTP_worm">100M</option>
+							</select>
+							<select id="ponSpeedSelect" class ="speedSelect" hidden>
+								<option value="15360K-TDSNet_SMTP_worm" hidden>Select a PON Speed:</option>
+								<option value="15360K-TDSNet_SMTP_worm">15M</option>
+								<option value="25600K-TDSNet_SMTP_worm">25M</option>
+								<option value="51200K-TDSNet_SMTP_worm">50M</option>
+								<option value="50M-50M-TDSNet_SMTP_worm">50M SYM</option>
+								<option value="75M-30M-TDSNet_SMTP_worm">75M</option>
+								<option value="102400K40960up-TDSNet_SMTP_worm">100M</option>
+								<option value="100M-100M-TDSNet_SMTP_worm">100M SYM</option>
+								<option value="150M-40M-TDSNet_SMTP_worm">150M</option>
+								<option value="150M-150M-TDSNet_SMTP_worm">150M SYM</option>
+								<option value="300M-120M-TDSNet_SMTP_worm">300M</option>
+								<option value="300M-300M-TDSNet_SMTP_worm">300M SYM</option>
+								<option value="500M-200M-TDSNet_SMTP_worm">500M</option>
+								<option value="600M-400M-TDSNet_SMTP_worm">600M</option>
+								<option value="600M-600M-TDSNet_SMTP_worm">600M SYM</option>
+								<option value="1G-400M-TDSNet_SMTP_worm">1Gig</option>
+								<option value="1G-1G-TDSNet_SMTP_worm">1Gig SYM</option>
+								<option value="2G-2G-TDSNet_SMTP_worm">2Gig SYM</option>
+							</select>
+							<select id="iptvSpeedSelect"  class ="speedSelect" hidden>
+								<option value="IPTV-No_data" hidden>Select an IPTV Speed:</option>
+								<optgroup label="No Data">
+								<option value="IPTV-No_data">No Data</option>
+								</optgroup>
+								<optgroup label="DSL PROFILES">
+								<option value="IPTV-5M-2M-TDSNet_SMTP_worm">5M</option>
+								<option value="IPTV-15M-2M-TDSNet_SMTP_worm">15M</option>
+								<option value="IPTV-25M-5M-TDSNet_SMTP_worm">25M</option>
+								<option value="IPTV-50M-10M-TDSNet_SMTP_worm">50M</option>
+								<option value="IPTV-100M-15M-TDSNet_SMTP_worm">100M</option>
+								</optgroup>
+								<optgroup label="PON PROFILES">
+								<option value="IPTV-50M-20M-TDSNet_SMTP_worm">50M</option>
+								<option value="IPTV-50M-50M-TDSNet_SMTP_worm">50M SYM</option>
+								<option value="IPTV-100M-40M-TDSNet_SMTP_worm">100M</option>
+								<option value="IPTV-100M-100M-TDSNet_SMTP_worm">100M SYM</option>
+								<option value="IPTV-150M-40M-TDSNet_SMTP_worm">150M</option>
+								<option value="IPTV-150M-150M-TDSNet_SMTP_worm">150M SYM</option>
+								<option value="IPTV-300M-120M-TDSNet_SMTP_worm">300M</option>
+								<option value="IPTV-300M-300M-TDSNet_SMTP_worm">300M SYM</option>
+								<option value="IPTV-500M-200M-TDSNet_SMTP_worm">500M</option>
+								<option value="IPTV-600M-400M-TDSNet_SMTP_worm">600M</option>
+								<option value="IPTV-600M-600M-TDSNet_SMTP_worm">600M SYM</option>
+								<option value="IPTV-1G-400M-TDSNet_SMTP_worm">1Gig</option>
+								<option value="IPTV-1G-1G-TDSNet_SMTP_worm">1Gig SYM</option>
+								</optgroup>
+							</select>
+							<select id="tdstvSpeedSelect" class ="speedSelect" hidden>
+								<option value="TDSTV+-25M-1.5M_filter" hidden>Select an TDSTV+ Speed:</option>
+								<optgroup label="DSL PROFILES">
+								<option value="TDSTV+-25M-1.5M_filter">25M/1.5M</option>
+								<option value="TDSTV+-25M-5M_filter">25M/5M</option>
+								<option value="TDSTV+-25M-10M_filter">25M/10M</option>
+								<option value="TDSTV+-50M-10M_filter">50M/10M</option>
+								<option value="TDSTV+-75M-5M_filter">75M/5M</option>
+								<option value="TDSTV+-100M-15M_filter">100M/15M</option>
+								</optgroup>
+								<optgroup label="PON PROFILES">
+								<option value="TDSTV+-50M-20M_filter">50M</option>
+								<option value="TDSTV+-50M-50M_filter">50M SYM</option>
+								<option value="TDSTV+-100M-100M_filter">100M SYM</option>
+								<option value="TDSTV+-300M-300M_filter">300M SYM</option>
+								<option value="TDSTV+-600M-400M_filter">600M</option>
+								<option value="TDSTV+-600M-600M_filter">600M SYM</option>
+								<option value="TDSTV+-1G-400M_filter">1Gig</option>
+								<option value="TDSTV+-1G-1G_filter">1Gig SYM</option>
+								</optgroup>
+							</select>
+						</td>
+					</tr>					
+					<tr><td colspan="2"><br></td></tr>
+					<tr>
+						<td colspan="2">
+							<button type="button" onclick="commandGenerator()">Get Commands</button>
+							<button type="reset" onclick="clearAll()">Clear</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+		
+		<table>
+		<col width="70%">
+		<col width="30%">
+			<tbody>
+				<tr id="installOutputRow" hidden>
+					<td colspan="2">
+						Install:<br>
+						<textarea id="installOutput" class="outputTextarea" rows="16"></textarea>
+					</td>
+				</tr>
+				<tr id="disconnectOutputRow" hidden>
+					<td colspan="2">
+						Disconnect:<br>
+						<textarea id="disconnectOutput"  class="outputTextarea" rows="8"></textarea>
+					</td>
+				</tr>
+			</tbody>
+			<tbody id="commandOutputRows" hidden>
+				<tr>
+					<td>Get Profile with Full SAP: </td>
+					<td><input type="text" id="getWithFullSapOutput"></textarea></td>
+				</tr>
+				<tr>
+					<td>Get Profile with VLANs:</td>
+					<td><input type="text" id="getWithVlansOutput"></textarea></td>
+				</tr>
+				<tr>
+					<td>Get Profile with Metasolv:</td>
+					<td><input type="text" id="getWithMetasolvOutput"></textarea></td>
+				</tr>
+				<tr>
+					<td>Get IP in Profile</td>
+					<td><input type="text" id="getProfileIpOutput"></textarea></td>
+				</tr>
+				<tr>
+					<td>Clear IP in Profile</td>
+					<td><input type="text" id="clearProfileIpOutput"></textarea></td>
+				</tr>
+				<tr>
+					<td>Get All IP's for on DSLAM</td>
+					<td><input type="text" id="getAllIpsDslamOutput"></textarea></td>
+				</tr>
+			</tbody>
+		</table>
+    </body>
+    <footer>
+        <Script>
+			function showHide(){
+				var commandTypeRadio = document.getElementsByName("commandType");
+				var commandCheck;
+				var showMetasolv = document.getElementById("metasolvRow").style;
+				var showSpeed = document.getElementById("speedRow").style;
+				var showInstallOutput = document.getElementById("installOutputRow").style;
+				var showDisconnectOutput = document.getElementById("disconnectOutputRow").style;
+				var showCommndsOutput = document.getElementById("commandOutputRows").style;
+				var speedSelect = document.getElementsByClassName('speedSelect');
+				var speedTypeRadio = document.getElementsByName('speedType');
+				var firstSpeedCheck = true;
+				var speedCheck;
+				var i;
+				
+				for(i = 0; i < commandTypeRadio.length; i++) {			
+					if(commandTypeRadio[i].checked){
+						commandCheck = commandTypeRadio[i].value;
+					}
+				}
+				
+				for(i = 0; i < speedTypeRadio.length; i++) {			
+					speedCheck = speedTypeRadio[i].value;
+					document.getElementById(speedCheck).style.display = "none";
+					
+					if(speedTypeRadio[i].checked){
+						document.getElementById(speedCheck).style.display = "block";
+						firstSpeedCheck = false;
+					}
+				}
+				
+				if (firstSpeedCheck == true){
+					document.getElementById('dslSpeedRadio').click();
+				}
+				
+				switch (commandCheck){
+					case "install":
+							showMetasolv.display = "table-row";
+							showSpeed.display = "table-row";
+							showInstallOutput.display = "table-row";
+							showDisconnectOutput.display = "none";
+							showCommndsOutput.display = "none";
+						break;
+					case "disconnect":
+							for(i = 0; i < speedTypeRadio.length; i++) {			
+								speedCheck = speedTypeRadio[i].value;
+								document.getElementById(speedCheck).style.display = "none";
+							}
+							showMetasolv.display = "none";
+							showSpeed.display = "none";
+							showInstallOutput.display = "none";
+							showDisconnectOutput.display = "table-row";
+							showCommndsOutput.display = "none";
+						break;
+					case "commands":
+							for(i = 0; i < speedTypeRadio.length; i++) {			
+								speedCheck = speedTypeRadio[i].value;
+								document.getElementById(speedCheck).style.display = "none";
+							}
+							showMetasolv.display = "table-row";
+							showSpeed.display = "none";
+							showInstallOutput.display = "none";
+							showDisconnectOutput.display = "none";
+							showCommndsOutput.display = "table-row-group";
+						break;
+					default:
+						alert ("Select a Command Type");
+						break;
+				}
+			}
+			function commandGenerator(){
+				var commandTypeRadio = document.getElementsByName("commandType");
+				var commandCheck;
+				var speedSelect = document.getElementsByClassName('speedSelect');
+				var speedTypeRadio = document.getElementsByName('speedType');
+				var speedCheck;
+				var dslam = document.getElementById("dslamName").value; //Gets DSLAM Clli Name and assigns to variable
+				var lag = document.getElementById("lag").value;	//Gets Lag and assigns to variable					
+				var ovlan = document.getElementById("ovlan").value; //Gets Outer VLAN and assigns to variable			
+				var ivlan = document.getElementById("ivlan").value;	//Gets Inner VLAN and assigns to variable
+				var account = document.getElementById("acctNumber").value; //Gets Metasolv Acct and assigns to variable
+				var speed; //Gets Speed and assigns to variable
+				var text="";
+				var i;
+				
+				for(i = 0; i < commandTypeRadio.length; i++) {			
+					if(commandTypeRadio[i].checked){
+						commandCheck = commandTypeRadio[i].value;
+					}
+				}
+
+				
+				for(i = 0; i < speedTypeRadio.length; i++) {			
+					if(speedTypeRadio[i].checked){
+						speedCheck = speedTypeRadio[i].value;
+					}
+				}
+				
+				switch (commandCheck){
+					case "install":
+						speed = document.getElementById(speedCheck).value;
+						text += "exit all\n";
+						text += "configure service ies 1001\n";
+						text += "subscriber-interface dynamic-1001\n";
+						text += "group-interface " + dslam + "-1001\n";
+						text += "sap " + lag + ":" + ovlan + "." + ivlan + " create\n";
+						text += "description \"NSID " + account + "\"\n";
+						text += "sub-sla-mgmt\n";
+						text += "def-sub-id use-sap-id\n";
+						text += "def-sub-profile \"sub-profile-any\"\n";
+						text += "def-sla-profile \"" + speed + "\"\n";
+						text += "single-sub-parameters\n";
+						text += "profiled-traffic-only\n";
+						text += "exit\n";
+						text += "no shutdown\n";
+						text += "exit all\n";
+
+						document.getElementById("installOutput").value = text;
+						break;
+					case "disconnect":
+						text += "exit all\n";
+						text += "configure service ies 1001\n";
+						text += "subscriber-interface dynamic-1001\n";
+						text += "group-interface " + dslam + "-1001\n";
+						text += "sap " + lag + ":" + ovlan + "." + ivlan + " shutdown\n";
+						text += "no sap " + lag + ":" + ovlan + "." + ivlan + "\n";
+						text += "exit all\n";
+						
+						document.getElementById("disconnectOutput").value = text;
+						break;
+					case "commands":
+						document.getElementById("getWithFullSapOutput").value = "admin display | match context all " + lag + ":" + ovlan + "." + ivlan;
+						document.getElementById("getWithVlansOutput").value = "admin display | match context all " + ovlan + "." + ivlan;
+						document.getElementById("getWithMetasolvOutput").value = "admin display | match context all " + account;
+						document.getElementById("getProfileIpOutput").value = "show service id 1001 dhcp lease-state | match " + lag + ":" + ovlan + "." + ivlan;
+						document.getElementById("clearProfileIpOutput").value = "clear service id 1001 dhcp lease-state sap " + lag + ":" + ovlan + "." + ivlan;
+						document.getElementById("getAllIpsDslamOutput").value = "show service id 1001 dhcp lease-state interface \" " + dslam + "-1001\"";
+						break;
+					default:
+						alert ("Select a Command Type");
+						break;
+				}		
+			}
+			function clearAll(){
+				var speedSelect = document.getElementsByClassName('speedSelect');
+				
+				for(i = 0; i < speedSelect.length; i++) {
+					speedSelect[i].style.display = "none";
+				}
+				
+				document.getElementById("speedRow").style.display = "none";
+			}
+
+		</script>
+    </footer>
+</html>
