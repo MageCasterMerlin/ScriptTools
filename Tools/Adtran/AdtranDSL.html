@@ -637,18 +637,33 @@
 				var shelf = document.getElementById("shelfInput").value;
 				var slot = document.getElementById("slotInput").value;
 				var port = document.getElementById("portInput").value;
+				var speed;
+				switch (productSelect) {
+					case "dslProduct":
+						speed = document.getElementById("dslSpeedSelect")
+						break;
+					case "iptvProduct":
+						speed = document.getElementById("iptvProductSelect")
+						break;
+					case "dslIptvProduct":
+						speed = document.getElementById("dslIptvSelect")
+						break;
+
+					default:		
+					alert("bad")
+				}
 
 				var portBounce = document.getElementById("portBounceOutput");
 				var speedChange = document.getElementById("speedChangeOutput");
 				var clearMac = document.getElementById("clearMacOutput");
 				
-				portBounce += "conf t"
-				portBounce += "\ninterface vdsl" + shelf + "\/" + slot + "\/" + port;
-				portBounce += "\nshutdown"
-				portBounce += "\nno shutdown"
-				portBounce += "\nexit"
-				portBounce += "\nexit"
-				
+				portBounce.value += "conf t"
+				portBounce.value += "\ninterface vdsl " + shelf + "\/" + slot + "\/" + port;
+				portBounce.value += "\nshutdown"
+				portBounce.value += "\nno shutdown"
+				portBounce.value += "\nexit"
+				portBounce.value += "\nexit"
+
 				clearMac.value = "clear mac address-table interface vcl" + shelf + "\/" + slot + "\/" + port + "vpi 0 vci 35 authenticated";
 			}
 
