@@ -127,11 +127,11 @@
 					<td>
 						<select id="dslSpeedSelect" type="text">
 							<option hidden>Select a Speed</option>
-							<option>None</option>
-							<option>1 Mbps</option>
-							<option>5 Mbps</option>
-							<option>15 Mbps</option>
-							<option>25 Mbps</option>
+							<option value="128Kbps">None</option>
+							<option value="1Mbps">1 Mbps</option>
+							<option value="5Mbps">5 Mbps</option>
+							<option value="15Mbps">15 Mbps</option>
+							<option value="25Mbps">25 Mbps</option>
 						</select>
 					</td>
 				</tr>
@@ -142,11 +142,11 @@
 					<td>
 						<select id="iptvProductSelect">
 							<option hidden>Select a Product</option>
-							<option>1HD 3SD</option>
-							<option>2HD 2SD</option>
-							<option>3HD 2SD</option>
-							<option>4HD 0SD</option>
-							<option>4HD 2SD</option>
+							<option value="1HD3SD0Mbps">1HD 3SD</option>
+							<option value="2HD2SD0Mbps">2HD 2SD</option>
+							<option value="3HD2SD0Mbps">3HD 2SD</option>
+							<option value="4HD0SD0Mbps">4HD 0SD</option>
+							<option value="4HD2SD0Mbps">4HD 2SD</option>
 						</select>
 					</td>
 				</tr>
@@ -158,21 +158,21 @@
 						<select id="dslIptvSelect" type="text">
 							<option hidden>Select a Speed and Product</option>
 							<optgroup label="5 Mbps">
-								<option>1HD 3SD</option>
-								<option>2HD 2SD</option>
-								<option>3HD 2SD</option>
+								<option value="1HD3SD5Mbps">1HD 3SD</option>
+								<option value="2HD2SD5Mbps">2HD 2SD</option>
+								<option value="3HD2SD5Mbps">3HD 2SD</option>
 							</optgroup>
 							<optgroup label="15 Mbps">
-								<option>2HD 2SD</option>
-								<option>3HD 2SD</option>
-								<option>4HD 0SD</option>
-								<option>4HD 2SD</option>
+								<option value="2HD2SD15Mbps">2HD 2SD</option>
+								<option value="3HD2SD15Mbps">3HD 2SD</option>
+								<option value="4HD0SD15Mbps">4HD 0SD</option>
+								<option value="4HD2SD15Mbps">4HD 2SD</option>
 							</optgroup>
 							<optgroup label="25 Mbps">
-								<option>2HD 2SD</option>
-								<option>3HD 2SD</option>
-								<option>4HD 0SD</option>
-								<option>4HD 2SD</option>
+								<option value="2HD2SD25Mbps">2HD 2SD</option>
+								<option value="3HD2SD25Mbps">3HD 2SD</option>
+								<option value="4HD0SD25Mbps">4HD 0SD</option>
+								<option value="4HD2SD25Mbps">4HD 2SD</option>
 							</optgroup>
 						</select>
 					</td>
@@ -640,17 +640,21 @@
 				var speed;
 				switch (productSelect) {
 					case "dslProduct":
-						speed = document.getElementById("dslSpeedSelect")
+						speed = document.getElementById("dslSpeedSelect").value
 						break;
 					case "iptvProduct":
-						speed = document.getElementById("iptvProductSelect")
+						speed = document.getElementById("iptvProductSelect").value
 						break;
 					case "dslIptvProduct":
-						speed = document.getElementById("dslIptvSelect")
+						speed = document.getElementById("dslIptvSelect").value
 						break;
 
 					default:		
 					alert("bad")
+				}
+
+				switch (speed){
+
 				}
 
 				var portBounce = document.getElementById("portBounceOutput");
