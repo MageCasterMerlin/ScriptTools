@@ -40,6 +40,8 @@
 			textarea{
 				width: 450px;
 				resize: none;
+				overflow: auto;
+				font-size: 12px;
 			}
 			button{
 				width: 120px;
@@ -82,7 +84,7 @@
 						<label>DSLAM</label>
 					</td>
 					<td>
-						<input id="dslamName" type="number">
+						<input id="dslamName">
 					</td>
 				</tr>
 				<tr>
@@ -90,7 +92,7 @@
 						<label>Interface/Lag</label>
 					</td>
 					<td>
-						<input id="lag" class="shortInput" type="number">
+						<input id="lag" class="shortInput">
 					</td>
 				</tr>
 				<tr>
@@ -114,7 +116,7 @@
 						<label>MSS Acct#</label>
 					</td>
 					<td>
-						<input id="acctNumber" class="shortInput" type="number">
+						<input id="acctNumber" type="number">
 					</td>
 				</tr>
 				<tr>
@@ -255,7 +257,7 @@
 					<tr id="profileFullSapLabelRow" hidden>
 						<td colspan="2">
 							<label class="commandLabel">Verify Profile: Full Sap</label>
-							<button class="copyButton" onClick="getScripts(profileFullSapOutput)">Copy</button>
+							<button class="copyButton" onClick="copyScripts('profileFullSapOutput')">Copy</button>
 						</td>
 					</tr>
 					<tr id="profileFullSapOutputRow" hidden>
@@ -266,7 +268,7 @@
 					<tr id="profileNoLagLabelRow" hidden>
 						<td colspan="2">
 							<label class="commandLabel">Verify Profile: No Lag</label>
-							<button class="copyButton" onClick="getScripts(profileNoLagOutput)">Copy</button>
+							<button class="copyButton" onClick="copyScripts('profileNoLagOutput')">Copy</button>
 						</td>
 					</tr>
 					<tr id="profileNoLagOutputRow" hidden>
@@ -277,7 +279,7 @@
 					<tr id="profileMetasolvLabelRow" hidden>
 						<td colspan="2">
 							<label class="commandLabel">Verify Profile: Metasolv</label>
-							<button class="copyButton" onClick="getScripts(profileMetasolvOutput)">Copy</button>
+							<button class="copyButton" onClick="copyScripts('profileMetasolvOutput')">Copy</button>
 						</td>
 					</tr>
 					<tr id="profileMetasolvOutputRow" hidden>
@@ -288,7 +290,7 @@
 					<tr id="getIpLabelRow" hidden>
 						<td colspan="2">
 							<label class="commandLabel">Get IP in Profile</label>
-							<button class="copyButton" onClick="getScripts(getIpOutput)">Copy</button>
+							<button class="copyButton" onClick="copyScripts('getIpOutput')">Copy</button>
 						</td>
 					</tr>
 					<tr id="getIpOutputRow" hidden>
@@ -299,7 +301,7 @@
 					<tr id="clearIpLabelRow" hidden>
 						<td colspan="2">
 							<label class="commandLabel">Clear IP in Profile</label>
-							<button class="copyButton" onClick="getScripts(clearIpOutput)">Copy</button>
+							<button class="copyButton" onClick="copyScripts('clearIpOutput')">Copy</button>
 						</td>
 					</tr>
 					<tr id="clearIpOutputRow" hidden>
@@ -310,7 +312,7 @@
 					<tr id="getAllIpLabelRow" hidden>
 						<td colspan="2">
 							<label class="commandLabel">Get All IP in DSLAM</label>
-							<button class="copyButton" onClick="getScripts(getAllIpOutput)">Copy</button>
+							<button class="copyButton" onClick="copyScripts('getAllIpOutput')">Copy</button>
 						</td>
 					</tr>
 					<tr id="getAllIpOutputRow" hidden>
@@ -325,12 +327,12 @@
 					<tr id="installCommandLabelRow" hidden>
 						<td colspan="2">
 							<label class="commandLabel">Install</label>
-							<button class="copyButton" onClick="getScripts(installOutput)">Copy</button>
+							<button class="copyButton" onClick="copyScripts('installOutput')">Copy</button>
 						</td>
 					</tr>
 					<tr id="installCommandRow" hidden>
 						<td colspan="2">
-							<textarea id="installOutput" rows="8"></textarea><br><br>
+							<textarea id="installOutput" rows="16"></textarea><br><br>
 						</td>
 					</tr>
 				</div>
@@ -340,7 +342,7 @@
 					<tr id="discoCommandLabelRow" hidden>
 						<td colspan="2">
 							<label class="commandLabel">Disconnect</label>
-							<button class="copyButton" onClick="getScripts(discoOutput)">Copy</button>
+							<button class="copyButton" onClick="copyScripts('discoOutput')">Copy</button>
 						</td>
 					</tr>
 					<tr id="discoCommandRow" hidden>
@@ -374,42 +376,18 @@
 			var discoCommandRow = document.getElementById("discoCommandRow");
 			
 			function showSpeed(){
-				var speedsRow = document.getElementById("speedRow").style.display = "table-row";
+				var speedsRow = document.getElementById("speedRow").style.display 
 				var productSelect = document.getElementById("productSelect").value;
 				var dslSpeed = document.getElementById("dslSpeedSelect");
 				var ponSpeed = document.getElementById("ponSpeedSelect");
 				var iptvSpeed = document.getElementById("iptvSpeedSelect");
 				var tdstvSpeed = document.getElementById("tdstvSpeedSelect");
 				
-				
-				switch (productSelect) {
-					case "dslSpeedSelect":
-						dslSpeed.style.display = "table-row";
-						ponSpeed.style.display = "none";
-						iptvSpeed.style.display = "none";
-						tdstvSpeed.style.display = "none";
-						break;
-					case "ponSpeedSelect":
-						dslSpeed.style.display = "none";
-						ponSpeed.style.display = "table-row";
-						iptvSpeed.style.display = "none";
-						tdstvSpeed.style.display = "none";
-						break;
-					case "iptvSpeedSelect":
-						dslSpeed.style.display = "none";
-						ponSpeed.style.display = "none";
-						iptvSpeed.style.display = "table-row";
-						tdstvSpeed.style.display = "none";
-						break;
-					case "tdstvSpeedSelect":
-						dslSpeed.style.display = "none";
-						ponSpeed.style.display = "none";
-						iptvSpeed.style.display = "none";
-						tdstvSpeed.style.display = "table-row";
-						break;
-					default:		
-					alert("bad")
-				}
+				dslSpeed.style.display = "none";
+				ponSpeed.style.display = "none";
+				iptvSpeed.style.display = "none";
+				tdstvSpeed.style.display = "none";
+				document.getElementById(productSelect).style.display = "table-row";
 			}
 			function getScriptsVerify(){
 				//Shows verify command rowns
@@ -479,7 +457,7 @@
 				var speed = document.getElementById(productSelect).value;;
 				var text;
 				
-				text += "exit all\n";
+				text = "exit all\n";
 				text += "configure service ies 1001\n";
 				text += "subscriber-interface dynamic-1001\n";
 				text += "group-interface " + dslam + "-1001\n";
@@ -527,7 +505,7 @@
 				var ivlan = document.getElementById("ivlan").value;	//Gets Inner VLAN and assigns to variable
 				var text;
 
-				text += "exit all\n";
+				text = "exit all\n";
 				text += "configure service ies 1001\n";
 				text += "subscriber-interface dynamic-1001\n";
 				text += "group-interface " + dslam + "-1001\n";
@@ -537,6 +515,12 @@
 				
 				document.getElementById("discoOutput").value = text;
 			}
+			function copyScripts(outputID){
+				
+				var output = document.getElementById(outputID);
+				output.select(); //selects the output textarea so the next command knows what to copy 
+				document.execCommand("copy"); //copy all info in the selected element to clipboard
+				}
 		</script>
 	</body>
 </html>
