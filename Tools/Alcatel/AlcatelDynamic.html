@@ -170,9 +170,11 @@
 							<option value="100M-100M-TDSNet_SMTP_worm">100M SYM</option>
 							<option value="150M-40M-TDSNet_SMTP_worm">150M</option>
 							<option value="150M-150M-TDSNet_SMTP_worm">150M SYM</option>
+							<option value="250M-50M-TDSNet_SMTP_worm">250M</option>
 							<option value="300M-120M-TDSNet_SMTP_worm">300M</option>
 							<option value="300M-300M-TDSNet_SMTP_worm">300M SYM</option>
-							<option value="500M-200M-TDSNet_SMTP_worm">500M</option>
+							<option value="500M-100M-TDSNet_SMTP_worm">500M/100M</option>
+							<option value="500M-200M-TDSNet_SMTP_worm">500M/200M</option>
 							<option value="600M-400M-TDSNet_SMTP_worm">600M</option>
 							<option value="600M-600M-TDSNet_SMTP_worm">600M SYM</option>
 							<option value="1G-400M-TDSNet_SMTP_worm">1Gig</option>
@@ -198,9 +200,11 @@
 							<option value="IPTV-100M-100M-TDSNet_SMTP_worm">100M SYM</option>
 							<option value="IPTV-150M-40M-TDSNet_SMTP_worm">150M</option>
 							<option value="IPTV-150M-150M-TDSNet_SMTP_worm">150M SYM</option>
+							<option value="IPTV-250M-50M-TDSNet_SMTP_worm">250M</option>
 							<option value="IPTV-300M-120M-TDSNet_SMTP_worm">300M</option>
 							<option value="IPTV-300M-300M-TDSNet_SMTP_worm">300M SYM</option>
-							<option value="IPTV-500M-200M-TDSNet_SMTP_worm">500M</option>
+							<option value="IPTV-500M-100M-TDSNet_SMTP_worm">500M/100M</option>
+							<option value="IPTV-500M-200M-TDSNet_SMTP_worm">500M/200M</option>
 							<option value="IPTV-600M-400M-TDSNet_SMTP_worm">600M</option>
 							<option value="IPTV-600M-600M-TDSNet_SMTP_worm">600M SYM</option>
 							<option value="IPTV-1G-400M-TDSNet_SMTP_worm">1Gig</option>
@@ -221,7 +225,9 @@
 							<option value="TDSTV+-50M-20M_filter">50M</option>
 							<option value="TDSTV+-50M-50M_filter">50M SYM</option>
 							<option value="TDSTV+-100M-100M_filter">100M SYM</option>
+							<option value="TDSTV+-250M-50M-TDSNet_SMTP_worm">250M</option>
 							<option value="TDSTV+-300M-300M_filter">300M SYM</option>
+							<option value="TDSTV+-500M-100M-TDSNet_SMTP_worm">500M</option>
 							<option value="TDSTV+-600M-400M_filter">600M</option>
 							<option value="TDSTV+-600M-600M_filter">600M SYM</option>
 							<option value="TDSTV+-1G-400M_filter">1Gig</option>
@@ -376,7 +382,7 @@
 			var discoCommandRow = document.getElementById("discoCommandRow");
 			
 			function showSpeed(){
-				var speedsRow = document.getElementById("speedRow").style.display 
+				var speedsRow = document.getElementById("speedRow").style.display = "table-row";
 				var productSelect = document.getElementById("productSelect").value;
 				var dslSpeed = document.getElementById("dslSpeedSelect");
 				var ponSpeed = document.getElementById("ponSpeedSelect");
