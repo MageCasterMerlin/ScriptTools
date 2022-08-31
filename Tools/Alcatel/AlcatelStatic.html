@@ -1,233 +1,360 @@
 <html>
-    <head>
-        <style>
-           /*Style to make Tool Dark Mode*/
-			html{ 
+	<head>
+		<style>
+			html{
 				background-color: #000000;
 				color: FFFFFF;
-				overflow: hidden;
+			}
+			body{
+				margin: 0;
+				padding: 0;
 			}
 			h1{
-				text-decoration: underline;
+				font-size: 40px;
+				margin-left: 24px;
+				font-weight: bold;
 			}
-			button{
-				width: 120px; /*Make Buttons a static size 1*/
-				height: 32px; /*Make Buttons a static size 2*/
-			}
-			embed{
-				width:100%;
-				height:95%;
+			h4{
+				font-size: 20px;
+				margin-top: 36px;
+				margin-left: 24px;
+				font-weight: normal;
 			}
 			table{
-				width:90%;
+				margin-left: 24px;
+			}
+			label{
+				display: inline-block;
+				width: 150px;
 				font-size: 20px;
 			}
-			select{
-				width: 100%; 
-				font-size: 18px;
-			}
-			.ipInput{
-				width: 18%;
-				overflow-wrap: break-word
-			}
-			.outputTextarea {
-				width:100%;
-				resize: none;/*Hides Output 3*/
-				font-size: 12px; /*Makes Output text bigger*/;
-				
+			input{
+				width: 180px;
+				height: 22px;
 			}
 
-        </style>
-    </head>
-    <body>
-		<h1>Alcatel Static Commands</h1>
-		<form id="1x1x1">
+			select{
+				width: 180px;
+				height: 22px;
+			}
+			textarea{
+				width: 450px;
+				resize: none;
+				overflow: auto;
+				font-size: 12px;
+			}
+			button{
+				width: 120px;
+				height: 32px;
+			}
+			.radioInput{
+				width: 12px;
+				height: 12px;
+			}
+			.ipInput{
+				width: 36px;
+				overflow-wrap: break-word
+			}
+			.shortInput{
+				width: 60px;
+				height: 22px;
+			}
+			.commandLabel {
+				font-size: 20px;
+				width: 385px;
+				display: inline-block;
+			}
+			.buttonRow{
+				display:table-row;
+				width: 147px;
+				height: 36px;
+				color: #ffffff;
+				background-color: #333333;
+			}
+			.copyButton{
+				width: 60px;
+				height: 23px;
+				float: right;
+			}
+			#generateButton{
+				margin-left: 24px;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Alcatel Scripter </h1>
+		<form>
 			<table>
-			<col width="70%">
-			<col width="30%">
-				<tbody>
-					<tr>
-						<td colspan="2">
-							<input type="radio" id="installRadio" value= "install" name="commandType" onclick="showHide()">Install
-							<input type="radio" id="disconnectRadio" value="disconnect" name="commandType" onclick="showHide()">Disconnect
-						</td>
-					</tr>
-					<tr><td colspan="2"><br></td></tr>
-					<tr>
-						<td>Router Type:</td>
-						<td>
-							<input type="radio" id="hed11Radio" value="hed11" name="routerType">hed11
-							<input type="radio" id="hed12Radio" value="hed12" name="routerType">hed12
-						</td>
-					</tr>
-					<tr>
-						<td>Interface/Lag</label>
-						<td><input type="text" id="lag" ></td>
-					</tr>
-					<tr>
-						<td>Outer VLAN:</td>
-						<td><input type="text" id="ovlan" ></input></td>
-					</tr>
-					<tr>
-						<td>Inner VLAN:</td>
-						<td><input type="text" id="ivlan"></input></td>
-					</tr>
-					<tr>
-						<td>WAN Network:</td>
-						<td>
-							<input type="text" id="wanIp1" class="ipInput" maxlength="3"></input> .
-							<input type="text" id="wanIp2" class="ipInput" maxlength="3"></input> .
-							<input type="text" id="wanIp3" class="ipInput" maxlength="3"></input> .
-							<input type="text" id="wanIp4" class="ipInput" maxlength="3"></input>
-						</td>
-					</tr>
-					<tr>
-						<td>(LAN) Ethernet Network:</td>
-						<td>
-							<input type="text" id="lanIp1" class="ipInput" maxlength="3"></input> .
-							<input type="text" id="lanIp2" class="ipInput" maxlength="3"></input> .
-							<input type="text" id="lanIp3" class="ipInput" maxlength="3"></input> .
-							<input type="text" id="lanIp4" class="ipInput" maxlength="3"></input>
-						</td>
-					</tr>
-					<tr>
-						<td>LAN CIDR/:</td>
-						<td><input type="text" id="lanCidr" maxlength="2"></input></td>
-					</tr>
-					<tr id="metasolvRow" hidden>
-						<td>Metasolv Acct#:</td>
-						<td><input type="text" id="acctNumber" maxlength="8"></input></td>
-					</tr>
-					<tr id="customerRow" hidden>
-						<td>Customer Name	:</td>
-						<td><input type="text" id="customerName"></input></td>
-					</tr>
-					<tr  id="speedRow" hidden>
-						<td>Speed</td>
-						<td>
-							<select id="speedSelect">
-								<optgroup label="DSL PROFILES">
-								<option value="128K" hidden>Select a Speed:</option>
-								<option value="128K">128K</option>
-								<option value="256K">256K</option>
-								<option value="384K">384K</option>
-								<option value="512K">512K</option>
-								<option value="768K">768K</option>
-								<option value="1M">1M</option>
-								<option value="1.5M">1.5M</option>
-								<option value="2M">2M</option>
-								<option value="3M">3M</option>
-								<option value="4M">4M</option>
-								<option value="5M">5M</option>
-								<option value="6M">6M</option>
-								<option value="8M">8M</option>
-								<option value="10M">10M</option>
-								<option value="15MDSL">15M</option>
-								<option value="25MDSL">25M</option>
-								<option value="25MDSLBond">25M Bonded</option>
-								<option value="50MDSL">50M</option>
-								</optgroup>
-								<optgroup label="PON PROFILES">
-								<option value="15MPON" hidden>Select a PON Speed:</option>
-								<option value="15MPON">15M</option>
-								<option value="25MPON">25M</option>
-								<option value="50MPON">50M</option>
-								<option value="50MPONSym">50M SYM</option>
-								<option value="75MPON">75M</option>
-								<option value="100MPON">100M</option>
-								<option value="100MPONSym">100M SYM</option>
-								<option value="150MPONSym">150M SYM</option>
-								<option value="300MPON">300M</option>
-								<option value="300MPONSym">300M SYM</option>
-								<option value="500MPON">500M</option>
-								<option value="1GIGPON">1Gig</option>
-								</optgroup>
-							</select>
-						</td>
-					</tr>
-					<tr id="filterRow" hidden>
-						<td>Filter</td>
-						<td>
-							<select id="filterSelect">
-								<option value=3 hidden>Select a Filter:</option>
-								<option value=1>Seasonal_Hold</option>
-								<option value=2>No_SMTP</option>
-								<option value=3>No_worm (default)</option>
-								<option value=4>TDSNet_SMTP</option>
-								<option value=5>TDSNet_SMTP_worm</option>
-							</select>
-						</td>
-					</tr>	
-					<tr><td colspan="2"><br></td></tr>
-					<tr>
-						<td colspan="2">
-							<button type="button" onclick="commandGenerator()">Get Commands</button>
-							<button type="reset" onclick="clearAll()">Clear</button>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<table>
-				<col width="70%">
-				<col width="30%">
-				<tbody>
-					<tr id="installOutputRow" hidden>
-						<td colspan="2">
-							Install:<br>
-							<textarea id="installOutput" class="outputTextarea" rows="23"></textarea>
-						</td>
-					</tr>
-					<tr id="disconnectOutputRow" hidden>
-						<td colspan="2">
-							Disconnect:<br>
-							<textarea id="disconnectOutput"  class="outputTextarea" rows="19"></textarea>
-						</td>
-					</tr>
-				</tbody>
+			<col width="28%">
+			<col width="72%">
+				<tr>
+					<td><label>Router Type:</label></td>
+					<td>
+						<input type="radio" id="hed11Radio" class="radioInput" value="hed11" name="routerType">hed11
+						<input type="radio" id="hed12Radio" class="radioInput" value="hed12" name="routerType">hed12
+					</td>
+				</tr>
+				<tr>
+					<td><label>Interface/Lag:</label></td>
+					<td><input type="text" id="lag" class="shortInput"></td>
+				</tr>
+				<tr>
+					<td><label>OVLAN:</label></td>
+					<td><input type="text" id="ovlan" class="shortInput"></input></td>
+				</tr>
+				<tr>
+					<td><label>IVLAN:</label></td>
+					<td><input type="text" id="ivlan" class="shortInput"></input></td>
+				</tr>
+				<tr>
+					<td><label>WAN Network:</label></td>
+					<td>
+						<input type="text" id="wanIp1" class="ipInput" maxlength="3"></input> .
+						<input type="text" id="wanIp2" class="ipInput" maxlength="3"></input> .
+						<input type="text" id="wanIp3" class="ipInput" maxlength="3"></input> .
+						<input type="text" id="wanIp4" class="ipInput" maxlength="3"></input>
+					</td>
+				</tr>
+				<tr>
+					<td><label>LAN Network:</label></td>
+					<td>
+						<input type="text" id="lanIp1" class="ipInput" maxlength="3"></input> .
+						<input type="text" id="lanIp2" class="ipInput" maxlength="3"></input> .
+						<input type="text" id="lanIp3" class="ipInput" maxlength="3"></input> .
+						<input type="text" id="lanIp4" class="ipInput" maxlength="3"></input>
+					</td>
+				</tr>
+				<tr>
+					<td><label>LAN CIDR/:</label></td>
+					<td><input type="text" id="lanCidr" maxlength="2" class="shortInput"></input></td>
+				</tr>
+				<tr id="accountRow">
+					<td><label>Metasolv Acct:</label></td>
+					<td><input type="text" id="acctNumber"></input></td>
+				</tr>
+				<tr id="customerRow">
+					<td><label>Customer Name:</label></td>
+					<td><input type="text" id="customerName"></input></td>
+				</tr>
+				<tr  id="speedRow">
+					<td><label>Speed:</label></td>
+					<td>
+						<select id="speedSelect">
+							<optgroup label="DSL PROFILES">
+							<option value="128K" hidden>Select a Speed:</option>
+							<option value="128K">128K</option>
+							<option value="256K">256K</option>
+							<option value="384K">384K</option>
+							<option value="512K">512K</option>
+							<option value="768K">768K</option>
+							<option value="1M">1M</option>
+							<option value="1.5M">1.5M</option>
+							<option value="2M">2M</option>
+							<option value="3M">3M</option>
+							<option value="4M">4M</option>
+							<option value="5M">5M</option>
+							<option value="6M">6M</option>
+							<option value="8M">8M</option>
+							<option value="10M">10M</option>
+							<option value="15MDSL">15M</option>
+							<option value="25MDSL">25M</option>
+							<option value="25MDSLBond">25M Bonded</option>
+							<option value="50MDSL">50M</option>
+							</optgroup>
+							<optgroup label="PON PROFILES">
+							<option value="15MPON" hidden>Select a PON Speed:</option>
+							<option value="15MPON">15M</option>
+							<option value="25MPON">25M</option>
+							<option value="50MPON">50M</option>
+							<option value="50MPONSym">50M SYM</option>
+							<option value="75MPON">75M</option>
+							<option value="100MPON">100M</option>
+							<option value="100MPONSym">100M SYM</option>
+							<option value="150MPONSym">150M SYM</option>
+							<option value="300MPON">300M</option>
+							<option value="300MPONSym">300M SYM</option>
+							<option value="500MPON">500M</option>
+							<option value="1GIGPON">1Gig</option>
+							</optgroup>
+						</select>
+					</td>
+				</tr>
+				<tr id="filterRow">
+					<td><label>Filter:</label></td>
+					<td>
+						<select id="filterSelect">
+							<option value=3 hidden>Select a Filter:</option>
+							<option value=1>Seasonal_Hold</option>
+							<option value=2>No_SMTP</option>
+							<option value=3>No_worm (default)</option>
+							<option value=4>TDSNet_SMTP</option>
+							<option value=5>TDSNet_SMTP_worm</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<br><button type="reset">Clear</button>
+					</td>
+				</tr>
 			</table>
 		</form>
-    </body>
-    <footer>
-        <Script>
-			function showHide(){
-				var commandTypeRadio = document.getElementsByName("commandType");
-				var commandCheck;
-				var showMetasolv = document.getElementById("metasolvRow").style;
-				var showCustomer = document.getElementById("customerRow").style;
-				var showSpeed = document.getElementById("speedRow").style;
-				var showFilter = document.getElementById("filterRow").style;
-				var showInstallOutput = document.getElementById("installOutputRow").style;
-				var showDisconnectOutput = document.getElementById("disconnectOutputRow").style;
-				var i;
+			<table>
+				<tr>
+					<td>
+						<button type="button"  class="buttonRow" onClick="getScriptsVerify()">Verify</button>
+					</td>
+					<td>
+						<button type="button"  class="buttonRow" onClick="getScriptsInstall()">Install</button>
+					</td>
+					<td>
+						<button type="button"  class="buttonRow" onClick="getScriptsDisco()">Disco</button>
+					</td>
+				</tr>
+			</table>
+			<br>
+			<table>
+				<!--Verify Commands-->
+				<div>
+					<tr id="profileFullSapLabelRow" hidden>
+						<td colspan="2">
+							<label class="commandLabel">Verify Profile: Full Sap</label>
+							<button class="copyButton" onClick="copyScripts('profileFullSapOutput')">Copy</button>
+						</td>
+					</tr>
+					<tr id="profileFullSapOutputRow" hidden>
+						<td colspan="2">
+							<textarea id="profileFullSapOutput" rows="1"></textarea><br><br>
+						</td>
+					</tr>
+					<tr id="profileNoLagLabelRow" hidden>
+						<td colspan="2">
+							<label class="commandLabel">Verify Profile: No Lag</label>
+							<button class="copyButton" onClick="copyScripts('profileNoLagOutput')">Copy</button>
+						</td>
+					</tr>
+					<tr id="profileNoLagOutputRow" hidden>
+						<td colspan="2">
+							<textarea id="profileNoLagOutput" rows="1"></textarea><br><br>
+						</td>
+					</tr>
+					<tr id="profileMetasolvLabelRow" hidden>
+						<td colspan="2">
+							<label class="commandLabel">Verify Profile: Metasolv</label>
+							<button class="copyButton" onClick="copyScripts('profileMetasolvOutput')">Copy</button>
+						</td>
+					</tr>
+					<tr id="profileMetasolvOutputRow" hidden>
+						<td colspan="2">
+							<textarea id="profileMetasolvOutput" rows="1"></textarea><br><br>
+						</td>
+					</tr>
+					<tr id="getAllIpLabelRow" hidden>
+						<td colspan="2">
+							<label class="commandLabel">Get All IP in DSLAM</label>
+							<button class="copyButton" onClick="copyScripts('getAllIpOutput')">Copy</button>
+						</td>
+					</tr>
+					<tr id="getAllIpOutputRow" hidden>
+						<td colspan="2">
+							<textarea id="getAllIpOutput" rows="1"></textarea><br><br>
+						</td>
+					</tr>
+				</div>
 				
-				for(i = 0; i < commandTypeRadio.length; i++) {			
-					if(commandTypeRadio[i].checked){
-						commandCheck = commandTypeRadio[i].value;
-					}
-				}
+				<!--Instal Commands-->
+				<div>
+					<tr id="installCommandLabelRow" hidden>
+						<td colspan="2">
+							<label class="commandLabel">Install</label>
+							<button class="copyButton" onClick="copyScripts('installOutput')">Copy</button>
+						</td>
+					</tr>
+					<tr id="installCommandRow" hidden>
+						<td colspan="2">
+							<textarea id="installOutput" rows="16"></textarea><br><br>
+						</td>
+					</tr>
+				</div>
 				
-				switch (commandCheck){
-					case "install":
-							showMetasolv.display = "table-row";
-							showCustomer.display = "table-row";
-							showSpeed.display = "table-row";
-							showFilter.display = "table-row";
-							showInstallOutput.display = "table-row";
-							showDisconnectOutput.display = "none";
-							break;
-					case "disconnect":
-							showMetasolv.display = "none";
-							showCustomer.display = "none";
-							showSpeed.display = "none";
-							showFilter.display = "none";
-							showInstallOutput.display = "none";
-							showDisconnectOutput.display = "table-row";
-							break
-					default:
-						break;
-				}
-			}
-			function commandGenerator(){
+				<!--Disco Commands-->
+				<div>
+					<tr id="discoCommandLabelRow" hidden>
+						<td colspan="2">
+							<label class="commandLabel">Disconnect</label>
+							<button class="copyButton" onClick="copyScripts('discoOutput')">Copy</button>
+						</td>
+					</tr>
+					<tr id="discoCommandRow" hidden>
+
+						<td colspan="2">
+							<textarea id="discoOutput" rows="8"></textarea><br><br>
+						</td>
+					</tr>
+				</div>
+			</table>
+		<script> 
+
+			//Getting command rows for show/hide
+			var profileFullSapLabelRow = document.getElementById("profileFullSapLabelRow");
+			var profileFullSapOutputRow = document.getElementById("profileFullSapOutputRow");
+			var profileNoLagLabelRow = document.getElementById("profileNoLagLabelRow");
+			var profileNoLagOutputRow = document.getElementById("profileNoLagOutputRow");
+			var profileMetasolvLabelRow = document.getElementById("profileMetasolvLabelRow");
+			var profileMetasolvOutputRow = document.getElementById("profileMetasolvOutputRow");
+			var getAllIpLabelRow = document.getElementById("getAllIpLabelRow");
+			var getAllIpOutputRow = document.getElementById("getAllIpOutputRow");
+
+			var installCommandLabelRow = document.getElementById("installCommandLabelRow");
+			var installCommandRow = document.getElementById("installCommandRow");
+
+			var discoCommandLabelRow = document.getElementById("discoCommandLabelRow");
+			var discoCommandRow = document.getElementById("discoCommandRow");
+			
+			function getScriptsVerify(){
+				//Shows verify command rowns
+				profileFullSapLabelRow.style.display = "table-row";
+				profileFullSapOutputRow.style.display = "table-row";
+				profileNoLagLabelRow.style.display = "table-row";
+				profileNoLagOutputRow.style.display = "table-row";
+				profileMetasolvLabelRow.style.display = "table-row";
+				profileMetasolvOutputRow.style.display = "table-row";
+
+				//Hides all other commands
+				installCommandLabelRow.style.display = "none";
+				installCommandRow.style.display = "none";
+
+				discoCommandLabelRow.style.display = "none";
+				discoCommandRow.style.display = "none"; 
+
+				//Geting Inputs
+				var lag = document.getElementById("lag").value;	//Gets Lag and assigns to variable					
+				var ovlan = document.getElementById("ovlan").value; //Gets Outer VLAN and assigns to variable			
+				var ivlan = document.getElementById("ivlan").value;	//Gets Inner VLAN and assigns to variable
+				var account = document.getElementById("acctNumber").value; //Gets Metasolv Acct and assigns to variable
+				
+				document.getElementById("profileFullSapOutput").value = "admin display | match context all " + lag + ":" + ovlan + "." + ivlan;
+				document.getElementById("profileNoLagOutput").value = "admin display | match " + ovlan + "." + ivlan + " context all";
+				document.getElementById("profileMetasolvOutput").value = "admin display | match  " + account + " context all";
+				document.getElementById("getAllIpOutput").value = "show service id 1001 dhcp lease-state interface \" " + dslam + "-1001\"";
+			}			
+			
+			function getScriptsInstall(){
+				//Shows install command rowns
+				installCommandLabelRow.style.display = "table-row";
+				installCommandRow.style.display = "table-row";
+
+				//Hides all other commands
+				profileFullSapLabelRow.style.display = "none";
+				profileFullSapOutputRow.style.display = "none";
+				profileNoLagLabelRow.style.display = "none";
+				profileNoLagOutputRow.style.display = "none";
+				profileMetasolvLabelRow.style.display = "none";
+				profileMetasolvOutputRow.style.display = "none";
+
+				discoCommandLabelRow.style.display = "none";
+				discoCommandRow.style.display = "none";
+				
 				var commandTypeRadio = document.getElementsByName("commandType");
 				var commandCheck;
 				var routerTypeRadio = document.getElementsByName("routerType");
@@ -257,6 +384,7 @@
 				var filter = document.getElementById("filterSelect").value; //Gets Filter and assigns to variable
 				var text="";
 				var i;
+				
 				
 				switch (speed){
 					case "128K":
@@ -421,139 +549,205 @@
 						break;
 				}
 
-				for(i = 0; i < commandTypeRadio.length; i++) {			
-					if(commandTypeRadio[i].checked){
-						commandCheck = commandTypeRadio[i].value;
-					}
-				}
-				
 				for(i = 0; i < routerTypeRadio.length; i++) {			
 					if(routerTypeRadio[i].checked){
 						routerCheck = routerTypeRadio[i].value;
 					}
 				}
 				
-				switch (commandCheck){
-					case "install":
-						switch(routerCheck){
-							case "hed11":
-								text += "exit all\n";
-								text += "configure service ies 1001\n";
-								text += "interface " + lag + ":" + ovlan + "." + ivlan + " create\n";
-								text += "description \"MA " +  account + " - " + customerName + "\"\n";
-								text += "address " + tdsWanIp + "/30\n" ;
-								text += "sap " + lag + ":" + ovlan + "." + ivlan + " create\n";
-								text += "description \"MA " + account + " - " +   customerName + "\"\n";
-								text += "ingress\n";
-								text += "qos " + up + "\n";
-								text += "filter ip " + filter + "\n";
-								text += "exit\n";
-								text += "egress\n";
-								text += "qos " + down + "\n";
-								text += "exit\n";
-								text += "exit all\n";
-								text += "configure router\n";
-								text += "static-route "+ lanIpFull + "/" + lanCidr + " next-hop " + customerWanIp + "\n";
-								text += "policy-options\n";
-								text += "begin\n";
-								text += "prefix-list bgp-networks prefix " + wanNetworkIp + "/30\n";
-								text += "prefix-list bgp-networks prefix " + lanIpFull + "/" + lanCidr + "\n";
-								text += "commit\n";
-								text += "exit all\n";
-								document.getElementById("installOutput").value = text;
-								break;
-							case "hed12":
-								text += "exit all\n";
-								text += "configure service ies 1001\n";
-								text += "interface " + lag + ":" + ovlan + "." + ivlan + " create\n";
-								text += "description \"MA " +  account + " - " + customerName + "\"\n";
-								text += "address " + tdsWanIp + "/30\n" ;
-								text += "sap " + lag + ":" + ovlan + "." + ivlan + " create\n";
-								text += "description \"MA " + account + " - " +   customerName + "\"\n";
-								text += "ingress\n";
-								text += "qos " + up + "\n";
-								text += "filter ip " + filter + "\n";
-								text += "exit\n";
-								text += "egress\n";
-								text += "qos " + down + "\n";
-								text += "exit\n";
-								text += "exit all\n";
-								text += "configure router\n";
-								text += "static-route "+ lanIpFull + "/" + lanCidr + " next-hop " + customerWanIp + " no shutdown\n";
-								text += "policy-options\n";
-								text += "begin\n";
-								text += "prefix-list bgp-networks prefix " + wanNetworkIp + "/30\n";
-								text += "prefix-list bgp-networks prefix " + lanIpFull + "/" + lanCidr + "\n";
-								text += "commit\n";
-								text += "exit all\n";
-								document.getElementById("installOutput").value = text;
-								break;
-							default:
-								alert ("Select a Router Type");
-								break;
-						}
+				switch(routerCheck){
+					case "hed11":
+						text += "exit all\n";
+						text += "configure service ies 1001\n";
+						text += "interface " + lag + ":" + ovlan + "." + ivlan + " create\n";
+						text += "description \"MA " +  account + " - " + customerName + "\"\n";
+						text += "address " + tdsWanIp + "/30\n" ;
+						text += "sap " + lag + ":" + ovlan + "." + ivlan + " create\n";
+						text += "description \"MA " + account + " - " +   customerName + "\"\n";
+						text += "ingress\n";
+						text += "qos " + up + "\n";
+						text += "filter ip " + filter + "\n";
+						text += "exit\n";
+						text += "egress\n";
+						text += "qos " + down + "\n";
+						text += "exit\n";
+						text += "exit all\n";
+						text += "configure router\n";
+						text += "static-route "+ lanIpFull + "/" + lanCidr + " next-hop " + customerWanIp + "\n";
+						text += "policy-options\n";
+						text += "begin\n";
+						text += "prefix-list bgp-networks prefix " + wanNetworkIp + "/30\n";
+						text += "prefix-list bgp-networks prefix " + lanIpFull + "/" + lanCidr + "\n";
+						text += "commit\n";
+						text += "exit all\n";
+						document.getElementById("installOutput").value = text;
 						break;
-					case "disconnect":
-						switch(routerCheck){
-							case "hed11":
-								text += "exit all\n";
-								text += "configure router\n";
-								text += "no static-route " + lanIpFull + lanSubnet + " next-hop " + customerWanIp + "\n";
-								text += "policy-options\n";
-								text += "begin\n";
-								text += "prefix-list bgp-networks no prefix " + wanNetworkIp + "/30\n";
-								text += "prefix-list bgp-networks no prefix " + lanIpFull + "/" + lanCidr + "\n";
-								text += "commit\n";
-								text += "exit all\n";
-								text += "configure service ies 1001\n";
-								text += "interface " + lag + "." + ovlan + "." + ivlan + " sap " + lag + ":" + ovlan + "." + ivlan + " shutdown\n";
-								text += "interface " + lag + "." + ovlan + "." + ivlan + " no sap " + lag + ":" + ovlan + "." + ivlan + "\n";
-								text += "interface " + lag + "." + ovlan + "." + ivlan + " shutdown\n";
-								text += "no interface " + lag + "." + ovlan + "." + ivlan + "\n";
-								text += "exit all\n";
-								document.getElementById("disconnectOutput").value = text;
-								break;
-							case "hed12":
-								text += "exit all\n";
-								text += "configure router\n";
-								text += "static-route-entry " + lanIpFull + "/" + lanCidr + "\n";
-								text += "no next-hop " + customerWanIp + "\n";
-								text += "exit\n";
-								text += "no static-route-entry " + lanIpFull + "/" + lanCidr + "\n";
-								text += "policy-options\n";
-								text += "begin\n";
-								text += "prefix-list bgp-networks no prefix " + wanNetworkIp + "/30\n";
-								text += "prefix-list bgp-networks no prefix " + lanIpFull + "/" + lanCidr + "\n";
-								text += "commit\n";
-								text += "exit all\n";
-								text += "configure service ies 1001\n";
-								text += "interface " + lag + "." + ovlan + "." + ivlan + " sap " + lag + ":" + ovlan + "." + ivlan + " shutdown\n";
-								text += "interface " + lag + "." + ovlan + "." + ivlan + " no sap " + lag + ":" + ovlan + "." + ivlan + "\n";
-								text += "interface " + lag + "." + ovlan + "." + ivlan + " shutdown\n";
-								text += "no interface " + lag + "." + ovlan + "." + ivlan + "\n";
-								text += "exit all\n";
-								document.getElementById("disconnectOutput").value = text;
-								break;
-							default:
-								alert ("Select a Router Type");
-								break
-						}
+					case "hed12":
+						text += "exit all\n";
+						text += "configure service ies 1001\n";
+						text += "interface " + lag + ":" + ovlan + "." + ivlan + " create\n";
+						text += "description \"MA " +  account + " - " + customerName + "\"\n";
+						text += "address " + tdsWanIp + "/30\n" ;
+						text += "sap " + lag + ":" + ovlan + "." + ivlan + " create\n";
+						text += "description \"MA " + account + " - " +   customerName + "\"\n";
+						text += "ingress\n";
+						text += "qos " + up + "\n";
+						text += "filter ip " + filter + "\n";
+						text += "exit\n";
+						text += "egress\n";
+						text += "qos " + down + "\n";
+						text += "exit\n";
+						text += "exit all\n";
+						text += "configure router\n";
+						text += "static-route "+ lanIpFull + "/" + lanCidr + " next-hop " + customerWanIp + " no shutdown\n";
+						text += "policy-options\n";
+						text += "begin\n";
+						text += "prefix-list bgp-networks prefix " + wanNetworkIp + "/30\n";
+						text += "prefix-list bgp-networks prefix " + lanIpFull + "/" + lanCidr + "\n";
+						text += "commit\n";
+						text += "exit all\n";
+						document.getElementById("installOutput").value = text;
 						break;
 					default:
-						alert ("Select a Command Type");
+						alert ("Select a Router Type");
 						break;
-				}		
-					
-			}
-			function clearAll(){
-				document.getElementById("metasolvRow").style.display = "none";
-				document.getElementById("customerRow").style.display = "none";
-				document.getElementById("speedRow").style.display = "none";
-				document.getElementById("filterRow").style.display = "none";
-				document.getElementById("installOutputRow").style.display = "none";
-				document.getElementById("disconnectOutputRow").style.display = "none";
-			}
+				}
 
+			}
+			
+			function getScriptsDisco(){							
+				//Shows disco command rowns
+				discoCommandLabelRow.style.display = "table-row";
+				discoCommandRow.style.display = "table-row";
+
+				//Hides all other commands
+				profileFullSapLabelRow.style.display = "none";
+				profileFullSapOutputRow.style.display = "none";
+				profileNoLagLabelRow.style.display = "none";
+				profileNoLagOutputRow.style.display = "none";
+				profileMetasolvLabelRow.style.display = "none";
+				profileMetasolvOutputRow.style.display = "none";
+
+				installCommandLabelRow.style.display = "none";
+				installCommandRow.style.display = "none";
+
+				var commandTypeRadio = document.getElementsByName("commandType");
+				var commandCheck;
+				var routerTypeRadio = document.getElementsByName("routerType");
+				var routerCheck;
+				var lag = document.getElementById("lag").value;	//Gets Lag and assigns to variable					
+				var ovlan = document.getElementById("ovlan").value; //Gets Outer VLAN and assigns to variable			
+				var ivlan = document.getElementById("ivlan").value;	//Gets Inner VLAN and assigns to variable
+				var wanIp1 = document.getElementById("wanIp1").value;	//Gets WAN Subnet and assigns to variable
+				var wanIp2 = document.getElementById("wanIp2").value;	//Gets WAN Subnet and assigns to variable		
+				var wanIp3 = document.getElementById("wanIp3").value;	//Gets WAN Subnet and assigns to variable		
+				var wanIp4 = document.getElementById("wanIp4").value;	//Gets WAN Subnet and assigns to variable
+				var wanNetworkIp = wanIp1 + "." + wanIp2 + "." + wanIp3 + "." + wanIp4;
+				var tdsWanIp = wanIp1 + "." + wanIp2 + "." + wanIp3 + "." ;
+				var customerWanIp = tdsWanIp;
+				var lanIp1 = document.getElementById("lanIp1").value; //Gets LAN Subnet and assigns to variable	
+				var lanIp2 = document.getElementById("lanIp2").value; //Gets LAN Subnet and assigns to variable		
+				var lanIp3 = document.getElementById("lanIp3").value; //Gets LAN Subnet and assigns to variable		
+				var lanIp4 = document.getElementById("lanIp4").value; //Gets LAN Subnet and assigns to variable	
+				var lanIpFull = lanIp1 + "." + lanIp2 + "." + lanIp3 + "." + lanIp4;
+				var lanCidr = document.getElementById("lanCidr").value;	//Gets LAN CDIR and assigns to variable
+				var lanSubnet;
+				var text="";
+				var i;
+				
+				
+				wanIp4++;
+				tdsWanIp += wanIp4;
+				wanIp4++
+				customerWanIp += wanIp4;
+				
+				switch (lanCidr){
+					case "30":
+						lanSubnet = " 255.255.255.252";
+						break;
+					case "29":
+						lanSubnet = " 255.255.255.248";
+						break;
+					case "28":
+						lanSubnet = " 255.255.255.240";
+						break;
+					case "27":
+						lanSubnet = " 255.255.255.224";
+						break;
+					case "26":
+						lanSubnet = " 255.255.255.192";
+						break;
+					case "25":
+						lanSubnet = " 255.255.255.128";
+						break;
+					case "24":
+						lanSubnet = " 255.255.255.0";
+						break;
+					default:
+						lanSubnet = " 255.255.255.252";
+						break;
+				}
+
+				for(i = 0; i < routerTypeRadio.length; i++) {			
+					if(routerTypeRadio[i].checked){
+						routerCheck = routerTypeRadio[i].value;
+					}
+				}
+
+				switch(routerCheck){
+					case "hed11":
+						text += "exit all\n";
+						text += "configure router\n";
+						text += "no static-route " + lanIpFull + lanSubnet + " next-hop " + customerWanIp + "\n";
+						text += "policy-options\n";
+						text += "begin\n";
+						text += "prefix-list bgp-networks no prefix " + wanNetworkIp + "/30\n";
+						text += "prefix-list bgp-networks no prefix " + lanIpFull + "/" + lanCidr + "\n";
+						text += "commit\n";
+						text += "exit all\n";
+						
+						text += "configure service ies 1001\n";
+						text += "interface " + lag + "." + ovlan + "." + ivlan + " sap " + lag + ":" + ovlan + "." + ivlan + " shutdown\n";
+						text += "interface " + lag + "." + ovlan + "." + ivlan + " no sap " + lag + ":" + ovlan + "." + ivlan + "\n";
+						text += "interface " + lag + "." + ovlan + "." + ivlan + " shutdown\n";
+						text += "no interface " + lag + "." + ovlan + "." + ivlan + "\n";
+						text += "exit all\n";
+						document.getElementById("discoOutput").value = text;
+						break;
+					case "hed12":
+						text += "exit all\n";
+						text += "configure router\n";
+						text += "static-route-entry " + lanIpFull + "/" + lanCidr + "\n";
+						text += "no next-hop " + customerWanIp + "\n";
+						text += "exit\n";
+						text += "no static-route-entry " + lanIpFull + "/" + lanCidr + "\n";
+						text += "policy-options\n";
+						text += "begin\n";
+						text += "prefix-list bgp-networks no prefix " + wanNetworkIp + "/30\n";
+						text += "prefix-list bgp-networks no prefix " + lanIpFull + "/" + lanCidr + "\n";
+						text += "commit\n";
+						text += "exit all\n";
+						text += "configure service ies 1001\n";
+						text += "interface " + lag + "." + ovlan + "." + ivlan + " sap " + lag + ":" + ovlan + "." + ivlan + " shutdown\n";
+						text += "interface " + lag + "." + ovlan + "." + ivlan + " no sap " + lag + ":" + ovlan + "." + ivlan + "\n";
+						text += "interface " + lag + "." + ovlan + "." + ivlan + " shutdown\n";
+						text += "no interface " + lag + "." + ovlan + "." + ivlan + "\n";
+						text += "exit all\n";
+						document.getElementById("discoOutput").value = text;
+						break;
+					default:
+						alert ("Select a Router Type");
+						break
+				}
+			}
+			function copyScripts(outputID){
+				
+				var output = document.getElementById(outputID);
+				output.select(); //selects the output textarea so the next command knows what to copy 
+				document.execCommand("copy"); //copy all info in the selected element to clipboard
+			}
 		</script>
-    </footer>
+	</body>
 </html>
+
+
