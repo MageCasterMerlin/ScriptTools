@@ -20,7 +20,7 @@
 				margin-left: 24px;
 				font-weight: normal;
 			}
-			form{
+			table{
 				margin-left: 24px;
 			}
 			label{
@@ -54,9 +54,19 @@
 				width: 385px;
 				display: inline-block;
 			}
-			.buttonRow{
-				width: 80px;
-				height: 30px;
+			.fourButtonRow{
+				display:table-row;
+				width: 110px;
+				height: 36px;
+				color: #ffffff;
+				background-color: #333333;
+			}
+			.fiveButtonRow{
+				display:table-row;
+				width: 87px;
+				height: 36px;
+				color: #ffffff;
+				background-color: #333333;
 			}
 			.copyButton{
 				width: 60px;
@@ -198,18 +208,44 @@
 						<br><button type="reset">Clear</button><br>
 					</td>
 				</tr>
+			</table>
+		</form>
+			<table id="dataButtonRow">
 				<tr>
-					<td colspan="2">
-						<br>
-							<button type="button"  class="buttonRow" onClick="getScriptsVerify()">Verify</button>
-							<button type="button"  class="buttonRow" onClick="getScriptsModify()">Modify</button>
-							<button type="button"  class="buttonRow" onClick="getScriptsInstall()">Install</button>
-							<button type="button"  class="buttonRow" onClick="getScriptsDisco()">Disco</button>
-							<button type="button"  class="buttonRow" onClick="getScriptsCard()">Card+</button>
-						<br><br>
+					<td>
+						<button type="button"  class="fiveButtonRow" onClick="getScriptsVerify()">Verify</button>
+					</td>
+					<td>
+						<button type="button"  class="fiveButtonRow" onClick="getScriptsModify()">Modify</button>
+					</td>
+					<td>
+						<button type="button"  class="fiveButtonRow" onClick="getScriptsInstall()">Install</button>
+					</td>
+					<td>
+						<button type="button"  class="fiveButtonRow" onClick="getScriptsDisco()">Disco</button>
+					</td>
+					<td>
+						<button type="button"  class="fiveButtonRow" onClick="getScriptsCard()">Card+</button>
 					</td>
 				</tr>
-				
+			</table>
+			<table>
+				<tr id="sipButtonRow" hidden>
+					<td>
+						<button type="button"  class="fourButtonRow" onClick="getScriptsVerify()">Verify</button>
+					</td>
+					<td>
+						<button type="button"  class="fourButtonRow" onClick="getScriptsModify()">Modify</button>
+					</td>
+					<td>
+						<button type="button"  class="fourButtonRow" onClick="getScriptsInstall()">Install</button>
+					</td>
+					<td>
+						<button type="button"  class="fourButtonRow" onClick="getScriptsDisco()">Disco</button>
+					</td>
+				</tr>
+			</table>
+			<table>
 				<!--Verify Commands-->
 				<div>
 					<tr id="portConfigCheckLabelRow" hidden>
@@ -429,9 +465,7 @@
 					</tr>
 				</div>
 			</table>
-		</form>
 		<script> 
-
 			//Getting command rows for show/hide
 			var portConfigCheckLabelRow = document.getElementById("portConfigCheckLabelRow");
 			var portConfigCheckRow = document.getElementById("portConfigCheckRow");
@@ -476,6 +510,8 @@
 
 			function showSpeed(){
 				var productSelect = document.getElementById("productSelect").value;
+				var dataButtonRow = document.getElementById("dataButtonRow");
+				var sipButtonRow = document.getElementById("sipButtonRow");
 				var dslSpeedsRow = document.getElementById("dslSpeedRow");
 				var iptvSpeedsRow = document.getElementById("iptvProductRow");
 				var dslIptvSpeedsRow = document.getElementById("dslIptvRow");
@@ -486,6 +522,8 @@
 				
 				switch (productSelect) {
 					case "dslProduct":
+						dataButtonRow.style.display = "table-row";
+						sipButtonRow.style.display = "none";
 						dslSpeedsRow.style.display = "table-row";
 						iptvSpeedsRow.style.display = "none";
 						dslIptvSpeedsRow.style.display = "none";
@@ -494,6 +532,8 @@
 						sipPasswordRow.style.display = "none";
 						break;
 					case "iptvProduct":
+						dataButtonRow.style.display = "table-row";
+						sipButtonRow.style.display = "none";
 						dslSpeedsRow.style.display = "none";
 						iptvSpeedsRow.style.display = "table-row";
 						dslIptvSpeedsRow.style.display = "none";
@@ -502,6 +542,8 @@
 						sipPasswordRow.style.display = "none";
 						break;
 					case "dslIptvProduct":
+						dataButtonRow.style.display = "table-row";
+						sipButtonRow.style.display = "none";
 						dslSpeedsRow.style.display = "none";
 						iptvSpeedsRow.style.display = "none";
 						dslIptvSpeedsRow.style.display = "table-row";
@@ -510,6 +552,8 @@
 						sipPasswordRow.style.display = "none";
 						break;
 					case "sipProduct":
+						dataButtonRow.style.display = "none";
+						sipButtonRow.style.display = "table-row";
 						dslSpeedsRow.style.display = "none";
 						iptvSpeedsRow.style.display = "none";
 						dslIptvSpeedsRow.style.display = "none";
