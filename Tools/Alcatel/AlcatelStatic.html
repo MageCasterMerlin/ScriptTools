@@ -359,7 +359,8 @@
 				var commandCheck;
 				var routerTypeRadio = document.getElementsByName("routerType");
 				var routerCheck;
-				var lag = document.getElementById("lag").value;	//Gets Lag and assigns to variable					
+				var lag = document.getElementById("lag").value;	//Gets Lag and assigns to variable
+				var lagInterface;					
 				var ovlan = document.getElementById("ovlan").value; //Gets Outer VLAN and assigns to variable			
 				var ivlan = document.getElementById("ivlan").value;	//Gets Inner VLAN and assigns to variable
 				var wanIp1 = document.getElementById("wanIp1").value;	//Gets WAN Subnet and assigns to variable
@@ -385,6 +386,12 @@
 				var text="";
 				var i;
 				
+				if(lag.includes("-")){
+					lagInterface = lag.replace(/-/g, "");
+				}else if(lag.includes("/")){
+					lagInterface = "gig" + lag;
+				}
+			
 				
 				switch (speed){
 					case "128K":
@@ -559,11 +566,11 @@
 					case "hed11":
 						text += "exit all\n";
 						text += "configure service ies 1001\n";
-						text += "interface " + lag + ":" + ovlan + "." + ivlan + " create\n";
-						text += "description \"MA " +  account + " - " + customerName + "\"\n";
+						text += "interface " + lagInterface + "." + ovlan + "." + ivlan + " create\n";
+						text += "description \"" +  customerName + " - NSID " + account + "\"\n";
 						text += "address " + tdsWanIp + "/30\n" ;
 						text += "sap " + lag + ":" + ovlan + "." + ivlan + " create\n";
-						text += "description \"MA " + account + " - " +   customerName + "\"\n";
+						text += "description \"NSID " + account + " - " +   customerName + "\"\n";
 						text += "ingress\n";
 						text += "qos " + up + "\n";
 						text += "filter ip " + filter + "\n";
@@ -585,11 +592,11 @@
 					case "hed12":
 						text += "exit all\n";
 						text += "configure service ies 1001\n";
-						text += "interface " + lag + ":" + ovlan + "." + ivlan + " create\n";
-						text += "description \"MA " +  account + " - " + customerName + "\"\n";
+						text += "interface " + lagInterface + "." + ovlan + "." + ivlan + " create\n";
+						text += "description \"" +  customerName + " - NSID " + account + "\"\n";
 						text += "address " + tdsWanIp + "/30\n" ;
 						text += "sap " + lag + ":" + ovlan + "." + ivlan + " create\n";
-						text += "description \"MA " + account + " - " +   customerName + "\"\n";
+						text += "description \"NSID " + account + " - " +   customerName + "\"\n";
 						text += "ingress\n";
 						text += "qos " + up + "\n";
 						text += "filter ip " + filter + "\n";
@@ -599,7 +606,7 @@
 						text += "exit\n";
 						text += "exit all\n";
 						text += "configure router\n";
-						text += "static-route "+ lanIpFull + "/" + lanCidr + " next-hop " + customerWanIp + " no shutdown\n";
+						text += "static-route-entry "+ lanIpFull + "/" + lanCidr + " next-hop " + customerWanIp + " no shutdown\n";
 						text += "policy-options\n";
 						text += "begin\n";
 						text += "prefix-list bgp-networks prefix " + wanNetworkIp + "/30\n";
@@ -635,7 +642,8 @@
 				var commandCheck;
 				var routerTypeRadio = document.getElementsByName("routerType");
 				var routerCheck;
-				var lag = document.getElementById("lag").value;	//Gets Lag and assigns to variable					
+				var lag = document.getElementById("lag").value;	//Gets Lag and assigns to variable
+				var lagInterface;	
 				var ovlan = document.getElementById("ovlan").value; //Gets Outer VLAN and assigns to variable			
 				var ivlan = document.getElementById("ivlan").value;	//Gets Inner VLAN and assigns to variable
 				var wanIp1 = document.getElementById("wanIp1").value;	//Gets WAN Subnet and assigns to variable
@@ -655,6 +663,11 @@
 				var text="";
 				var i;
 				
+				if(lag.includes("-")){
+					lagInterface = lag.replace(/-/g, "");
+				}else if(lag.includes("/")){
+					lagInterface = "gig" + lag;
+				}
 				
 				wanIp4++;
 				tdsWanIp += wanIp4;
@@ -705,12 +718,12 @@
 						text += "prefix-list bgp-networks no prefix " + lanIpFull + "/" + lanCidr + "\n";
 						text += "commit\n";
 						text += "exit all\n";
-						
+	
 						text += "configure service ies 1001\n";
-						text += "interface " + lag + "." + ovlan + "." + ivlan + " sap " + lag + ":" + ovlan + "." + ivlan + " shutdown\n";
-						text += "interface " + lag + "." + ovlan + "." + ivlan + " no sap " + lag + ":" + ovlan + "." + ivlan + "\n";
-						text += "interface " + lag + "." + ovlan + "." + ivlan + " shutdown\n";
-						text += "no interface " + lag + "." + ovlan + "." + ivlan + "\n";
+						text += "interface " + lagInterface + "." + ovlan + "." + ivlan + " sap " + lag + ":" + ovlan + "." + ivlan + " shutdown\n";
+						text += "interface " + lagInterface + "." + ovlan + "." + ivlan + " no sap " + lag + ":" + ovlan + "." + ivlan + "\n";
+						text += "interface " + lagInterface + "." + ovlan + "." + ivlan + " shutdown\n";
+						text += "no interface " + lagInterface + "." + ovlan + "." + ivlan + "\n";
 						text += "exit all\n";
 						document.getElementById("discoOutput").value = text;
 						break;
@@ -728,10 +741,10 @@
 						text += "commit\n";
 						text += "exit all\n";
 						text += "configure service ies 1001\n";
-						text += "interface " + lag + "." + ovlan + "." + ivlan + " sap " + lag + ":" + ovlan + "." + ivlan + " shutdown\n";
-						text += "interface " + lag + "." + ovlan + "." + ivlan + " no sap " + lag + ":" + ovlan + "." + ivlan + "\n";
-						text += "interface " + lag + "." + ovlan + "." + ivlan + " shutdown\n";
-						text += "no interface " + lag + "." + ovlan + "." + ivlan + "\n";
+						text += "interface " + lagInterface + "." + ovlan + "." + ivlan + " sap " + lag + ":" + ovlan + "." + ivlan + " shutdown\n";
+						text += "interface " + lagInterface + "." + ovlan + "." + ivlan + " no sap " + lag + ":" + ovlan + "." + ivlan + "\n";
+						text += "interface " + lagInterface + "." + ovlan + "." + ivlan + " shutdown\n";
+						text += "no interface " + lagInterface + "." + ovlan + "." + ivlan + "\n";
 						text += "exit all\n";
 						document.getElementById("discoOutput").value = text;
 						break;
