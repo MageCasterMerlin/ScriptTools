@@ -25,7 +25,7 @@
 			}
 			label{
 				display: inline-block;
-				width: 150px;
+				width: 100px;
 				font-size: 20px;
 			}
 			input{
@@ -46,14 +46,6 @@
 			button{
 				width: 120px;
 				height: 32px;
-			}
-			.radioInput{
-				width: 12px;
-				height: 12px;
-			}
-			.ipInput{
-				width: 36px;
-				overflow-wrap: break-word
 			}
 			.shortInput{
 				width: 60px;
@@ -88,107 +80,174 @@
 			<col width="28%">
 			<col width="72%">
 				<tr>
-					<td><label>Router Type:</label></td>
 					<td>
-						<input type="radio" id="hed11Radio" class="radioInput" value="hed11" name="routerType">hed11
-						<input type="radio" id="hed12Radio" class="radioInput" value="hed12" name="routerType">hed12
+						<label>DSLAM</label>
+					</td>
+					<td>
+						<input id="dslamName">
 					</td>
 				</tr>
 				<tr>
-					<td><label>Interface/Lag:</label></td>
-					<td><input type="text" id="lag" class="shortInput"></td>
-				</tr>
-				<tr>
-					<td><label>OVLAN:</label></td>
-					<td><input type="text" id="ovlan" class="shortInput"></input></td>
-				</tr>
-				<tr>
-					<td><label>IVLAN:</label></td>
-					<td><input type="text" id="ivlan" class="shortInput"></input></td>
-				</tr>
-				<tr>
-					<td><label>WAN Network:</label></td>
 					<td>
-						<input type="text" id="wanIp1" class="ipInput" maxlength="3"></input> .
-						<input type="text" id="wanIp2" class="ipInput" maxlength="3"></input> .
-						<input type="text" id="wanIp3" class="ipInput" maxlength="3"></input> .
-						<input type="text" id="wanIp4" class="ipInput" maxlength="3"></input>
+						<label>Interface/Lag</label>
+					</td>
+					<td>
+						<input id="lag" class="shortInput">
 					</td>
 				</tr>
 				<tr>
-					<td><label>LAN Network:</label></td>
 					<td>
-						<input type="text" id="lanIp1" class="ipInput" maxlength="3"></input> .
-						<input type="text" id="lanIp2" class="ipInput" maxlength="3"></input> .
-						<input type="text" id="lanIp3" class="ipInput" maxlength="3"></input> .
-						<input type="text" id="lanIp4" class="ipInput" maxlength="3"></input>
+						<label>OVLAN</label>
+					</td>
+					<td>
+						<input id="ovlan" class="shortInput" type="number">
 					</td>
 				</tr>
 				<tr>
-					<td><label>LAN CIDR/:</label></td>
-					<td><input type="text" id="lanCidr" maxlength="2" class="shortInput"></input></td>
-				</tr>
-				<tr id="accountRow">
-					<td><label>Metasolv Acct:</label></td>
-					<td><input type="text" id="acctNumber"></input></td>
-				</tr>
-				<tr id="customerRow">
-					<td><label>Customer Name:</label></td>
-					<td><input type="text" id="customerName"></input></td>
-				</tr>
-				<tr  id="speedRow">
-					<td><label>Speed:</label></td>
 					<td>
-						<select id="speedSelect">
-							<optgroup label="DSL PROFILES">
-							<option value="128K" hidden>Select a Speed:</option>
-							<option value="128K">128K</option>
-							<option value="256K">256K</option>
-							<option value="384K">384K</option>
-							<option value="512K">512K</option>
-							<option value="768K">768K</option>
-							<option value="1M">1M</option>
-							<option value="1.5M">1.5M</option>
-							<option value="2M">2M</option>
-							<option value="3M">3M</option>
-							<option value="4M">4M</option>
-							<option value="5M">5M</option>
-							<option value="6M">6M</option>
-							<option value="8M">8M</option>
-							<option value="10M">10M</option>
-							<option value="15MDSL">15M</option>
-							<option value="25MDSL">25M</option>
-							<option value="25MDSLBond">25M Bonded</option>
-							<option value="50MDSL">50M</option>
-							</optgroup>
-							<optgroup label="PON PROFILES">
-							<option value="15MPON" hidden>Select a PON Speed:</option>
-							<option value="15MPON">15M</option>
-							<option value="25MPON">25M</option>
-							<option value="50MPON">50M</option>
-							<option value="50MPONSym">50M SYM</option>
-							<option value="75MPON">75M</option>
-							<option value="100MPON">100M</option>
-							<option value="100MPONSym">100M SYM</option>
-							<option value="150MPONSym">150M SYM</option>
-							<option value="300MPON">300M</option>
-							<option value="300MPONSym">300M SYM</option>
-							<option value="500MPON">500M</option>
-							<option value="1GIGPON">1Gig</option>
-							</optgroup>
+						<label>IVLAN</label>
+					</td>
+					<td>
+						<input id="ivlan" class="shortInput" type="number">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>MSS Acct#</label>
+					</td>
+					<td>
+						<input id="acctNumber" type="number">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>Product</label>
+					</td>
+					<td>
+						<select id="productSelect" onChange="showSpeed()" >
+							<option hidden>Select Product</option>
+							<option value="dslSpeedSelect">DSL</option>
+							<option value="ponSpeedSelect">PON</option>
+							<option value="iptvSpeedSelect">IPTV</option>
+							<option value="tdstvSpeedSelect">TDSTV+</option>
 						</select>
 					</td>
 				</tr>
-				<tr id="filterRow">
-					<td><label>Filter:</label></td>
+				<tr id="speedRow" hidden>
 					<td>
-						<select id="filterSelect">
-							<option value=3 hidden>Select a Filter:</option>
-							<option value=1>Seasonal_Hold</option>
-							<option value=2>No_SMTP</option>
-							<option value=3>No_worm (default)</option>
-							<option value=4>TDSNet_SMTP</option>
-							<option value=5>TDSNet_SMTP_worm</option>
+						<label>Speed</label>
+					</td>
+					<td colspan="2">
+						<select id="dslSpeedSelect" class ="speedSelect" hidden>
+							<option value="128K-TDSNet_SMTP_worm" hidden>Select a DSL Speed:</option>
+							<option value="128K-TDSNet_SMTP_worm">128K</option>
+							<option value="256K128up-TDSNet_SMTP_worm">256K</option>
+							<option value="384K-TDSNet_SMTP_worm">384K</option>
+							<option value="512k-DSL-TDSNet_SMTP_worm">512K</option>
+							<option value="768K384up-TDSNet_SMTP_worm">768K</option>
+							<option value="1024K-TDSNet_SMTP_worm">1M</option>
+							<option value="1536K-TDSNet_SMTP_worm">1.5M</option>
+							<option value="2048K-TDSNet_SMTP_worm">2M</option>
+							<option value="3072K-TDSNet_SMTP_worm">3M</option>
+							<option value="4096K-TDSNet_SMTP_worm">4M</option>
+							<option value="5120K512up-TDSNet_SMTP_worm">5M</option>
+							<option value="6144K-TDSNet_SMTP_worm">6M</option>
+							<option value="8192K-TDSNet_SMTP_worm">8M</option>
+							<option value="10240K-TDSNet_SMTP_worm">10M</option>
+							<option value="15360K1024up-TDSNet_SMTP_worm">15M</option>
+							<option value="25600K5120up-TDSNet_SMTP_worm">25M</option>
+							<option value="50M-10M-TDSNet_SMTP_worm">50M</option>
+							<option value="100M-15M-TDSNet_SMTP_worm">100M/15M</option>
+							<option value="100M-20M-TDSNet_SMTP_worm">100M/20M</option>
+						</select>
+						<select id="ponSpeedSelect" class ="speedSelect" hidden>
+							<option value="15360K-TDSNet_SMTP_worm" hidden>Select a PON Speed:</option>
+							<option value="15360K-TDSNet_SMTP_worm">15M</option>
+							<option value="25600K-TDSNet_SMTP_worm">25M</option>
+							<option value="51200K-TDSNet_SMTP_worm">50M/20M</option>
+							<option value="50M-50M-TDSNet_SMTP_worm">50M/50M</option>
+							<option value="75M-30M-TDSNet_SMTP_worm">75M</option>
+							<option value="102400K40960up-TDSNet_SMTP_worm">100M/40M</option>
+							<option value="100M-100M-TDSNet_SMTP_worm">100M/100M</option>
+							<option value="150M-40M-TDSNet_SMTP_worm">150M/40M</option>
+							<option value="150M-150M-TDSNet_SMTP_worm">150M SYM</option>
+							<option value="250M-50M-TDSNet_SMTP_worm">250M/50M</option>
+							<option value="300M-120M-TDSNet_SMTP_worm">300M/120M</option>
+							<option value="300M-300M-TDSNet_SMTP_worm">300M/300M</option>
+							<option value="500M-100M-TDSNet_SMTP_worm">500M/100M</option>
+							<option value="500M-200M-TDSNet_SMTP_worm">500M/200M</option>
+							<option value="600M-400M-TDSNet_SMTP_worm">600M/400M</option>
+							<option value="600M-600M-TDSNet_SMTP_worm">600M/600M</option>
+							<option value="1G-400M-TDSNet_SMTP_worm">1G/400M</option>
+							<option value="1G-1G-TDSNet_SMTP_worm">1G/1G</option>
+							<option value="2G-2G-TDSNet_SMTP_worm">2G/2G</option>
+							<option value="3G-3G-TDSNet_SMTP_worm">3G/3G</option>
+							<option value="4G-4G-TDSNet_SMTP_worm">4G/4G</option>
+							<option value="5G-5G-TDSNet_SMTP_worm">5G/5G</option>
+							<option value="6G-6G-TDSNet_SMTP_worm">6G/6G</option>
+							<option value="7G-7G-TDSNet_SMTP_worm">7G/7G</option>
+							<option value="8G-8G-TDSNet_SMTP_worm">8G/8G</option>
+						</select>
+						<select id="iptvSpeedSelect"  class ="speedSelect" hidden>
+							<option value="IPTV-No_data" hidden>Select an IPTV Speed:</option>
+							<optgroup label="No Data">
+							<option value="IPTV-No_data">No Data</option>
+							</optgroup>
+							<optgroup label="DSL PROFILES">
+							<option value="IPTV-5M-2M-TDSNet_SMTP_worm">5M</option>
+							<option value="IPTV-15M-2M-TDSNet_SMTP_worm">15M</option>
+							<option value="IPTV-25M-5M-TDSNet_SMTP_worm">25M</option>
+							<option value="IPTV-50M-10M-TDSNet_SMTP_worm">50M</option>
+							<option value="IPTV-100M-15M-TDSNet_SMTP_worm">100M</option>
+							</optgroup>
+							<optgroup label="PON PROFILES">
+							<option value="IPTV-50M-20M-TDSNet_SMTP_worm">50M/20M</option>
+							<option value="IPTV-50M-50M-TDSNet_SMTP_worm">50M/50M</option>
+							<option value="IPTV-100M-40M-TDSNet_SMTP_worm">100M/40M</option>
+							<option value="IPTV-100M-100M-TDSNet_SMTP_worm">100M/100M</option>
+							<option value="IPTV-150M-40M-TDSNet_SMTP_worm">150M/40M</option>
+							<option value="IPTV-150M-150M-TDSNet_SMTP_worm">150M SYM</option>
+							<option value="IPTV-250M-50M-TDSNet_SMTP_worm">250M/50M</option>
+							<option value="IPTV-300M-120M-TDSNet_SMTP_worm">300M/120M</option>
+							<option value="IPTV-300M-300M-TDSNet_SMTP_worm">300M/300M</option>
+							<option value="IPTV-500M-100M-TDSNet_SMTP_worm">500M/100M</option>
+							<option value="IPTV-500M-200M-TDSNet_SMTP_worm">500M/200M</option>
+							<option value="IPTV-600M-400M-TDSNet_SMTP_worm">600M/400M</option>
+							<option value="IPTV-600M-600M-TDSNet_SMTP_worm">600M/600M</option>
+							<option value="IPTV-1G-400M-TDSNet_SMTP_worm">1G/400M</option>
+							<option value="IPTV-1G-1G-TDSNet_SMTP_worm">1G/1G</option>
+							</optgroup>
+						</select>
+						<select id="tdstvSpeedSelect" class ="speedSelect" hidden>
+							<option value="TDSTV+-25M-1.5M_filter" hidden>Select an TDSTV+ Speed:</option>
+							<optgroup label="DSL PROFILES">
+							<option value="TDSTV+-25M-1.5M_filter">25M/1.5M</option>
+							<option value="TDSTV+-25M-5M_filter">25M/5M</option>
+							<option value="TDSTV+-25M-10M_filter">25M/10M</option>
+							<option value="TDSTV+-50M-10M_filter">50M/10M</option>
+							<option value="TDSTV+-75M-5M_filter">75M/5M</option>
+							<option value="TDSTV+-100M-15M_filter">100M/15M</option>
+							<option value="TDSTV+-100M-20M_filter">100M/20M</option>
+							</optgroup>
+							<optgroup label="PON PROFILES">
+							<option value="TDSTV+-50M-20M_filter">50M/20M</option>
+							<option value="TDSTV+-50M-50M_filter">50M/50M</option>
+							<option value="TDSTV+-100M-100M_filter">100M/100M</option>
+							<option value="TDSTV+-250M-50M_filter">250M/50M</option>
+							<option value="TDSTV+-300M-300M_filter">300M/300M</option>
+							<option value="TDSTV+-500M-100M_filter">500M/100M</option>
+							<option value="TDSTV+-600M-400M_filter">600M/400M</option>
+							<option value="TDSTV+-600M-600M_filter">600M/600M</option>
+							<option value="TDSTV+-1G-400M_filter">1G/400M</option>
+							<option value="TDSTV+-1G-1G_filter">1G/1G</option>
+							<option value="TDSTV+-2G-2G-TDSNet_filter">2G/2G</option>
+							<option value="TDSTV+-3G-3G-TDSNet_filter">3G/3G</option>
+							<option value="TDSTV+-4G-4G-TDSNet_filter">4G/4G</option>
+							<option value="TDSTV+-5G-5G-TDSNet_filter">5G/5G</option>
+							<option value="TDSTV+-6G-6G-TDSNet_filter">6G/6G</option>
+							<option value="TDSTV+-7G-7G-TDSNet_filter">7G/7G</option>
+							<option value="TDSTV+-8G-8G-TDSNet_filter">8G/8G</option>
+							</optgroup>
 						</select>
 					</td>
 				</tr>
@@ -212,7 +271,7 @@
 					</td>
 				</tr>
 			</table>
-			<br>
+			<br><br>
 			<table>
 				<!--Verify Commands-->
 				<div>
@@ -247,6 +306,28 @@
 					<tr id="profileMetasolvOutputRow" hidden>
 						<td colspan="2">
 							<textarea id="profileMetasolvOutput" rows="1"></textarea><br><br>
+						</td>
+					</tr>
+					<tr id="getIpLabelRow" hidden>
+						<td colspan="2">
+							<label class="commandLabel">Get IP in Profile</label>
+							<button class="copyButton" onClick="copyScripts('getIpOutput')">Copy</button>
+						</td>
+					</tr>
+					<tr id="getIpOutputRow" hidden>
+						<td colspan="2">
+							<textarea id="getIpOutput" rows="1"></textarea><br><br>
+						</td>
+					</tr>
+					<tr id="clearIpLabelRow" hidden>
+						<td colspan="2">
+							<label class="commandLabel">Clear IP in Profile</label>
+							<button class="copyButton" onClick="copyScripts('clearIpOutput')">Copy</button>
+						</td>
+					</tr>
+					<tr id="clearIpOutputRow" hidden>
+						<td colspan="2">
+							<textarea id="clearIpOutput" rows="1"></textarea><br><br>
 						</td>
 					</tr>
 					<tr id="getAllIpLabelRow" hidden>
@@ -302,6 +383,10 @@
 			var profileNoLagOutputRow = document.getElementById("profileNoLagOutputRow");
 			var profileMetasolvLabelRow = document.getElementById("profileMetasolvLabelRow");
 			var profileMetasolvOutputRow = document.getElementById("profileMetasolvOutputRow");
+			var getIpLabelRow = document.getElementById("getIpLabelRow");
+			var getIpOutputRow = document.getElementById("getIpOutputRow");
+			var clearIpLabelRow = document.getElementById("clearIpLabelRow");
+			var clearIpOutputRow = document.getElementById("clearIpOutputRow");
 			var getAllIpLabelRow = document.getElementById("getAllIpLabelRow");
 			var getAllIpOutputRow = document.getElementById("getAllIpOutputRow");
 
@@ -311,6 +396,20 @@
 			var discoCommandLabelRow = document.getElementById("discoCommandLabelRow");
 			var discoCommandRow = document.getElementById("discoCommandRow");
 			
+			function showSpeed(){
+				var speedsRow = document.getElementById("speedRow").style.display = "table-row";
+				var productSelect = document.getElementById("productSelect").value;
+				var dslSpeed = document.getElementById("dslSpeedSelect");
+				var ponSpeed = document.getElementById("ponSpeedSelect");
+				var iptvSpeed = document.getElementById("iptvSpeedSelect");
+				var tdstvSpeed = document.getElementById("tdstvSpeedSelect");
+				
+				dslSpeed.style.display = "none";
+				ponSpeed.style.display = "none";
+				iptvSpeed.style.display = "none";
+				tdstvSpeed.style.display = "none";
+				document.getElementById(productSelect).style.display = "table-row";
+			}
 			function getScriptsVerify(){
 				//Shows verify command rowns
 				profileFullSapLabelRow.style.display = "table-row";
@@ -319,6 +418,12 @@
 				profileNoLagOutputRow.style.display = "table-row";
 				profileMetasolvLabelRow.style.display = "table-row";
 				profileMetasolvOutputRow.style.display = "table-row";
+				getIpLabelRow.style.display = "table-row";
+				getIpOutputRow.style.display = "table-row";
+				clearIpLabelRow.style.display = "table-row";
+				clearIpOutputRow.style.display = "table-row";
+				getAllIpLabelRow.style.display = "table-row";
+				getAllIpOutputRow.style.display = "table-row"; 
 
 				//Hides all other commands
 				installCommandLabelRow.style.display = "none";
@@ -326,17 +431,20 @@
 
 				discoCommandLabelRow.style.display = "none";
 				discoCommandRow.style.display = "none"; 
-
+				
 				//Geting Inputs
+				var dslam = document.getElementById("dslamName").value; //Gets DSLAM Clli Name and assigns to variable
 				var lag = document.getElementById("lag").value;	//Gets Lag and assigns to variable					
 				var ovlan = document.getElementById("ovlan").value; //Gets Outer VLAN and assigns to variable			
 				var ivlan = document.getElementById("ivlan").value;	//Gets Inner VLAN and assigns to variable
 				var account = document.getElementById("acctNumber").value; //Gets Metasolv Acct and assigns to variable
-				
+
 				document.getElementById("profileFullSapOutput").value = "admin display | match context all " + lag + ":" + ovlan + "." + ivlan;
 				document.getElementById("profileNoLagOutput").value = "admin display | match " + ovlan + "." + ivlan + " context all";
 				document.getElementById("profileMetasolvOutput").value = "admin display | match  " + account + " context all";
-				document.getElementById("getAllIpOutput").value = "show service id 1001 dhcp lease-state interface \" " + dslam + "-1001\"";
+				document.getElementById("getIpOutput").value = "show service id 1001 dhcp lease-state | match " + lag + ":" + ovlan + "." + ivlan;
+				document.getElementById("clearIpOutput").value = "clear service id 1001 dhcp lease-state sap " + lag + ":" + ovlan + "." + ivlan;
+				document.getElementById("getAllIpOutput").value = "show service id 1001 dhcp lease-state interface \"" + dslam + "-1001\"";
 			}			
 			
 			function getScriptsInstall(){
@@ -351,274 +459,42 @@
 				profileNoLagOutputRow.style.display = "none";
 				profileMetasolvLabelRow.style.display = "none";
 				profileMetasolvOutputRow.style.display = "none";
+				getIpLabelRow.style.display = "none";
+				getIpOutputRow.style.display = "none";
+				clearIpLabelRow.style.display = "none";
+				clearIpOutputRow.style.display = "none";
+				getAllIpLabelRow.style.display = "none";
+				getAllIpOutputRow.style.display = "none";
 
 				discoCommandLabelRow.style.display = "none";
 				discoCommandRow.style.display = "none";
 				
-				var commandTypeRadio = document.getElementsByName("commandType");
-				var commandCheck;
-				var routerTypeRadio = document.getElementsByName("routerType");
-				var routerCheck;
-				var lag = document.getElementById("lag").value;	//Gets Lag and assigns to variable
-				var lagInterface;					
+				var dslam = document.getElementById("dslamName").value; //Gets DSLAM Clli Name and assigns to variable
+				var lag = document.getElementById("lag").value;	//Gets Lag and assigns to variable					
 				var ovlan = document.getElementById("ovlan").value; //Gets Outer VLAN and assigns to variable			
 				var ivlan = document.getElementById("ivlan").value;	//Gets Inner VLAN and assigns to variable
-				var wanIp1 = document.getElementById("wanIp1").value;	//Gets WAN Subnet and assigns to variable
-				var wanIp2 = document.getElementById("wanIp2").value;	//Gets WAN Subnet and assigns to variable		
-				var wanIp3 = document.getElementById("wanIp3").value;	//Gets WAN Subnet and assigns to variable		
-				var wanIp4 = document.getElementById("wanIp4").value;	//Gets WAN Subnet and assigns to variable
-				var wanNetworkIp = wanIp1 + "." + wanIp2 + "." + wanIp3 + "." + wanIp4;
-				var tdsWanIp = wanIp1 + "." + wanIp2 + "." + wanIp3 + "." ;
-				var customerWanIp = tdsWanIp;
-				var lanIp1 = document.getElementById("lanIp1").value; //Gets LAN Subnet and assigns to variable	
-				var lanIp2 = document.getElementById("lanIp2").value; //Gets LAN Subnet and assigns to variable		
-				var lanIp3 = document.getElementById("lanIp3").value; //Gets LAN Subnet and assigns to variable		
-				var lanIp4 = document.getElementById("lanIp4").value; //Gets LAN Subnet and assigns to variable	
-				var lanIpFull = lanIp1 + "." + lanIp2 + "." + lanIp3 + "." + lanIp4;
-				var lanCidr = document.getElementById("lanCidr").value;	//Gets LAN CDIR and assigns to variable
-				var lanSubnet;
 				var account = document.getElementById("acctNumber").value; //Gets Metasolv Acct and assigns to variable
-				var customerName = document.getElementById("customerName").value; //Gets Customer Name and assigns to variable
-				var speed = document.getElementById("speedSelect").value; //Gets Speed and assigns to variable
-				var up;
-				var down;
-				var filter = document.getElementById("filterSelect").value; //Gets Filter and assigns to variable
-				var text="";
-				var i;
+				var productSelect = document.getElementById("productSelect").value;
+				var speed = document.getElementById(productSelect).value;;
+				var text;
 				
-				if(lag.includes("-")){
-					lagInterface = lag.replace(/-/g, "");
-				}else if(lag.includes("/")){
-					lagInterface = "gig" + lag;
-				}
-			
-				
-				switch (speed){
-					case "128K":
-						down="101";
-						up="101";
-						break;
-					case "256K":
-						down="102";
-						up="102";
-						break;
-					case "384K":
-						down="103";
-						up="103";
-						break;
-					case "512K":
-						down="104";
-						up="104";
-						break;
-					case "768K":
-						down="105";
-						up="105";
-						break;
-					case "1M":
-						down="106";
-						up="104";
-						break;
-					case "1.5M":
-						down="107";
-						up="104";
-						break;
-					case "2M":
-						down="108";
-						up="104";
-						break;
-					case "3M":
-						down="109";
-						up="104";
-						break;
-					case "4M":
-						down="110";
-						up="105";
-						break;
-					case "5M":
-						down="119";
-						up="104";
-						break;
-					case "6M":
-						down="111";
-						up="105";
-						break;
-					case "8M":
-						down="112";
-						up="104";
-						break;
-					case "10M":
-						down="113";
-						up="106";
-						break;
-					case "15MDSL":
-						down="114";
-						up="106";
-						break;
-					case "15MPON":
-						down="114";
-						up="108";
-						break;
-					case "25MDSL":
-						down="115";
-						up="119";
-						break;
-					case "25MDSLBond":
-						down="115";
-						up="107";
-						break;	
-					case "25MPON":
-						down="115";
-						up="113";
-						break;
-					case "50MDSL":
-						down="117";
-						up="113";
-						break;
-					case "50MPON":
-						down="117";
-						up="116";
-						break;
-					case "50MPONSym":
-						down="117";
-						up="117";
-						break;
-					case "75MPON":
-						down="140";
-						up="136";
-						break;	
-					case "100MPON":
-						down="118";
-						up="137";
-						break;
-					case "100MPONSym":
-						down="118";
-						up="118";
-						break;
-					case "150MPONSym":
-						down="129";
-						up="129";
-						break;
-					case "300MPON":
-						down="131";
-						up="130";
-						break;
-					case "300MPONSym":
-						down="131";
-						up="131";
-						break;
-					case "500MPON":
-						down="133";
-						up="132";
-						break;
-					case "500MPONSym":
-						down="133";
-						up="133";
-						break;
-					case "1GIGPON":
-						down="135";
-						up="134";
-						break;
-					default:
-						down="101";
-						up="101";
-						break;
-				}
-				
-				wanIp4++;
-				tdsWanIp += wanIp4;
-				wanIp4++
-				customerWanIp += wanIp4;
-				
-				switch (lanCidr){
-					case "30":
-						lanSubnet = " 255.255.255.252";
-						break;
-					case "29":
-						lanSubnet = " 255.255.255.248";
-						break;
-					case "28":
-						lanSubnet = " 255.255.255.240";
-						break;
-					case "27":
-						lanSubnet = " 255.255.255.224";
-						break;
-					case "26":
-						lanSubnet = " 255.255.255.192";
-						break;
-					case "25":
-						lanSubnet = " 255.255.255.128";
-						break;
-					case "24":
-						lanSubnet = " 255.255.255.0";
-						break;
-					default:
-						lanSubnet = " 255.255.255.252";
-						break;
-				}
+				text = "exit all\n";
+				text += "configure service ies 1001\n";
+				text += "subscriber-interface dynamic-1001\n";
+				text += "group-interface " + dslam + "-1001\n";
+				text += "sap " + lag + ":" + ovlan + "." + ivlan + " create\n";
+				text += "description \"NSID " + account + "\"\n";
+				text += "sub-sla-mgmt\n";
+				text += "def-sub-id use-sap-id\n";
+				text += "def-sub-profile \"sub-profile-any\"\n";
+				text += "def-sla-profile \"" + speed + "\"\n";
+				text += "single-sub-parameters\n";
+				text += "profiled-traffic-only\n";
+				text += "exit\n";
+				text += "no shutdown\n";
+				text += "exit all\n";
 
-				for(i = 0; i < routerTypeRadio.length; i++) {			
-					if(routerTypeRadio[i].checked){
-						routerCheck = routerTypeRadio[i].value;
-					}
-				}
-				
-				switch(routerCheck){
-					case "hed11":
-						text += "exit all\n";
-						text += "configure service ies 1001\n";
-						text += "interface " + lagInterface + "." + ovlan + "." + ivlan + " create\n";
-						text += "description \"" +  customerName + " - NSID " + account + "\"\n";
-						text += "address " + tdsWanIp + "/30\n" ;
-						text += "sap " + lag + ":" + ovlan + "." + ivlan + " create\n";
-						text += "description \"NSID " + account + " - " +   customerName + "\"\n";
-						text += "ingress\n";
-						text += "qos " + up + "\n";
-						text += "filter ip " + filter + "\n";
-						text += "exit\n";
-						text += "egress\n";
-						text += "qos " + down + "\n";
-						text += "exit\n";
-						text += "exit all\n";
-						text += "configure router\n";
-						text += "static-route "+ lanIpFull + "/" + lanCidr + " next-hop " + customerWanIp + "\n";
-						text += "policy-options\n";
-						text += "begin\n";
-						text += "prefix-list bgp-networks prefix " + wanNetworkIp + "/30\n";
-						text += "prefix-list bgp-networks prefix " + lanIpFull + "/" + lanCidr + "\n";
-						text += "commit\n";
-						text += "exit all\n";
-						document.getElementById("installOutput").value = text;
-						break;
-					case "hed12":
-						text += "exit all\n";
-						text += "configure service ies 1001\n";
-						text += "interface " + lagInterface + "." + ovlan + "." + ivlan + " create\n";
-						text += "description \"" +  customerName + " - NSID " + account + "\"\n";
-						text += "address " + tdsWanIp + "/30\n" ;
-						text += "sap " + lag + ":" + ovlan + "." + ivlan + " create\n";
-						text += "description \"NSID " + account + " - " +   customerName + "\"\n";
-						text += "ingress\n";
-						text += "qos " + up + "\n";
-						text += "filter ip " + filter + "\n";
-						text += "exit\n";
-						text += "egress\n";
-						text += "qos " + down + "\n";
-						text += "exit\n";
-						text += "exit all\n";
-						text += "configure router\n";
-						text += "static-route-entry "+ lanIpFull + "/" + lanCidr + " next-hop " + customerWanIp + " no shutdown\n";
-						text += "policy-options\n";
-						text += "begin\n";
-						text += "prefix-list bgp-networks prefix " + wanNetworkIp + "/30\n";
-						text += "prefix-list bgp-networks prefix " + lanIpFull + "/" + lanCidr + "\n";
-						text += "commit\n";
-						text += "exit all\n";
-						document.getElementById("installOutput").value = text;
-						break;
-					default:
-						alert ("Select a Router Type");
-						break;
-				}
+				document.getElementById("installOutput").value = text;
 
 			}
 			
@@ -634,133 +510,39 @@
 				profileNoLagOutputRow.style.display = "none";
 				profileMetasolvLabelRow.style.display = "none";
 				profileMetasolvOutputRow.style.display = "none";
+				getIpLabelRow.style.display = "none";
+				getIpOutputRow.style.display = "none";
+				clearIpLabelRow.style.display = "none";
+				clearIpOutputRow.style.display = "none";
+				getAllIpLabelRow.style.display = "none";
+				getAllIpOutputRow.style.display = "none";
 
 				installCommandLabelRow.style.display = "none";
 				installCommandRow.style.display = "none";
 
-				var commandTypeRadio = document.getElementsByName("commandType");
-				var commandCheck;
-				var routerTypeRadio = document.getElementsByName("routerType");
-				var routerCheck;
-				var lag = document.getElementById("lag").value;	//Gets Lag and assigns to variable
-				var lagInterface;	
+				var dslam = document.getElementById("dslamName").value; //Gets DSLAM Clli Name and assigns to variable
+				var lag = document.getElementById("lag").value;	//Gets Lag and assigns to variable					
 				var ovlan = document.getElementById("ovlan").value; //Gets Outer VLAN and assigns to variable			
 				var ivlan = document.getElementById("ivlan").value;	//Gets Inner VLAN and assigns to variable
-				var wanIp1 = document.getElementById("wanIp1").value;	//Gets WAN Subnet and assigns to variable
-				var wanIp2 = document.getElementById("wanIp2").value;	//Gets WAN Subnet and assigns to variable		
-				var wanIp3 = document.getElementById("wanIp3").value;	//Gets WAN Subnet and assigns to variable		
-				var wanIp4 = document.getElementById("wanIp4").value;	//Gets WAN Subnet and assigns to variable
-				var wanNetworkIp = wanIp1 + "." + wanIp2 + "." + wanIp3 + "." + wanIp4;
-				var tdsWanIp = wanIp1 + "." + wanIp2 + "." + wanIp3 + "." ;
-				var customerWanIp = tdsWanIp;
-				var lanIp1 = document.getElementById("lanIp1").value; //Gets LAN Subnet and assigns to variable	
-				var lanIp2 = document.getElementById("lanIp2").value; //Gets LAN Subnet and assigns to variable		
-				var lanIp3 = document.getElementById("lanIp3").value; //Gets LAN Subnet and assigns to variable		
-				var lanIp4 = document.getElementById("lanIp4").value; //Gets LAN Subnet and assigns to variable	
-				var lanIpFull = lanIp1 + "." + lanIp2 + "." + lanIp3 + "." + lanIp4;
-				var lanCidr = document.getElementById("lanCidr").value;	//Gets LAN CDIR and assigns to variable
-				var lanSubnet;
-				var text="";
-				var i;
-				
-				if(lag.includes("-")){
-					lagInterface = lag.replace(/-/g, "");
-				}else if(lag.includes("/")){
-					lagInterface = "gig" + lag;
-				}
-				
-				wanIp4++;
-				tdsWanIp += wanIp4;
-				wanIp4++
-				customerWanIp += wanIp4;
-				
-				switch (lanCidr){
-					case "30":
-						lanSubnet = " 255.255.255.252";
-						break;
-					case "29":
-						lanSubnet = " 255.255.255.248";
-						break;
-					case "28":
-						lanSubnet = " 255.255.255.240";
-						break;
-					case "27":
-						lanSubnet = " 255.255.255.224";
-						break;
-					case "26":
-						lanSubnet = " 255.255.255.192";
-						break;
-					case "25":
-						lanSubnet = " 255.255.255.128";
-						break;
-					case "24":
-						lanSubnet = " 255.255.255.0";
-						break;
-					default:
-						lanSubnet = " 255.255.255.252";
-						break;
-				}
+				var text;
 
-				for(i = 0; i < routerTypeRadio.length; i++) {			
-					if(routerTypeRadio[i].checked){
-						routerCheck = routerTypeRadio[i].value;
-					}
-				}
-
-				switch(routerCheck){
-					case "hed11":
-						text += "exit all\n";
-						text += "configure router\n";
-						text += "no static-route " + lanIpFull + lanSubnet + " next-hop " + customerWanIp + "\n";
-						text += "policy-options\n";
-						text += "begin\n";
-						text += "prefix-list bgp-networks no prefix " + wanNetworkIp + "/30\n";
-						text += "prefix-list bgp-networks no prefix " + lanIpFull + "/" + lanCidr + "\n";
-						text += "commit\n";
-						text += "exit all\n";
-	
-						text += "configure service ies 1001\n";
-						text += "interface " + lagInterface + "." + ovlan + "." + ivlan + " sap " + lag + ":" + ovlan + "." + ivlan + " shutdown\n";
-						text += "interface " + lagInterface + "." + ovlan + "." + ivlan + " no sap " + lag + ":" + ovlan + "." + ivlan + "\n";
-						text += "interface " + lagInterface + "." + ovlan + "." + ivlan + " shutdown\n";
-						text += "no interface " + lagInterface + "." + ovlan + "." + ivlan + "\n";
-						text += "exit all\n";
-						document.getElementById("discoOutput").value = text;
-						break;
-					case "hed12":
-						text += "exit all\n";
-						text += "configure router\n";
-						text += "static-route-entry " + lanIpFull + "/" + lanCidr + "\n";
-						text += "no next-hop " + customerWanIp + "\n";
-						text += "exit\n";
-						text += "no static-route-entry " + lanIpFull + "/" + lanCidr + "\n";
-						text += "policy-options\n";
-						text += "begin\n";
-						text += "prefix-list bgp-networks no prefix " + wanNetworkIp + "/30\n";
-						text += "prefix-list bgp-networks no prefix " + lanIpFull + "/" + lanCidr + "\n";
-						text += "commit\n";
-						text += "exit all\n";
-						text += "configure service ies 1001\n";
-						text += "interface " + lagInterface + "." + ovlan + "." + ivlan + " sap " + lag + ":" + ovlan + "." + ivlan + " shutdown\n";
-						text += "interface " + lagInterface + "." + ovlan + "." + ivlan + " no sap " + lag + ":" + ovlan + "." + ivlan + "\n";
-						text += "interface " + lagInterface + "." + ovlan + "." + ivlan + " shutdown\n";
-						text += "no interface " + lagInterface + "." + ovlan + "." + ivlan + "\n";
-						text += "exit all\n";
-						document.getElementById("discoOutput").value = text;
-						break;
-					default:
-						alert ("Select a Router Type");
-						break
-				}
+				text = "exit all\n";
+				text += "configure service ies 1001\n";
+				text += "subscriber-interface dynamic-1001\n";
+				text += "group-interface " + dslam + "-1001\n";
+				text += "sap " + lag + ":" + ovlan + "." + ivlan + " shutdown\n";
+				text += "no sap " + lag + ":" + ovlan + "." + ivlan + "\n";
+				text += "exit all\n";
+				
+				document.getElementById("discoOutput").value = text;
 			}
 			function copyScripts(outputID){
 				
 				var output = document.getElementById(outputID);
 				output.select(); //selects the output textarea so the next command knows what to copy 
 				document.execCommand("copy"); //copy all info in the selected element to clipboard
-			}
+				}
 		</script>
 	</body>
 </html>
-
 
