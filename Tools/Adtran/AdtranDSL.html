@@ -54,15 +54,21 @@
 				width: 385px;
 				display: inline-block;
 			}
+			.bondedTextArea {
+				width: 155px;
+				resize: none;
+			}
+			.longBondedTextArea {
+				width: 380px;
+				resize: none;
+			}
 			.fourButtonRow{
-				display:table-row;
 				width: 110px;
 				height: 36px;
 				color: #ffffff;
 				background-color: #333333;
 			}
 			.fiveButtonRow{
-				display:table-row;
 				width: 87px;
 				height: 36px;
 				color: #ffffff;
@@ -84,6 +90,19 @@
 			<table>
 			<col width="28%">
 			<col width="72%">
+				<tr>
+					<td>
+						<label>Tech</label>
+					</td>
+					<td>
+						<select id="techTypeSelect" onChange="showTech()" >
+							<option value="dslTech" hidden>Select Product</option>
+							<option value="dslTech">DSL</option>
+							<option value="bondedTech">Bonded</option>
+							<option value="sipTech">SIP</option>
+						</select>
+					</td>
+				</tr>
 				<tr>
 					<td>
 						<label>Shelf</label>
@@ -108,6 +127,22 @@
 						<input id="portInput" class="shortInput" type="number">
 					</td>
 				</tr>
+				<tr id="bondPortRow" hidden>
+					<td>
+						<label>Bond Port</label>
+					</td>
+					<td>
+						<input id="bondPortInput" class="shortInput" type="number">
+					</td>
+				</tr>
+				<tr id="bondGroupRow" hidden>
+					<td>
+						<label>Bond Group</label>
+					</td>
+					<td>
+						<input id="bondGroupInput" class="shortInput" type="number">
+					</td>
+				</tr>
 				<tr id="ivlanRow">
 					<td>
 						<label>IVLAN</label>
@@ -116,17 +151,17 @@
 						<input id="ivlanInput" class="shortInput" type="number">
 					</td>
 				</tr>
-				<tr>
+				<tr id="productSelectRow">
 					<td>
 						<label>Product</label>
 					</td>
 					<td>
 						<select id="productSelect" onChange="showSpeed()" >
-							<option value="dslProduct" hidden>Select Product</option>
-							<option value="dslProduct">DSL</option>
+							<option value="dataProduct" hidden>Select Product</option>
+							<option value="dataProduct">DSL</option>
 							<option value="iptvProduct">IPTV</option>
 							<option value="dslIptvProduct">DSL and IPTV</option>
-							<option value="sipProduct">SIP</option>
+							<option value="dslTvPlusProduct">DSL and TDSTV+</option>
 						</select>
 					</td>
 				</tr>
@@ -187,6 +222,16 @@
 						</select>
 					</td>
 				</tr>
+				<tr id="dslSpeedRow" hidden>
+					<td>
+						<label>Speed</label>
+					</td>
+					<td>
+						<select id="dslSpeedSelect" type="text">
+							<option value="tvPlus25Mbps">25 Mbps</option>
+						</select>
+					</td>
+				</tr>
 				<tr id="sipTnRow" hidden>
 					<td>
 						<label>TN</label>
@@ -205,13 +250,13 @@
 				</tr>
 				<tr>
 					<td>
-						<br><button type="reset">Clear</button><br>
+						<br><button type="reset" onClick = "clearScripts()">Clear</button><br>
 					</td>
 				</tr>
 			</table>
 		</form>
-			<table id="dataButtonRow">
-				<tr>
+			<table>
+				<tr id="dslButtonRow">
 					<td>
 						<button type="button"  class="fiveButtonRow" onClick="getScriptsVerify()">Verify</button>
 					</td>
@@ -228,8 +273,23 @@
 						<button type="button"  class="fiveButtonRow" onClick="getScriptsCard()">Card+</button>
 					</td>
 				</tr>
-			</table>
-			<table>
+				<tr id="bondedButtonRow" hidden>
+					<td>
+						<button type="button"  class="fiveButtonRow" onClick="getScriptsBondedVerify()">Verify</button>
+					</td>
+					<td>
+						<button type="button"  class="fiveButtonRow" onClick="getScriptsModify()">Modify</button>
+					</td>
+					<td>
+						<button type="button"  class="fiveButtonRow" onClick="getScriptsInstall()">Install</button>
+					</td>
+					<td>
+						<button type="button"  class="fiveButtonRow" onClick="getScriptsDisco()">Disco</button>
+					</td>
+					<td>
+						<button type="button"  class="fiveButtonRow" onClick="getScriptsCard()">Card+</button>
+					</td>
+				</tr>
 				<tr id="sipButtonRow" hidden>
 					<td>
 						<button type="button"  class="fourButtonRow" onClick="getScriptsVerify()">Verify</button>
@@ -245,6 +305,8 @@
 					</td>
 				</tr>
 			</table>
+
+			<!--Single Pair DSL Commands-->
 			<table>
 				<!--Verify Commands-->
 				<div>
@@ -405,7 +467,7 @@
 				<div>
 					<tr id="discoCommandLabelRow" hidden>
 						<td colspan="2">
-							<label class="commandLabel">Disconnect</label>
+							<label class="commandLabel">Disconnect All</label>
 							<button class="copyButton" onClick="getScripts(discoOutput)">Copy</button>
 						</td>
 					</tr>
@@ -465,6 +527,131 @@
 					</tr>
 				</div>
 			</table>
+
+			<!--Bonded DSL Commands-->
+			<table>
+				<!--Verify Commands-->
+				<div>
+					<tr id="bondedHeadLabel" hidden>
+						<td>
+							<label class="bondedCommandLabel">Port 1</label>
+						</td>
+						<td>
+							<label class="bondedCommandLabel">Port 2</label>
+						</td>
+					</tr>
+					<tr id="bondedPortConfigCheckLabelRow" hidden>
+						<td colspan="2">
+							<label class="commandLabel">Show Port Config</label>
+						</td>
+					</tr>
+					<tr id="bondedPortConfigCheckRow" hidden>
+						<td >
+							<textarea id="port1ConfigCheckOutput" class="bondedTextArea" rows="1"></textarea>
+							<button class="copyButton" onClick="getScripts(portConfig1CheckOutput)">Copy</button><br>
+						</td>
+						<td>
+							<textarea id="port2ConfigCheckOutput" class="bondedTextArea" rows="1"></textarea>
+							<button class="copyButton" onClick="getScripts(portConfig2CheckOutput)">Copy</button><br>
+						</td>
+					</tr>
+					<tr id="bondedDslStatsLabelRow" hidden>
+						<td colspan="2">
+							<label class="commandLabel">Show DSL Stats</label>
+						</td>
+					</tr>
+					<tr id="bondedDslStatsRow" hidden>
+						<td>
+							<textarea id="dsl1StatsOutput" class="bondedTextArea" rows="1" ></textarea>
+							<button class="copyButton" onClick="getScripts(dsl1StatsOutput)">Copy</button><br>
+						</td>
+						<td>
+							<textarea id="dsl2StatsOutput" class="bondedTextArea" rows="1"></textarea>
+							<button class="copyButton" onClick="getScripts(dsl2StatsOutput)">Copy</button><br>
+						</td>
+					</tr>
+					<tr id="bondedDslStatsRealtimeLabelRow" hidden>
+						<td colspan="2">
+							<label class="commandLabel">Show DSL Stats Realtime</label>
+						</td>
+					</tr>
+					<tr id="bondedDslStatsRealtimeRow" hidden>
+						<td>
+							<textarea id="dsl1StatsRealtimeOutput" class="bondedTextArea" rows="1"></textarea>
+							<button class="copyButton" onClick="getScripts(dsl1StatsRealtimeOutput)">Copy</button><br>
+						</td>
+						<td>
+							<textarea id="dsl2StatsRealtimeOutput" class="bondedTextArea" rows="1"></textarea>
+							<button class="copyButton" onClick="getScripts(dsl2StatsRealtimeOutput)">Copy</button><br>
+						</td>
+					</tr>
+					<tr id="showBondedError15LabelRow" hidden>
+						<td colspan="2">
+							<label class="commandLabel">Show Errors - 15 Minute</label>
+						</td>
+					</tr>
+					<tr id="showBondedError15Row" hidden>
+						<td>
+							<textarea id="show1Error15Output" class="bondedTextArea"  rows="1"></textarea>
+							<button class="copyButton" onClick="getScripts(show1Error15Output)">Copy</button><br>
+						</td>
+						<td>
+							<textarea id="show2Error15Output" class="bondedTextArea" rows="1"></textarea>
+							<button class="copyButton" onClick="getScripts(show2Error15Output)">Copy</button><br>
+						</td>
+					</tr>
+					<tr id="showBondedError24LabelRow" hidden>
+						<td colspan="2">
+							<label class="commandLabel">Show Errors - 24 Hour</label>
+						</td>
+					</tr>
+					<tr id="showBondedError24Row" hidden>
+						<td>
+							<textarea id="show1Error24Output" class="bondedTextArea" rows="1"></textarea>
+							<button class="copyButton" onClick="getScripts(show1Error24Output)">Copy</button><br>
+						</td>
+						<td>
+							<textarea id="show2Error24Output" class="bondedTextArea" rows="1"></textarea>
+							<button class="copyButton" onClick="getScripts(show2Error24Output)">Copy</button><br>
+						</td>
+					</tr>
+					<tr id="showBondedEvcLabelRow" hidden>
+						<td colspan="2">
+							<label class="commandLabel">Show EVC Map</label>
+						</td>
+					</tr>
+					<tr id="showBondedEvcRow" hidden>
+						<td colspan="2">
+							<textarea id="showBondedEvcOutput" class="longBondedTextArea" rows="1"></textarea>
+							<button class="copyButton" onClick="getScripts(showBondedEvcOutput)">Copy</button><br>
+						</td>
+					</tr>
+					<tr id="showBondedEvcConfigLabelRow" hidden>
+						<td colspan="2">
+							<label class="commandLabel">Show EVC Map Config</label>
+						</td>
+					</tr>
+					<tr id="showBondedEvcConfigRow" hidden>
+						<td colspan="2">
+							<textarea id="showBondedEvcConfigOutput" class="longBondedTextArea" rows="1"></textarea>
+							<button class="copyButton" onClick="getScripts(showBondedEvcConfigOutput)">Copy</button><br>
+						</td>
+					</tr>
+					<tr id="checkBondedVlanLabelRow" hidden>
+						<td colspan="2">
+							<label class="commandLabel">Check for Duplicate VLAN</label>
+							
+						</td>
+					</tr>
+					<tr id="checkBondedVlanRow" hidden>
+						<td colspan="2">
+							<textarea id="checkBondedVlanOutput" class="longBondedTextArea" rows="1"></textarea>
+							<button class="copyButton" onClick="getScripts(checkBondedVlanOutput)">Copy</button><br><br>
+						</td>
+					</tr>
+				</div>				
+			</table>
+		</body>	
 		<script> 
 			//Getting command rows for show/hide
 			var portConfigCheckLabelRow = document.getElementById("portConfigCheckLabelRow");
@@ -508,63 +695,105 @@
 			var resetCardLabelRow = document.getElementById("resetCardLabelRow");
 			var resetCardRow = document.getElementById("resetCardRow");
 
-			function showSpeed(){
-				var productSelect = document.getElementById("productSelect").value;
-				var dataButtonRow = document.getElementById("dataButtonRow");
+			//Getting bonded command rows for show/hide
+			var bondedHeadLabel = document.getElementById("bondedHeadLabel");
+			var bondedPortConfigCheckLabelRow = document.getElementById("bondedPortConfigCheckLabelRow");
+			var bondedPortConfigCheckRow = document.getElementById("bondedPortConfigCheckRow");
+			var bondedDslStatsLabelRow = document.getElementById("bondedDslStatsLabelRow");
+			var bondedDslStatsRow = document.getElementById("bondedDslStatsRow");
+			var bondedDslStatsRealtimeLabelRow = document.getElementById("bondedDslStatsRealtimeLabelRow");
+			var bondedDslStatsRealtimeRow = document.getElementById("bondedDslStatsRealtimeRow");
+			var showBondedError15LabelRow = document.getElementById("showBondedError15LabelRow");
+			var showBondedError15Row = document.getElementById("showBondedError15Row");
+			var showBondedError24LabelRow = document.getElementById("showBondedError24LabelRow");
+			var showBondedError24Row = document.getElementById("showBondedError24Row");
+			var showBondedEvcLabelRow = document.getElementById("showBondedEvcLabelRow");
+			var showBondedEvcRow = document.getElementById("showBondedEvcRow");
+			var showBondedEvcConfigLabelRow = document.getElementById("showBondedEvcConfigLabelRow");
+			var showBondedEvcConfigRow = document.getElementById("showBondedEvcConfigRow");
+			var checkBondedVlanLabelRow = document.getElementById("checkBondedVlanLabelRow");
+			var checkBondedVlanRow= document.getElementById("checkBondedVlanRow");
+			
+			function showTech(){
+				var techType= document.getElementById("techTypeSelect").value;
+				var dslButtonRow = document.getElementById("dslButtonRow");
+				var bondedButtonRow = document.getElementById("bondedButtonRow");
 				var sipButtonRow = document.getElementById("sipButtonRow");
-				var dslSpeedsRow = document.getElementById("dslSpeedRow");
-				var iptvSpeedsRow = document.getElementById("iptvProductRow");
-				var dslIptvSpeedsRow = document.getElementById("dslIptvRow");
+				var bondPortRow = document.getElementById("bondPortRow");
+				var bondGroupRow = document.getElementById("bondGroupRow");
 				var ivlanRow = document.getElementById("ivlanRow");
+				var productSelectRow = document.getElementById("productSelectRow");
 				var sipTnRow = document.getElementById("sipTnRow");
 				var sipPasswordRow = document.getElementById("sipPasswordRow");
 				
 				
-				switch (productSelect) {
-					case "dslProduct":
-						dataButtonRow.style.display = "table-row";
+				switch (techType) {
+					case "dslTech":
+						dslButtonRow.style.display = "table-row";
+						bondedButtonRow.style.display = "none";
 						sipButtonRow.style.display = "none";
-						dslSpeedsRow.style.display = "table-row";
-						iptvSpeedsRow.style.display = "none";
-						dslIptvSpeedsRow.style.display = "none";
+						bondPortRow.style.display = "none";
+						bondGroupRow.style.display = "none";
 						ivlanRow.style.display = "table-row";
+						productSelectRow.style.display = "table-row";
 						sipTnRow.style.display = "none";
 						sipPasswordRow.style.display = "none";
 						break;
-					case "iptvProduct":
-						dataButtonRow.style.display = "table-row";
+					case "bondedTech":
+						dslButtonRow.style.display = "none";
+						bondedButtonRow.style.display = "table-row";
 						sipButtonRow.style.display = "none";
-						dslSpeedsRow.style.display = "none";
-						iptvSpeedsRow.style.display = "table-row";
-						dslIptvSpeedsRow.style.display = "none";
+						bondPortRow.style.display = "table-row";
+						bondGroupRow.style.display = "table-row";
 						ivlanRow.style.display = "table-row";
+						productSelectRow.style.display = "table-row";
 						sipTnRow.style.display = "none";
 						sipPasswordRow.style.display = "none";
 						break;
-					case "dslIptvProduct":
-						dataButtonRow.style.display = "table-row";
-						sipButtonRow.style.display = "none";
-						dslSpeedsRow.style.display = "none";
-						iptvSpeedsRow.style.display = "none";
-						dslIptvSpeedsRow.style.display = "table-row";
-						ivlanRow.style.display = "table-row";
-						sipTnRow.style.display = "none";
-						sipPasswordRow.style.display = "none";
-						break;
-					case "sipProduct":
-						dataButtonRow.style.display = "none";
+					case "sipTech":
+						dslButtonRow.style.display = "none";
+						bondedButtonRow.style.display = "none";
 						sipButtonRow.style.display = "table-row";
-						dslSpeedsRow.style.display = "none";
-						iptvSpeedsRow.style.display = "none";
-						dslIptvSpeedsRow.style.display = "none";
+						bondPortRow.style.display = "none";
+						bondGroupRow.style.display = "none";
 						ivlanRow.style.display = "none";
+						productSelectRow.style.display = "none";
 						sipTnRow.style.display = "table-row";
 						sipPasswordRow.style.display = "table-row";
 						break;
 					default:		
 					alert("bad")
 				}
+				clearScripts();
 			}
+			
+			function showSpeed(){
+				var product= document.getElementById("productSelect").value;
+				var dslSpeedsRow = document.getElementById("dslSpeedRow");
+				var iptvSpeedsRow = document.getElementById("iptvProductRow");
+				var dslIptvSpeedsRow = document.getElementById("dslIptvRow");
+				
+				
+				switch (product) {
+					case "dataProduct":
+						dslSpeedsRow.style.display = "table-row";
+						iptvSpeedsRow.style.display = "none";
+						dslIptvSpeedsRow.style.display = "none";
+					case "iptvProduct":
+						dslSpeedsRow.style.display = "none";
+						iptvSpeedsRow.style.display = "table-row";
+						dslIptvSpeedsRow.style.display = "none";
+						break;
+					case "dslIptvProduct":
+						dslSpeedsRow.style.display = "none";
+						iptvSpeedsRow.style.display = "none";
+						dslIptvSpeedsRow.style.display = "table-row";
+						break;
+					default:		
+					alert("bad")
+				}
+			}
+			
 			function getScriptsVerify(){
 				//Shows verify command rowns
 				portConfigCheckLabelRow.style.display = "table-row";
@@ -585,6 +814,24 @@
 				showError24Row.style.display = "table-row";
 
 				//Hides all other commands
+				bondedHeadLabel.style.display = "none";
+				bondedPortConfigCheckLabelRow.style.display = "none";
+				bondedPortConfigCheckRow.style.display  = "none";
+				bondedDslStatsLabelRow.style.display = "none";
+				bondedDslStatsRow.style.display = "none";
+				bondedDslStatsRealtimeLabelRow.style.display = "none";
+				bondedDslStatsRealtimeRow.style.display = "none";
+				showBondedError15LabelRow.style.display = "none";
+				showBondedError15Row.style.display = "none";
+				showBondedError24LabelRow.style.display = "none";
+				showBondedError24Row.style.display = "none";
+				showBondedEvcLabelRow.style.display = "none";
+				showBondedEvcRow.style.display = "none";
+				showBondedEvcConfigLabelRow.style.display = "none";
+				showBondedEvcConfigRow.style.display = "none";
+				checkBondedVlanLabelRow.style.display = "none";
+				checkBondedVlanRow.style.display = "none";
+
 				portBounceLabelRow.style.display = "none";
 				portBounceRow.style.display = "none";
 				speedChangeLabelRow.style.display = "none"
@@ -628,7 +875,7 @@
 				dslStats.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port;
 				dslStatsRealtime.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port + " realtime";
 				showEvc.value = "show evc-map \"customer-" + shelf + "-" + slot + "-" + port + "\" " + shelf + "\/" + slot;
-				showEvcConfig.value = "show running-config evc-map" + shelf + "-" + slot + "-" + port + "\" " + shelf + "\/" + slot;
+				showEvcConfig.value = "show running-config evc-map \"customer-" + shelf + "-" + slot + "-" + port + "\" " + shelf + "\/" + slot;
 				checkVlan.value = "show table evc-map | inc " + ivlan;
 				showError15.value = "show int vdsl " + shelf + "\/" + slot + "\/" + port + " performance-statistics 15";
 				showError24.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port + " performance-statistics 24";
@@ -660,6 +907,24 @@
 				showError15Row.style.display = "none";
 				showError24LabelRow.style.display = "none";
 				showError24Row.style.display = "none";
+				
+				bondedHeadLabel.style.display = "none";
+				bondedPortConfigCheckLabelRow.style.display = "none";
+				bondedPortConfigCheckRow.style.display  = "none";
+				bondedDslStatsLabelRow.style.display = "none";
+				bondedDslStatsRow.style.display = "none";
+				bondedDslStatsRealtimeLabelRow.style.display = "none";
+				bondedDslStatsRealtimeRow.style.display = "none";
+				showBondedError15LabelRow.style.display = "none";
+				showBondedError15Row.style.display = "none";
+				showBondedError24LabelRow.style.display = "none";
+				showBondedError24Row.style.display = "none";
+				showBondedEvcLabelRow.style.display = "none";
+				showBondedEvcRow.style.display = "none";
+				showBondedEvcConfigLabelRow.style.display = "none";
+				showBondedEvcConfigRow.style.display = "none";
+				checkBondedVlanLabelRow.style.display = "none";
+				checkBondedVlanRow.style.display = "none";
 
 				installCommandLabelRow.style.display = "none";
 				installCommandRow.style.display = "none";
@@ -681,8 +946,10 @@
 				var shelf = document.getElementById("shelfInput").value;
 				var slot = document.getElementById("slotInput").value;
 				var port = document.getElementById("portInput").value;
+				var product = document.getElementById("productSelect").value;
 				var speed;
-				switch (productSelect) {
+
+				switch (product) {
 					case "dslProduct":
 						speed = document.getElementById("dslSpeedSelect").value
 						break;
@@ -740,6 +1007,24 @@
 				showError24LabelRow.style.display = "none";
 				showError24Row.style.display = "none";
 
+				bondedHeadLabel.style.display = "none";
+				bondedPortConfigCheckLabelRow.style.display = "none";
+				bondedPortConfigCheckRow.style.display  = "none";
+				bondedDslStatsLabelRow.style.display = "none";
+				bondedDslStatsRow.style.display = "none";
+				bondedDslStatsRealtimeLabelRow.style.display = "none";
+				bondedDslStatsRealtimeRow.style.display = "none";
+				showBondedError15LabelRow.style.display = "none";
+				showBondedError15Row.style.display = "none";
+				showBondedError24LabelRow.style.display = "none";
+				showBondedError24Row.style.display = "none";
+				showBondedEvcLabelRow.style.display = "none";
+				showBondedEvcRow.style.display = "none";
+				showBondedEvcConfigLabelRow.style.display = "none";
+				showBondedEvcConfigRow.style.display = "none";
+				checkBondedVlanLabelRow.style.display = "none";
+				checkBondedVlanRow.style.display = "none";
+
 				portBounceLabelRow.style.display = "none";
 				portBounceRow.style.display = "none";
 				speedChangeLabelRow.style.display = "none";
@@ -758,6 +1043,51 @@
 				checkCardRow.style.display = "none"; 
 				resetCardLabelRow.style.display = "none"; 
 				resetCardRow.style.display = "none"; 
+				
+				var shelf = document.getElementById("shelfInput").value;
+				var slot = document.getElementById("slotInput").value;
+				var port = document.getElementById("portInput").value;
+
+				var atmPort;
+				var downSpeed;
+				var upSpeed;
+				var downSpeedMin;
+				var serviceMode;
+				var encapsulation;
+				var latencyType;
+				var latencyDelay;
+				var latathInpDown;
+				var latPathInpUp;
+
+
+
+				switch (speed) {
+					case "1Mbps":
+						atmPort;
+						downSpeed;
+						upSpeed;
+						downSpeedMin;
+						serviceMode;
+						encapsulation;
+						latencyType;
+						latencyDelay;
+						latathInpDown;
+						latPathInpUp;
+						break;
+					case "iptvProduct":
+
+						break;
+					case "dslIptvProduct":
+
+						break;
+					case "sipProduct":
+
+						break;
+					default:		
+					alert("bad")
+				}
+			
+			
 			}
 			
 			function getScriptsDisco(){							
@@ -785,6 +1115,24 @@
 				showError24LabelRow.style.display = "none";
 				showError24Row.style.display = "none";
 
+				bondedHeadLabel.style.display = "none";
+				bondedPortConfigCheckLabelRow.style.display = "none";
+				bondedPortConfigCheckRow.style.display  = "none";
+				bondedDslStatsLabelRow.style.display = "none";
+				bondedDslStatsRow.style.display = "none";
+				bondedDslStatsRealtimeLabelRow.style.display = "none";
+				bondedDslStatsRealtimeRow.style.display = "none";
+				showBondedError15LabelRow.style.display = "none";
+				showBondedError15Row.style.display = "none";
+				showBondedError24LabelRow.style.display = "none";
+				showBondedError24Row.style.display = "none";
+				showBondedEvcLabelRow.style.display = "none";
+				showBondedEvcRow.style.display = "none";
+				showBondedEvcConfigLabelRow.style.display = "none";
+				showBondedEvcConfigRow.style.display = "none";
+				checkBondedVlanLabelRow.style.display = "none";
+				checkBondedVlanRow.style.display = "none";
+
 				portBounceLabelRow.style.display = "none";
 				portBounceRow.style.display = "none";
 				speedChangeLabelRow.style.display = "none";
@@ -803,6 +1151,149 @@
 				checkCardRow.style.display = "none"; 
 				resetCardLabelRow.style.display = "none"; 
 				resetCardRow.style.display = "none"; 
+
+				var shelf = document.getElementById("shelfInput").value;
+				var slot = document.getElementById("slotInput").value;
+				var port = document.getElementById("portInput").value;
+				var product = document.getElementById("productSelect").value;
+
+				var disco = document.getElementById("discoOutput");
+				var discoEvc = document.getElementById("discoEvcOutput");
+				
+
+				disco.value ="conf t";
+				disco.value += "\nno interface vcl " + shelf + "/" + slot + "/" + port + " vpi 0 vci 35";
+				disco.value += "\ninterface vdsl " + shelf + "/" + slot + "/" + port;
+				disco.value += "\nno dmt-options snr-margin downstream margins";
+				disco.value += "\nno dmt-options snr-margin upstream margins";
+				disco.value += "\nno latency-path delay downstream";
+				disco.value += "\nno latency-path delay upstream";
+				disco.value += "\nno latency-path payload-rate downstream 0";
+				disco.value += "\nno latency-path payload-rate upstream 0";
+				disco.value += "\nno latency-path inp downstream 0 2";
+				disco.value += "\nno latency-path inp upstream 0 2";
+				disco.value += "\ndeployment region 1 scenario 2 other-service 1 application-standard 3 band-plan 1 band-profile 1 psd-u0 1 psd-mask 1\n";
+				disco.value += "\nno service-mode";
+				disco.value += "\nshutdown ";
+				disco.value += "\nexit";
+				disco.value += "\nexit";
+				
+				discoEvc.value ="";
+
+				if (product == "iptvProduct" || product == "dslIptvProduct"){
+					discoEvc.value = "conf t";
+					discoEvc.value += "\nno evc-map \"iptv-" + shelf + "-" + slot + "-" + port + "\" "  + shelf + "/" + slot;
+					discoEvc.value += "\nexit\n";
+				}
+
+				discoEvc.value += "conf t";	
+				discoEvc.value += "\nno evc-map \"customer-" + shelf + "-" + slot + "-" + port + "\" "  + shelf + "/" + slot;
+				discoEvc.value += "\nexit";
+				
+			}
+			
+			function getScriptsBondedVerify(){	
+				portConfigCheckLabelRow.style.display = "none";
+				portConfigCheckRow.style.display = "none";
+				dslStatsLabelRow.style.display = "none";
+				dslStatsRow.style.display = "none";
+				dslStatsRealtimeLabelRow.style.display = "none";
+				dslStatsRealtimeRow.style.display = "none";
+				showEvcLabelRow.style.display = "none";
+				showEvcRow.style.display = "none";
+				showEvcConfigLabelRow.style.display = "none";
+				showEvcConfigRow.style.display = "none";
+				checkVlanLabelRow.style.display = "none";
+				checkVlanRow.style.display = "none";
+				showError15LabelRow.style.display = "none";
+				showError15Row.style.display = "none";
+				showError24LabelRow.style.display = "none";
+				showError24Row.style.display = "none";
+
+				portBounceLabelRow.style.display = "none";
+				portBounceRow.style.display = "none";
+				speedChangeLabelRow.style.display = "none"
+				speedChangeRow.style.display = "none"
+				clearMacLabelRow.style.display = "none"
+				clearMacRow.style.display = "none"
+
+				installCommandLabelRow.style.display = "none";
+				installCommandRow.style.display = "none";
+				installEvcLabelRow.style.display = "none";
+				installEvcRow.style.display = "none"; 
+
+				discoCommandLabelRow.style.display = "none";
+				discoCommandRow.style.display = "none";
+				discoEvcLabelRow.style.display = "none";
+				discoEvcRow.style.display = "none"; 
+
+				checkAdminAllLabelRow.style.display= "none"; 
+				checkAdminAllRow.style.display = "none"; 
+				checkCardLabelRow.style.display = "none"; 
+				checkCardRow.style.display = "none"; 
+				resetCardLabelRow.style.display = "none"; 
+				resetCardRow.style.display = "none"; 
+				
+				bondedHeadLabel.style.display = "table-row";
+				bondedPortConfigCheckLabelRow.style.display = "table-row";
+				bondedPortConfigCheckRow.style.display  = "table-row";
+				bondedDslStatsLabelRow.style.display = "table-row";
+				bondedDslStatsRow.style.display = "table-row";
+				bondedDslStatsRealtimeLabelRow.style.display = "table-row";
+				bondedDslStatsRealtimeRow.style.display = "table-row";
+				showBondedError15LabelRow.style.display = "table-row";
+				showBondedError15Row.style.display = "table-row";
+				showBondedError24LabelRow.style.display = "table-row";
+				showBondedError24Row.style.display = "table-row";
+				showBondedEvcLabelRow.style.display = "table-row";
+				showBondedEvcRow.style.display = "table-row";
+				showBondedEvcConfigLabelRow.style.display = "table-row";
+				showBondedEvcConfigRow.style.display = "table-row";
+				checkBondedVlanLabelRow.style.display = "table-row";
+				checkBondedVlanRow.style.display = "table-row";
+				
+				//Geting Inputs
+				var shelf = document.getElementById("shelfInput").value;
+				var slot = document.getElementById("slotInput").value;
+				var port1 = document.getElementById("portInput").value;
+				var port2 = document.getElementById("bondPortInput").value;
+				var bondGroup = document.getElementById("bondGroupInput").value;
+				var ivlan = document.getElementById("ivlanInput").value;
+
+				var port1ConfigCheck = document.getElementById("port1ConfigCheckOutput");
+				var port2ConfigCheck = document.getElementById("port2ConfigCheckOutput");
+				var dsl1Stats = document.getElementById("dsl1StatsOutput");
+				var dsl2Stats = document.getElementById("dsl2StatsOutput");
+				var dsl1StatsRealtime = document.getElementById("dsl1StatsRealtimeOutput");
+				var dsl2StatsRealtime = document.getElementById("dsl2StatsRealtimeOutput");
+				var show1Error15 = document.getElementById("show1Error15Output");
+				var show2Error15 = document.getElementById("show2Error15Output");
+				var show1Error24 = document.getElementById("show1Error24Output");
+				var show2Error24 = document.getElementById("show2Error24Output");
+				var showEvc = document.getElementById("showBondedEvcOutput");
+				var showEvcConfig = document.getElementById("showBondedEvcConfigOutput");
+				var checkVlan = document.getElementById("checkBondedVlanOutput");
+
+				port1ConfigCheck.value = "show running-config interface vdsl " + shelf + "\/" + slot + "\/" + port1;
+				port2ConfigCheck.value = "show running-config interface vdsl " + shelf + "\/" + slot + "\/" + port2;
+				dsl1Stats.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port1;
+				dsl2Stats.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port2;
+				dsl1StatsRealtime.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port1 + " realtime";
+				dsl2StatsRealtime.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port2 + " realtime";
+				show1Error15.value = "show int vdsl " + shelf + "\/" + slot + "\/" + port1 + " performance-statistics 15";
+				show2Error15.value = "show int vdsl " + shelf + "\/" + slot + "\/" + port2 + " performance-statistics 15";
+				show1Error24.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port1 + " performance-statistics 24";
+				show2Error24.value = "show interface vdsl " + shelf + "\/" + slot + "\/" + port2 + " performance-statistics 24";
+				showEvc.value = "show evc-map \"customer-" + shelf + "-" + slot + "-GRP" + bondGroup + "\" " + shelf + "\/" + slot;
+				showEvcConfig.value = "show running-config evc-map \"customer-" + shelf + "-" + slot + "-GRP" + bondGroup + "\" " + shelf + "\/" + slot;
+				checkVlan.value = "show table evc-map | inc " + ivlan;
+			}
+			
+			function getScriptsBondedModify(){	
+			}
+			function getScriptsBondedInstall(){	
+			}
+			function getScriptsBondedDisco(){	
 			}
 			
 			function getScriptsCard(){
@@ -861,8 +1352,51 @@
 				checkCard.value = "show system inventory";
 				resetCard.value = "reload " + shelf + "\/" + slot;
 			}
+			
+			function clearScripts(){
+				portConfigCheckLabelRow.style.display = "none";
+				portConfigCheckRow.style.display = "none";
+				dslStatsLabelRow.style.display = "none";
+				dslStatsRow.style.display = "none";
+				dslStatsRealtimeLabelRow.style.display = "none";
+				dslStatsRealtimeRow.style.display = "none";
+				showEvcLabelRow.style.display = "none";
+				showEvcRow.style.display = "none";
+				showEvcConfigLabelRow.style.display = "none";
+				showEvcConfigRow.style.display = "none";
+				checkVlanLabelRow.style.display = "none";
+				checkVlanRow.style.display = "none";
+				showError15LabelRow.style.display = "none";
+				showError15Row.style.display = "none";
+				showError24LabelRow.style.display = "none";
+				showError24Row.style.display = "none";
+
+				portBounceLabelRow.style.display = "none";
+				portBounceRow.style.display = "none";
+				speedChangeLabelRow.style.display = "none"
+				speedChangeRow.style.display = "none"
+				clearMacLabelRow.style.display = "none"
+				clearMacRow.style.display = "none"
+
+				installCommandLabelRow.style.display = "none";
+				installCommandRow.style.display = "none";
+				installEvcLabelRow.style.display = "none";
+				installEvcRow.style.display = "none"; 
+
+				discoCommandLabelRow.style.display = "none";
+				discoCommandRow.style.display = "none";
+				discoEvcLabelRow.style.display = "none";
+				discoEvcRow.style.display = "none"; 
+
+				checkAdminAllLabelRow.style.display= "none"; 
+				checkAdminAllRow.style.display = "none"; 
+				checkCardLabelRow.style.display = "none"; 
+				checkCardRow.style.display = "none"; 
+				resetCardLabelRow.style.display = "none"; 
+				resetCardRow.style.display = "none"; 
+
+			}
 		</script>
-	</body>
 </html>
 
 
